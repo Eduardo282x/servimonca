@@ -1,13 +1,26 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthLayout from "./layouts/AuthLayout";
+import LoginPage from "./pages/auth/LoginPage";
 
-import './App.css'
+export default function App() {
 
-function App() {
+    return (
 
-  return (
-    <>
-      <p className='text-blue-950 font-bold'>prueba tailwind</p>
-    </>
-  )
+        <BrowserRouter>
+        
+            <Routes>
+
+              {/* Login */}
+              <Route element={<AuthLayout />}>
+
+                <Route path='/auth/login' element={<LoginPage />} />
+
+              </Route>
+
+            </Routes>
+        
+        </BrowserRouter>
+
+    );
+
 }
-
-export default App
