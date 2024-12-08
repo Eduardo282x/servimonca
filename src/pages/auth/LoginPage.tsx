@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Logo from "../../components/Logo";
 import ErrorMessage from "../../components/ErrorMessage";
 import { LoginSchema, UserLoginForm } from "../../types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { ScreenLoader } from "../../components/loaders/ScreenLoader";
 
 export default function LoginPage() {
-
+    const navigate = useNavigate();
+    const [loader, setLoader] = useState<boolean>(false);
     const defaultValues: UserLoginForm = {
         email: '',
         password: ''
@@ -18,18 +21,28 @@ export default function LoginPage() {
     });
 
     function successfulLogin(formData: UserLoginForm) {
+        setLoader(true);
         if (formData.email === 'admin@admin.com' && formData.password === 'admin') {
-            reset();
+            setTimeout(() => {
+                navigate('/almacen')
+            }, 1500);
             console.log('Login successful');
         } else {
             reset();
             console.log('User Not Found');
         }
+
+        setTimeout(() => {
+            setLoader(false);
+        }, 1000);
     }
 
     return (
 
         <div className="bg-white rounded-lg px-4 py-6">
+            {loader && (
+                <ScreenLoader></ScreenLoader>
+            )}
 
             <div className="flex justify-center items-center">
                 <Logo />
