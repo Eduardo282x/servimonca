@@ -8,6 +8,8 @@ import { History } from "./pages/history/History";
 import { Reports } from "./pages/reports/Reports";
 import { Maintenance } from "./pages/maintenance/Maintenance";
 import 'material-icons/iconfont/material-icons.css';
+import { Clients } from "./pages/clients/Clients";
+import { Workshop } from "./pages/workshop/Workshop";
 
 export default function App() {
     return (
@@ -20,9 +22,9 @@ export default function App() {
 
               <Route element={<Layout />}>
                 <Route path='/almacen' element={<Store />} />
-                <Route path='/clientes' element={<Store />} />
+                <Route path='/clientes' element={<Clients />} />
                 <Route path='/alquiler' element={<Rent />} />
-                <Route path='/taller' element={<Rent />} />
+                <Route path='/taller' element={<Workshop />} />
                 <Route path='/historial' element={<History />} />
                 <Route path='/reportes' element={<Reports />} />
                 <Route path='/mantenimiento' element={<Maintenance />} />
