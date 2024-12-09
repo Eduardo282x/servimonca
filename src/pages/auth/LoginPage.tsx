@@ -32,10 +32,8 @@ export default function LoginPage() {
         <div className="bg-white rounded-lg px-4 py-6">
 
             <div className="flex justify-center items-center">
-                <Logo />
+                <Logo widthLogo="w-40" heightLogo="h-40" />
             </div>
-
-            {/* <h1 className="text-2xl  text-black font-bold text-center my-5">Iniciar Sesión</h1> */}
 
             <form onSubmit={handleSubmit(successfulLogin)} className="space-y-8 p-4" noValidate>
                 <div className="flex flex-col gap-2">
