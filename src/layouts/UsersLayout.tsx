@@ -7,7 +7,7 @@ export default function UsersLayout() {
 
     <>
 
-      <div>
+      <div className="bg-gray-300">
 
         <Header />
 
