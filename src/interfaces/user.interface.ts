@@ -1,4 +1,4 @@
 export interface IUser {
-    firsname: string;
+    firstname: string;
     rol: string;
 }
