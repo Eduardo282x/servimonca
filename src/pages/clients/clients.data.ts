@@ -14,12 +14,12 @@ export interface IColumns {
 
 export const columnsCustomer: IColumns[] = [
     {
-        label: 'Nombre',
+        label: 'Razón Social',
         column: 'customerName',
         element: (data: IClients) => data.customerName,
     },
     {
-        label: 'Razón Social',
+        label: 'Rif/Cedula',
         column: 'rif',
         element: (data: IClients) => data.rif,
     },
