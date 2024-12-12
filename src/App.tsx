@@ -11,7 +11,8 @@ import { Maintenance } from "./pages/maintenance/Maintenance";
 import 'material-icons/iconfont/material-icons.css';
 import { Clients } from "./pages/clients/Clients";
 import { Workshop } from "./pages/workshop/Workshop";
-import { Users } from "./pages/users/Users";
+import Equipment from "./pages/Users/Equipment";
+import { Users } from "./pages/Users/Users";
 
 export default function App() {
     return (
@@ -31,6 +32,10 @@ export default function App() {
                 <Route path='/reportes' element={<Reports />} />
                 <Route path='/mantenimiento' element={<Maintenance />} />
                 <Route path='/usuarios' element={<Users />} />
+              </Route>
+
+              <Route element={<UsersLayout />}>
+                <Route path='/equipos' element={<Equipment />} />
               </Route>
             </Routes>
         </BrowserRouter>
