@@ -52,5 +52,12 @@ export const sidebarMenu: ISidebarMenu[] = [
         icon: 'analytics',
         permissions: ['Administrador'],
         active: false
+    },
+    {
+        label: 'Usuarios',
+        redirectTo: '/usuarios',
+        icon: 'group',
+        permissions: ['Administrador'],
+        active: false
     }
 ]
