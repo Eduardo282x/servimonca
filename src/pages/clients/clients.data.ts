@@ -1,15 +1,10 @@
+import { IColumns } from "../../components/TableComponent";
 
 export interface IClients {
     customerName: string;
     contactDetails: string;
     rif: string;
     address: string;
-}
-
-export interface IColumns {
-    label: string;
-    column: string;
-    element: (data: IClients) => string;
 }
 
 export const columnsCustomer: IColumns[] = [
@@ -37,6 +32,7 @@ export const columnsCustomer: IColumns[] = [
         label: 'Editar',
         column: 'edit',
         element: () => 'edit',
+        canFilter: false
     },
 ];
 
@@ -132,4 +128,3 @@ export const customers: IClients[] = [
         address: 'Avenida Principal, Ciudad Guayana',
     },
 ];
-

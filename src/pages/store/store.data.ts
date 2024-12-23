@@ -1,3 +1,4 @@
+import { IColumns } from "../../components/TableComponent";
 
 export interface IStore {
     modelo: string;
@@ -7,12 +8,6 @@ export interface IStore {
     capacidadCarga: number;
     dimensiones: string;
     estadoActual: string;
-}
-
-export interface IColumns {
-    label: string;
-    column: string;
-    element: (data: IStore) => string;
 }
 
 export const columnsStore: IColumns[] = [
@@ -55,6 +50,7 @@ export const columnsStore: IColumns[] = [
         label: 'Editar',
         column: 'edit',
         element: () => 'edit',
+        canFilter: false
     },
 ];
 

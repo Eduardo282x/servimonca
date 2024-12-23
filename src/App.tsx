@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
-import UsersLayout from "./layouts/UsersLayout";
 import LoginPage from "./pages/auth/LoginPage";
 import { Layout } from "./layouts/Layout";
 import { Store } from "./pages/store/Store";
@@ -11,7 +10,6 @@ import { Maintenance } from "./pages/maintenance/Maintenance";
 import 'material-icons/iconfont/material-icons.css';
 import { Clients } from "./pages/clients/Clients";
 import { Workshop } from "./pages/workshop/Workshop";
-import Equipment from "./pages/Users/Equipment";
 import { Users } from "./pages/Users/Users";
 
 export default function App() {
@@ -34,9 +32,6 @@ export default function App() {
                 <Route path='/usuarios' element={<Users />} />
               </Route>
 
-              <Route element={<UsersLayout />}>
-                <Route path='/equipos' element={<Equipment />} />
-              </Route>
             </Routes>
         </BrowserRouter>
     );
