@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { IDataForm } from "../../interfaces/form.interface";
+import { IColumns } from "../../interfaces/table.interface";
 
 export interface IClients {
     customerName: string;
@@ -6,11 +9,46 @@ export interface IClients {
     address: string;
 }
 
-export interface IColumns {
-    label: string;
-    column: string;
-    element: (data: IClients) => string;
+export const clientsDataForm: IDataForm[] = [
+    {
+        label: 'Razón Social',
+        value: '',
+        type: 'text',
+        name: 'customerName',
+    },
+    {
+        label: 'Rif/Cédula',
+        value: '',
+        type: 'text',
+        name: 'rif',
+    },
+    {
+        label: 'Correo',
+        value: '',
+        type: 'email',
+        name: 'contactDetails',
+    },
+    {
+        label: 'Dirección',
+        value: '',
+        type: 'text',
+        name: 'address',
+    }
+];
+
+export const clientsDefaultValues : IClients = {
+    customerName: '',
+    contactDetails: '',
+    rif: '',
+    address: ''
 }
+
+export const clientsValidationSchema : object = z.object({
+    customerName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    contactDetails: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
+    rif: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    address: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
+});
 
 export const columnsCustomer: IColumns[] = [
     {
@@ -37,6 +75,7 @@ export const columnsCustomer: IColumns[] = [
         label: 'Editar',
         column: 'edit',
         element: () => 'edit',
+        canFilter: false
     },
 ];
 
@@ -132,4 +171,3 @@ export const customers: IClients[] = [
         address: 'Avenida Principal, Ciudad Guayana',
     },
 ];
-

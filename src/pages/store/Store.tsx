@@ -1,29 +1,18 @@
-import React from 'react'
-import { data, columnsStore, IColumns, IStore } from './store.data.ts';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/TablePagination';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
+import { data, columnsStore, IStore, storeDataForm, storeDefaultValues, storeValidationSchema } from './store.data.ts';
+import { Button } from '@mui/material';
+import TableComponent from '../../components/TableComponent';
+import Filter from '../../components/Filter';
+import { useState } from 'react';
+import DialogComponent from '../../components/DialogComponent.tsx';
+import { FormComponent } from '../../components/FormComponent.tsx';
 
 export const Store = () => {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
+    const [dataTable, setDataTable] = useState<IStore[]>(data);
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
+    const [dialog, setDialog] = useState(false);
+
+    const openDialog = () => setDialog(true);
 
     return (
         <div>
@@ -31,49 +20,39 @@ export const Store = () => {
             <p className=' text-3xl font-semibold mb-5'>Almacén</p>
 
             <div className="flex items-center justify-between w-full my-5">
-                <TextField label="Buscar por..." variant="outlined" sx={{ width: 400 }} />
-                <Button variant="contained" className='flex gap-2'><span className='material-icons'>add_circle</span> Agregar</Button>
+
+                <Filter data={data} setData={setDataTable} columns={columnsStore}></Filter>
+
+                <Button 
+                    onClick={openDialog} 
+                    variant="contained" 
+                    className='flex gap-2'
+                >
+                    <span className='material-icons'>add_circle</span> Agregar
+                </Button>
+
             </div>
 
-            <Paper sx={{ width: '100%' }}>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow sx={{ background: '#1c233f' }}>
-                                {columnsStore && columnsStore.map((col: IColumns, index: number) => (
-                                    <TableCell key={index} sx={{ fontWeight: 600, color: '#fff' }}>{col.label}</TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: IStore, index: number) => (
-                                <TableRow key={index}>
-                                    {columnsStore && columnsStore.map((column: IColumns, index: number) => (
-                                        <TableCell key={index}>
-                                            {column.column === 'edit' ?
-                                                <IconButton>
-                                                    <span className='material-icons'>{column.element(row)}</span>
-                                                </IconButton>
-                                                :
-                                                <span>{column.element(row)}</span>}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Paper>
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={data.length}
-                labelRowsPerPage='Paginas'
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+           <TableComponent tableData={dataTable} tableColumns={columnsStore} />
+
+           <DialogComponent 
+                dialog={dialog} 
+                setDialog={setDialog} 
+                form={
+                    <FormComponent 
+                        title='Nuevo Producto'
+                        description='Llena el formulario y agrega'
+                        descriptionColored='un nuevo producto'
+                        dataForm={storeDataForm}
+                        defaultValues={storeDefaultValues}
+                        validationSchema={storeValidationSchema}
+                        action='add'
+                        buttonText='Agregar Producto'
+                    />
+                } 
             />
+
         </div>
-    )
+    );
+
 }

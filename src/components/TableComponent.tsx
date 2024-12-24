@@ -1,133 +1,71 @@
-import { useState } from "react";
-import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination } from "@mui/material";
+import React from "react";
+import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton } from "@mui/material";
+import { Pencil } from "lucide-react";
+import { IColumns } from "../interfaces/table.interface";
 
-interface Column {
-    id: 'modelo' | 'marca' | 'year' | 'numero_serie';
-    label: string;
-    align?: 'center';
-    format?: (value: number) => string;
+interface TableComponentProps {
+    tableData: {}[];
+    tableColumns: IColumns[];
 }
 
-const columns: Column[] = [
-    { id: 'modelo', label: 'Modelo', align: 'center' },
-    { id: 'marca', label: 'Marca', align: 'center' },
-    { id: 'year', label: 'Año', align: 'center' },
-    { id: 'numero_serie', label: 'Número de Serie', align: 'center' }
-];
+export default function TableComponent({ tableData, tableColumns } : TableComponentProps) {
 
-interface Data {
-    modelo: string;
-    marca: string;
-    year: number;
-    numero_serie: number;
-}
-
-function createData(
-    modelo: string,
-    marca: string,
-    year: number,
-    numero_serie: number,
-): Data {
-    return { modelo, marca, year, numero_serie };
-}
-  
-const rows = [
-    createData('India', 'IN', 1324171354, 3287263),
-    createData('China', 'CN', 1403500365, 9596961),
-    createData('Italy', 'IT', 60483973, 301340),
-    createData('United States', 'US', 327167434, 9833520),
-    createData('Canada', 'CA', 37602103, 9984670),
-    createData('Australia', 'AU', 25475400, 7692024),
-    createData('Germany', 'DE', 83019200, 357578),
-    createData('Ireland', 'IE', 4857000, 70273),
-    createData('Mexico', 'MX', 126577691, 1972550),
-    createData('Japan', 'JP', 126317000, 377973),
-    createData('France', 'FR', 67022000, 640679),
-    createData('United Kingdom', 'GB', 67545757, 242495),
-    createData('Russia', 'RU', 146793744, 17098246),
-    createData('Nigeria', 'NG', 200962417, 923768),
-    createData('Brazil', 'BR', 210147125, 8515767),
-];
-  
-
-export default function TableComponent() {
-
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(+event.target.value);
+        setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
 
-
     return (
 
-        <div className="border border-gray-500 rounded-lg p-5">
+        <div>
 
-            <div className="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
-
-                <TableContainer sx={{ maxHeight: 440 }}>
-
-                    <Table stickyHeader>
-
+            <Paper sx={{ width: '100%' }}>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
-
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                    >
-                                    {column.label}
-                                    </TableCell>
+                            <TableRow sx={{ background: '#1c233f' }}>
+                                {tableColumns && tableColumns.map((col: IColumns, index: number) => (
+                                    <TableCell key={index} sx={{ fontWeight: 600, color: '#fff' }}>{col.label}</TableCell>
                                 ))}
                             </TableRow>
-
                         </TableHead>
-
                         <TableBody>
-
-                            {rows
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => (
-                                        <TableRow key={row.marca}>
-                                            {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {column.format && typeof value === 'number'
-                                                    ? column.format(value)
-                                                    : value}
-                                                </TableCell>
-                                            );
-                                            })}
-                                        </TableRow>
-                                    ))
-                            }
-
+                            {tableData.length > 0 ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
+                                <TableRow key={index}>
+                                    {tableColumns && tableColumns.map((column: IColumns, index: number) => (
+                                        <TableCell key={index}>
+                                            {column.column === 'edit' ?
+                                                <IconButton>
+                                                    {/* <span className='material-icons'>{column.element(row)}</span> */}
+                                                    <Pencil />
+                                                </IconButton>
+                                                :
+                                                <span>{column.element(row)}</span>}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            )) : <p>No se encontraron datos</p>}
                         </TableBody>
-
                     </Table>
-
                 </TableContainer>
-
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 50, 100]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-
-            </div>
-
+            </Paper>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={tableData.length}
+                labelRowsPerPage='Paginas'
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </div>
 
     );
