@@ -67,11 +67,11 @@ export const FormComponent = ({ title, description, descriptionColored, dataForm
                         </div>
                     ) ||
                     (form.type == 'select' &&
-                        <div key={index} className="w-full my-3 gap-5">
-                            <label className=' text-black ml-2'>{form.label}</label>
+                        <div key={index} className="flex flex-col gap-5">
+                            <label className='font-normal text-xl'>{form.label}</label>
                             <select
                                 {...register(form.name)}
-                                className={`bg-gray-100 rounded-md w-full h-12 px-2 text-black outline-none border-2 border-solid ${errors[form.name]?.message ? 'border-red-500' : 'border-blue-200'} focus:border-blue-500 selectOption`}  >
+                                className={`w-full p-3 rounded-lg  border-gray-300 border ${errors[form.name]?.message ? 'border-red-500' : 'border-blue-200'} focus:border-blue-500 selectOption`}  >
                                 {form.options?.map((opt: IOptions) => (
                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
                                 ))}
