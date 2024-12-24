@@ -1,12 +1,18 @@
-import { data, columnsStore, IStore } from './store.data.ts';
+import { data, columnsStore, IStore, storeDataForm, storeDefaultValues, storeValidationSchema } from './store.data.ts';
 import { Button } from '@mui/material';
 import TableComponent from '../../components/TableComponent';
 import Filter from '../../components/Filter';
 import { useState } from 'react';
+import DialogComponent from '../../components/DialogComponent.tsx';
+import { FormComponent } from '../../components/FormComponent.tsx';
 
 export const Store = () => {
 
     const [dataTable, setDataTable] = useState<IStore[]>(data);
+
+    const [dialog, setDialog] = useState(false);
+
+    const openDialog = () => setDialog(true);
 
     return (
         <div>
@@ -14,11 +20,37 @@ export const Store = () => {
             <p className=' text-3xl font-semibold mb-5'>Almacén</p>
 
             <div className="flex items-center justify-between w-full my-5">
+
                 <Filter data={data} setData={setDataTable} columns={columnsStore}></Filter>
-                <Button variant="contained" className='flex gap-2'><span className='material-icons'>add_circle</span> Agregar</Button>
+
+                <Button 
+                    onClick={openDialog} 
+                    variant="contained" 
+                    className='flex gap-2'
+                >
+                    <span className='material-icons'>add_circle</span> Agregar
+                </Button>
+
             </div>
 
            <TableComponent tableData={dataTable} tableColumns={columnsStore} />
+
+           <DialogComponent 
+                dialog={dialog} 
+                setDialog={setDialog} 
+                form={
+                    <FormComponent 
+                        title='Nuevo Producto'
+                        description='Llena el formulario y agrega'
+                        descriptionColored='un nuevo producto'
+                        dataForm={storeDataForm}
+                        defaultValues={storeDefaultValues}
+                        validationSchema={storeValidationSchema}
+                        action='add'
+                        buttonText='Agregar Producto'
+                    />
+                } 
+            />
 
         </div>
     );

@@ -1,17 +1,11 @@
 import React from "react";
 import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton } from "@mui/material";
 import { Pencil } from "lucide-react";
+import { IColumns } from "../interfaces/table.interface";
 
 interface TableComponentProps {
     tableData: {}[];
     tableColumns: IColumns[];
-}
-
-export interface IColumns {
-    label: string;
-    column: string;
-    element: (data: any) => string;
-    canFilter?: boolean;
 }
 
 export default function TableComponent({ tableData, tableColumns } : TableComponentProps) {
