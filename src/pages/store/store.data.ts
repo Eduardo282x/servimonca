@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { IDataForm, IOptions } from "../../interfaces/form.interface";
+import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
 
 export interface IStore {
@@ -9,7 +9,7 @@ export interface IStore {
     series: string;
     capacity: number;
     dimensions: string;
-    status: IOptions[];
+    status: string;
 }
 
 export const storeDataForm: IDataForm[] = [
@@ -54,21 +54,34 @@ export const storeDataForm: IDataForm[] = [
         value: '',
         type: 'select',
         name: 'status',
-        options: []
+        options: [
+            {
+                label: 'Disponible',
+                value: 0
+            },
+            {
+                label: 'En uso',
+                value: 1
+            },
+            {
+                label: 'En reparación',
+                value: 2
+            }
+        ]
     }
 ];
 
-export const storeDefaultValues : IStore = {
+export const storeDefaultValues: IStore = {
     carType: '',
     branch: '',
     year: 0,
     series: '',
     capacity: 0,
     dimensions: '',
-    status: []
+    status: ''
 }
 
-export const storeValidationSchema : object = z.object({
+export const storeValidationSchema: object = z.object({
     carType: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     branch: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     year: z.number().refine(number => number !== 0, { message: 'El campo es requerido' }),

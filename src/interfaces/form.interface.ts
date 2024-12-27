@@ -6,8 +6,8 @@ export interface IForm {
     descriptionColored?: string;
     buttonText: string;
     dataForm: IDataForm[];
-    defaultValues: any;
-    validationSchema: any;
+    defaultValues: object;
+    validationSchema: object;
     action: actionsValid;
 }
 

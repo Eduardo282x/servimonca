@@ -1,8 +1,12 @@
+import { UserData } from "./user.interface";
 
 export interface BaseResponse {
     success:    boolean;
     message:    string;
-    statusCode: number;
+}
+
+export interface BaseResponseLogin extends BaseResponse {
+    userData: UserData;
 }
 
 

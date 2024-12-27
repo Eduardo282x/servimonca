@@ -3,6 +3,7 @@ import { ISidebarMenu, Roles, sidebarMenu } from './sidebar.data';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import { validateUserLoged } from '../utils/auth';
 import { IUser } from '../interfaces/user.interface';
+import Logo from '../components/Logo';
 
 interface ISidebarProps {
     open: boolean;
@@ -14,7 +15,7 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
     const location = useLocation();
     const [menuSidebar, setMenuSidebar] = useState<ISidebarMenu[]>(sidebarMenu);
     const userLoged: IUser = {
-        firsname: 'User Test',
+        firstname: 'User Test',
         rol: 'Administrador'
     }
 
@@ -23,7 +24,7 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
             ...menu,
             active: menu.label === opt.label
         }));
-    
+
         setMenuSidebar(updatedMenu);
         navigate(opt.redirectTo);
     }
@@ -33,7 +34,7 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
             ...menu,
             active: menu.redirectTo === location.pathname
         }));
-    
+
         setMenuSidebar(updatedMenu);
     }, [])
 
@@ -45,6 +46,10 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
     return (
         <div className={`h-full bg-gray-800 p-4 ${open ? 'w-80' : 'w-20'} transition-all flex flex-col items-start justify-between overflow-hidden`} onClick={() => setOpen(true)}>
             <div className='flex flex-col gap-2'>
+                <div className="flex items-center justify-center my-3">
+                    <Logo widthLogo={open ? 'w-20' : 'w-10'} heightLogo={open ? 'w-20' : 'w-10'} ></Logo>
+                </div>
+
                 {menuSidebar && menuSidebar.filter(rol => rol.permissions.includes(userLoged.rol as Roles)).map((menu: ISidebarMenu, index: number) => (
                     <div key={index} onClick={() => changeMenu(menu)} className={`flex items-center justify-between ${open ? 'gap-2 w-60' : 'gap-10 w-14'}  px-4 py-2 rounded-md ${menu.active && '!text-white bg-blue-400'} text-gray-500 hover:text-white hover:bg-blue-400 transition-all cursor-pointer`}>
                         <span className='material-icons'>{menu.icon}</span>
