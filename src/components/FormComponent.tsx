@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IDataForm, IForm, IOptions } from '../interfaces/form.interface';
@@ -7,10 +8,9 @@ export const FormComponent = ({ title, description, descriptionColored, dataForm
 
     const { register, reset, handleSubmit, formState: { errors } } = useForm({
         defaultValues,
-        resolver: zodResolver(validationSchema),
+        resolver: zodResolver(validationSchema as any),
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onSubmit = (values: any) => {
         console.log(values);
         console.log("Funciona");
