@@ -1,4 +1,6 @@
-import { IColumns } from "../../components/TableComponent";
+import { z } from "zod";
+import { IColumns } from "../../interfaces/table.interface";
+import { IDataForm } from "../../interfaces/form.interface";
 
 export interface IMaintenance {
     vehicleId: string;
@@ -77,3 +79,61 @@ export const maintenanceData : IMaintenance[] = [
         status: "pendiente"
     },
 ];
+
+export const maintenanceDataForm: IDataForm[] = [
+    {
+        label: 'Id',
+        value: '',
+        type: 'text',
+        name: 'vehicleId',
+    },
+    {
+        label: 'Tipo de programación',
+        value: '',
+        type: 'select',
+        name: 'scheduledProgramationType',
+        options: [
+            {
+                label: 'preventiva',
+                value: 0
+            },
+            {
+                label: 'correctiva',
+                value: 1
+            }
+        ]
+    },
+    {
+        label: 'Estado',
+        value: '',
+        type: 'select',
+        name: 'status',
+        options: [
+            {
+                label: 'Pendiente',
+                value: 'Pendiente'
+            },
+            {
+                label: 'En proceso',
+                value: 'En proceso'
+            },
+            {
+                label: 'Completada',
+                value: 'Completada'
+            }
+        ]
+    }
+];
+
+export const maintenanceDefaultValues: IMaintenance = {
+    vehicleId: '0',
+    scheduledProgramationType: 'preventiva',
+    status: 'pendiente',
+}
+
+export const maintenanceValidationSchema: object = z.object({
+    vehicleId: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    scheduledProgramationType: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    status: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+});
+

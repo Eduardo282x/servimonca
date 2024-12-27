@@ -14,25 +14,13 @@ export default function DialogComponent({ dialog, setDialog, form } : DialogComp
   };
 
   return (
-    
     <>
-
-      <Dialog
-        open={dialog}
-        onClose={handleClose}
-      >
-
+      <Dialog open={dialog} onClose={handleClose}>
         <DialogContent>
-          
           {form}
-
         </DialogContent>
-
       </Dialog>
-
     </>
-
   );
-
 }
 

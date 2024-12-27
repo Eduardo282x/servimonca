@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton } from "@mui/material";
 import { Pencil } from "lucide-react";
 import { IColumns } from "../interfaces/table.interface";
 
+export type Action = 'add' | 'edit' | 'delete';
 interface TableComponentProps {
-    tableData: {}[];
+    tableData: any[];
     tableColumns: IColumns[];
+    action: (action: Action, data: any) => void;
 }
 
-export default function TableComponent({ tableData, tableColumns } : TableComponentProps) {
+export default function TableComponent({ tableData, tableColumns, action }: TableComponentProps) {
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -42,7 +45,7 @@ export default function TableComponent({ tableData, tableColumns } : TableCompon
                                     {tableColumns && tableColumns.map((column: IColumns, index: number) => (
                                         <TableCell key={index}>
                                             {column.column === 'edit' ?
-                                                <IconButton>
+                                                <IconButton onClick={() => action(column.column as Action, row)} >
                                                     {/* <span className='material-icons'>{column.element(row)}</span> */}
                                                     <Pencil />
                                                 </IconButton>
@@ -69,7 +72,7 @@ export default function TableComponent({ tableData, tableColumns } : TableCompon
         </div>
 
     );
-    
+
 }
 
 

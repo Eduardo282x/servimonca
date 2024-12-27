@@ -1,18 +1,28 @@
 import { data, columnsStore, IStore, storeDataForm, storeDefaultValues, storeValidationSchema } from './store.data.ts';
 import { Button } from '@mui/material';
-import TableComponent from '../../components/TableComponent';
+import TableComponent, { Action } from '../../components/TableComponent';
 import Filter from '../../components/Filter';
 import { useState } from 'react';
 import DialogComponent from '../../components/DialogComponent.tsx';
 import { FormComponent } from '../../components/FormComponent.tsx';
 
 export const Store = () => {
-
+    const [defaultValues, setDefaultValues] = useState<IStore>(storeDefaultValues);
     const [dataTable, setDataTable] = useState<IStore[]>(data);
-
     const [dialog, setDialog] = useState(false);
-
     const openDialog = () => setDialog(true);
+
+    const getActionTable = (action: Action, data: IStore) => {
+        if (action === 'edit') {
+            setDefaultValues(data);
+            openDialog();
+        }
+    }
+
+    const addNewStore = () => {
+        setDefaultValues(storeDefaultValues);
+        openDialog();
+    }
 
     return (
         <div>
@@ -23,9 +33,9 @@ export const Store = () => {
 
                 <Filter data={data} setData={setDataTable} columns={columnsStore}></Filter>
 
-                <Button 
-                    onClick={openDialog} 
-                    variant="contained" 
+                <Button
+                    onClick={addNewStore}
+                    variant="contained"
                     className='flex gap-2'
                 >
                     <span className='material-icons'>add_circle</span> Agregar
@@ -33,23 +43,23 @@ export const Store = () => {
 
             </div>
 
-           <TableComponent tableData={dataTable} tableColumns={columnsStore} />
+            <TableComponent tableData={dataTable} tableColumns={columnsStore} action={getActionTable} />
 
-           <DialogComponent 
-                dialog={dialog} 
-                setDialog={setDialog} 
+            <DialogComponent
+                dialog={dialog}
+                setDialog={setDialog}
                 form={
-                    <FormComponent 
+                    <FormComponent
                         title='Nuevo Producto'
                         description='Llena el formulario y agrega'
                         descriptionColored='un nuevo producto'
                         dataForm={storeDataForm}
-                        defaultValues={storeDefaultValues}
+                        defaultValues={defaultValues}
                         validationSchema={storeValidationSchema}
                         action='add'
                         buttonText='Agregar Producto'
                     />
-                } 
+                }
             />
 
         </div>
