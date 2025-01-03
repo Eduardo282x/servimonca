@@ -11,6 +11,10 @@ export interface IForm {
     action: actionsValid;
 }
 
+export interface FormValues {
+    [key: string]: any;
+}  
+
 export interface IDataForm {
     label: string;
     value: string;

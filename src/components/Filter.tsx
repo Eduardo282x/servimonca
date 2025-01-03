@@ -1,30 +1,39 @@
+import { useEffect } from "react";
 import { TextField } from "@mui/material";
-import { IColumns } from "./TableComponent";
+import { IColumns } from "../interfaces/table.interface";
 
 interface Ifilter {
-    data: any[];
-    setData: (value: any) => void;
-    columns: IColumns[];
+    tableData: any[];
+    setTableData: (value: any) => void;
+    tableColumns: IColumns[];
 }
 
-export default function Filter({ data, setData, columns } : Ifilter) {
+export default function Filter({ tableData, setTableData, tableColumns } : Ifilter) {
 
+    // useEffects
+    useEffect( () => {
+    
+        setTableData(tableData);
+    
+    }, [tableData]);
+
+    // Main Function
     const changeFilter = (filter: string) => {
         
-        if (data && data.length > 0) {
+        if (tableData && tableData.length > 0) {
 
-            const filterColumn = columns.filter((col: IColumns) => col.canFilter !== false);
+            const filterColumn = tableColumns.filter((col: IColumns) => col.canFilter !== false);
             const filtersKey = filterColumn.map((col: IColumns) => col.column);
 
             const filterSearch = filtersKey.map((col: string) =>
-                    data.filter((fil) =>
+                    tableData.filter((fil) =>
                         fil[col].toString().toLowerCase().includes(filter.toLowerCase().toString())
                     )
                 )
                 .flat();
             const reduceFilter = new Set(filterSearch);
             const result = [...reduceFilter];
-            setData(result);
+            setTableData(result);
         }
     }
 

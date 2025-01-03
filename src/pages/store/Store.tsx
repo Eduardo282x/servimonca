@@ -1,10 +1,11 @@
 import { data, columnsStore, IStore, storeDataForm, storeDefaultValues, storeValidationSchema } from './store.data.ts';
 import { Button } from '@mui/material';
-import TableComponent, { Action } from '../../components/TableComponent';
+import TableComponent from '../../components/TableComponent';
 import Filter from '../../components/Filter';
 import { useState } from 'react';
 import DialogComponent from '../../components/DialogComponent.tsx';
 import { FormComponent } from '../../components/FormComponent.tsx';
+import { actionsValid } from '../../interfaces/table.interface.ts';
 
 export const Store = () => {
     const [defaultValues, setDefaultValues] = useState<IStore>(storeDefaultValues);
@@ -12,7 +13,7 @@ export const Store = () => {
     const [dialog, setDialog] = useState(false);
     const openDialog = () => setDialog(true);
 
-    const getActionTable = (action: Action, data: IStore) => {
+    const getActionTable = (action: actionsValid, data: IStore) => {
         if (action === 'edit') {
             setDefaultValues(data);
             openDialog();
@@ -31,7 +32,7 @@ export const Store = () => {
 
             <div className="flex items-center justify-between w-full my-5">
 
-                <Filter data={data} setData={setDataTable} columns={columnsStore}></Filter>
+                <Filter tableData={data} setTableData={setDataTable} tableColumns={columnsStore}></Filter>
 
                 <Button
                     onClick={addNewStore}

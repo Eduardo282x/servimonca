@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
-import LoginPage from "./pages/auth/LoginPage";
+import LoginPage from "./pages/auth/Login";
 import { Layout } from "./layouts/Layout";
 import { Store } from "./pages/store/Store";
 import { Rent } from "./pages/rent/Rent";
