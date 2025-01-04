@@ -13,24 +13,22 @@ export const Users = () => {
 
     // useStates
     const [users, setUsers] = useState<IUsers[]>([]);
-    const [tableData, setTableData] = useState<IUsers[]>(users);
+    const [tableData, setTableData] = useState<IUsers[]>([]);
     const [defaultValues, setDefaultValues] = useState<IUsers>(usersDefaultValues);
     const [dialog, setDialog] = useState<boolean>(false);
-    const [ isLoading, setIsLoading ] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
 
     // useEffects
     useEffect(() => {
         getUsers();
-
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 500);
     }, []);
 
     // Async functions
     async function getUsers() {
-        await getDataApi('user').then((response: IUsers[]) => {
+        setLoading(true);
+        await getDataApi('/user').then((response: IUsers[]) => {
             setUsers(response);
+            setLoading(false);
         });
     }
 
@@ -50,18 +48,15 @@ export const Users = () => {
     }
 
     // Conditionals
-    if(isLoading) {
+    if(loading) {
         return <Loader />;
     }
 
     return (
-
         <div>
-
             <p className=' text-3xl font-semibold mb-5'>Usuarios</p>
 
             <div className="flex items-center justify-between w-full my-5">
-
                 <Filter tableData={users} setTableData={setTableData} tableColumns={userColumns}></Filter>
 
                 <Button
@@ -71,7 +66,6 @@ export const Users = () => {
                 >
                     <span className='material-icons'>add_circle</span> Agregar
                 </Button>
-
             </div>
 
             <TableComponent tableData={tableData} tableColumns={userColumns} action={getActionTable} />
@@ -92,11 +86,6 @@ export const Users = () => {
                     />
                 }
             />
-
-            
-
         </div>
-
     );
-
 }
