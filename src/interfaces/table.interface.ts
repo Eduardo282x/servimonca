@@ -4,6 +4,7 @@ export interface IColumns {
     label: string;
     column: string;
     element: (data: any) => string;
+    icon?: boolean;
     canFilter?: boolean;
 }
 

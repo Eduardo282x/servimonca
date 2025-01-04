@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton, TextField, TableFooter } from "@mui/material";
-import { Pencil } from "lucide-react";
+import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton } from "@mui/material";
+import { Check, Pencil, Trash, X } from "lucide-react";
 import { IColumns } from "../interfaces/table.interface";
 import { actionsValid } from "../interfaces/table.interface";
 import ErrorMessage from "./ErrorMessage";
@@ -16,7 +17,7 @@ export default function TableComponent({ tableData, tableColumns, action }: Tabl
     // useStates
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    
+
     // Functions
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -26,6 +27,13 @@ export default function TableComponent({ tableData, tableColumns, action }: Tabl
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const showIcons = (icon: string) => {
+        if (icon === 'edit') return <Pencil />;
+        if (icon === 'delete') return <Trash color="#ff0000" />;
+        if (icon === 'success') return <Check color="#00ff33"/>;
+        if (icon === 'error') return <X color="#ff0000" />;
+    }
 
     return (
 
@@ -46,13 +54,15 @@ export default function TableComponent({ tableData, tableColumns, action }: Tabl
                                 <TableRow key={index}>
                                     {tableColumns && tableColumns.map((column: IColumns, index: number) => (
                                         <TableCell key={index}>
-                                            {column.column === 'edit' ?
+                                            {column.icon &&
                                                 <IconButton onClick={() => action(column.column as actionsValid, row)} >
-                                                    {/* <span className='material-icons'>{column.element(row)}</span> */}
-                                                    <Pencil />
+                                                    {showIcons(column.element(row))}
                                                 </IconButton>
-                                                :
-                                                <span>{column.element(row)}</span>}
+                                            }
+
+                                            {!column.icon && (
+                                                <span>{column.element(row)}</span>
+                                            )}
                                         </TableCell>
                                     ))}
                                 </TableRow>
@@ -62,12 +72,12 @@ export default function TableComponent({ tableData, tableColumns, action }: Tabl
                                         <ErrorMessage>No hay datos</ErrorMessage>
                                     </TableCell>
                                 </TableRow>
-                            ) }
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
-            
+
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
@@ -78,7 +88,7 @@ export default function TableComponent({ tableData, tableColumns, action }: Tabl
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-            
+
         </div>
 
     );
