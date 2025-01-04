@@ -29,7 +29,7 @@ export const Maintenance = () => {
 
     // Async functions
     async function getMaintenances() {
-        await getDataApi('maintenance').then((response: IMaintenance[]) => {
+        await getDataApi('/maintenance').then((response: IMaintenance[]) => {
             setMaintenances(response);
         });
     }

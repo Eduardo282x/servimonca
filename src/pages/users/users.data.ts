@@ -3,62 +3,23 @@ import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
 
 export interface IUsers {
-    identify: string;
-    username: string;
+    id:        number;
     firstName: string;
-    lastName: string;
-    password: string;
-} 
-
-export const usersDataForm: IDataForm[] = [
-    {
-        label: 'Identificación',
-        value: '',
-        type: 'text',
-        name: 'identify',
-    },
-    {
-        label: 'Usuario',
-        value: '',
-        type: 'text',
-        name: 'username',
-    },
-    {
-        label: 'Nombre',
-        value: '',
-        type: 'text',
-        name: 'firstName',
-    },
-    {
-        label: 'Apellido',
-        value: '',
-        type: 'text',
-        name: 'lastName',
-    },
-    {
-        label: 'Contraseña',
-        value: '',
-        type: 'text',
-        name: 'password',
-    },
-];
-
-export const usersDefaultValues : IUsers = {
-    identify: '',
-    username: '',
-    firstName: '',
-    lastName: '',
-    password: '',
+    lastName:  string;
+    username:  string;
+    password:  string;
+    identify:  string;
+    rolId:     number;
+    status:    boolean;
+    rol:       Rol;
 }
 
-export const usersValidationSchema : object = z.object({
-    identify: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    username: z.string().refine(email => email !== '', { message: 'El campo es requerido' }),
-    firstName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    lastName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    password: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
-});
+export interface Rol {
+    id:  number;
+    rol: string;
+}
 
+//Table
 export const userColumns: IColumns[] = [
     {
         label: 'Nombre',
@@ -76,6 +37,18 @@ export const userColumns: IColumns[] = [
         element: (data: IUsers) => data.identify,
     },
     {
+
+        
+        label: 'Usuario',
+        column: 'username',
+        element: (data: IUsers) => data.username,
+    },
+    {
+        label: 'Rol',
+        column: 'rol',
+        element: (data: IUsers) => data.rol.rol,
+    },
+    {
         label: 'Editar',
         column: 'edit',
         element: () => 'edit',
@@ -84,5 +57,55 @@ export const userColumns: IColumns[] = [
 ];
 
 
+//Dialog & Form
+export interface IUserForm {
+    firstName: string;
+    lastName: string;
+    username: string;
+    identify: string;
+    rolId: number;
+    status: boolean;
+}
 
+export const usersDataForm: IDataForm[] = [
+    {
+        label: 'Nombre',
+        value: '',
+        type: 'text',
+        name: 'firstName',
+    },
+    {
+        label: 'Apellido',
+        value: '',
+        type: 'text',
+        name: 'lastName',
+    },
+    {
+        label: 'Cédula',
+        value: '',
+        type: 'text',
+        name: 'identify',
+    },
+    {
+        label: 'Usuario',
+        value: '',
+        type: 'text',
+        name: 'username',
+    }
+];
 
+export const usersDefaultValues : IUsers = {
+    identify: '',
+    username: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+}
+
+export const usersValidationSchema : object = z.object({
+    identify: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    username: z.string().refine(email => email !== '', { message: 'El campo es requerido' }),
+    firstName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    lastName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    password: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
+});
