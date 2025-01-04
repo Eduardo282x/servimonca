@@ -1,46 +1,78 @@
 import { Button } from '@mui/material';
-import TableComponent, { Action } from '../../components/TableComponent';
-import { useState } from 'react';
-import { 
-    IMaintenance, 
-    maintenanceData, 
-    maintenanceColumns, 
-    maintenanceDefaultValues, 
-    maintenanceDataForm, 
-    maintenanceValidationSchema
-} from './maintenance.data';
+import TableComponent from '../../components/TableComponent';
+import { actionsValid } from '../../interfaces/table.interface';
+import { useEffect, useState } from 'react';
+import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema } from './maintenance.data';
 import Filter from '../../components/Filter';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
+import { getDataApi } from '../../API/AxiosActions';
+import { Loader } from '../../components/loaders/Loader';
 
 export const Maintenance = () => {
+
+    // useStates
+    const [maintenances, setMaintenances] = useState<IMaintenance[]>([]);
+    const [tableData, setTableData] = useState<IMaintenance[]>(maintenances);
     const [defaultValues, setDefaultValues] = useState<IMaintenance>(maintenanceDefaultValues);
-    const [dataTable, setDataTable] = useState<IMaintenance[]>(maintenanceData);
-    const [dialog, setDialog] = useState(false);
+    const [dialog, setDialog] = useState<boolean>(false);
+    const [ isLoading, setIsLoading ] = useState<boolean>(true);
+
+    // useEffects
+    useEffect(() => {
+        getMaintenances();
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500);
+    }, []);
+
+    // Async functions
+    async function getMaintenances() {
+        await getDataApi('maintenance').then((response: IMaintenance[]) => {
+            setMaintenances(response);
+        });
+    }
+
+    // Functions
     const openDialog = () => setDialog(true);
 
-    const getActionTable = (action: Action, data: IMaintenance) => {
+    const getActionTable = (action: actionsValid, data: IMaintenance) => {
         if (action === 'edit') {
             setDefaultValues(data);
             openDialog();
         }
     }
 
-    const addNewEquipment = () => {
-        setDefaultValues({} as IMaintenance);
+    const addNewMaintenance = () => {
+        setDefaultValues(maintenanceDefaultValues);
         openDialog();
     }
 
+    // Conditionals
+    if(isLoading) {
+        return <Loader />;
+    }
+
     return (
+
         <div>
             <p className=' text-3xl font-semibold mb-5'>Mantenimiento</p>
             
             <div className="flex items-center justify-between w-full my-5">
-                <Filter data={maintenanceData} setData={setDataTable} columns={maintenanceColumns}></Filter>
-                <Button variant="contained" onClick={addNewEquipment} className='flex gap-2'><span className='material-icons'>add_circle</span> Agregar</Button>
+
+                <Filter tableData={maintenances} setTableData={setTableData} tableColumns={maintenanceColumns}></Filter>
+
+                <Button 
+                    variant="contained" 
+                    onClick={addNewMaintenance} 
+                    className='flex gap-2'>
+                        <span className='material-icons'>add_circle</span> Agregar
+                </Button>
+
             </div>
 
-            <TableComponent tableData={dataTable} tableColumns={maintenanceColumns} action={getActionTable} />
+            <TableComponent tableData={tableData} tableColumns={maintenanceColumns} action={getActionTable} />
 
             <DialogComponent
                 dialog={dialog}

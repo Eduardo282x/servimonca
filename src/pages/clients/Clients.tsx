@@ -1,10 +1,11 @@
 import { clientsDataForm, clientsDefaultValues, clientsValidationSchema, columnsCustomer, customers, IClients } from './clients.data';
 import { Button } from '@mui/material';
-import TableComponent, { Action } from '../../components/TableComponent';
+import TableComponent from '../../components/TableComponent';
 import Filter from '../../components/Filter';
 import { useState } from 'react';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
+import { actionsValid } from '../../interfaces/table.interface';
 
 export const Clients = () => {
     const [defaultValues, setDefaultValues] = useState<IClients>(clientsDefaultValues);
@@ -12,7 +13,7 @@ export const Clients = () => {
     const [dialog, setDialog] = useState<boolean>(false);
     const openDialog = () => setDialog(true);
     
-    const getActionTable = (action: Action, data: IClients) => {
+    const getActionTable = (action: actionsValid, data: IClients) => {
         if(action === 'edit') {
             setDefaultValues(data);
             openDialog();
@@ -29,7 +30,7 @@ export const Clients = () => {
             <p className=' text-3xl font-semibold mb-5'>Clientes</p>
 
             <div className="flex items-center justify-between w-full my-5">
-                <Filter data={customers} setData={setDataTable} columns={columnsCustomer}></Filter>
+                <Filter tableData={customers} setTableData={setDataTable} tableColumns={columnsCustomer}></Filter>
 
                 <Button
                     onClick={addNewClient}

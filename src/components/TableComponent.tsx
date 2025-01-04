@@ -1,21 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
-import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton } from "@mui/material";
+import { useState } from "react";
+import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton, TextField, TableFooter } from "@mui/material";
 import { Pencil } from "lucide-react";
 import { IColumns } from "../interfaces/table.interface";
+import { actionsValid } from "../interfaces/table.interface";
+import ErrorMessage from "./ErrorMessage";
 
-export type Action = 'add' | 'edit' | 'delete';
 interface TableComponentProps {
     tableData: any[];
     tableColumns: IColumns[];
-    action: (action: Action, data: any) => void;
+    action: (action: actionsValid, data: any) => void;
 }
 
 export default function TableComponent({ tableData, tableColumns, action }: TableComponentProps) {
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+    // useStates
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    
+    // Functions
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -45,7 +47,7 @@ export default function TableComponent({ tableData, tableColumns, action }: Tabl
                                     {tableColumns && tableColumns.map((column: IColumns, index: number) => (
                                         <TableCell key={index}>
                                             {column.column === 'edit' ?
-                                                <IconButton onClick={() => action(column.column as Action, row)} >
+                                                <IconButton onClick={() => action(column.column as actionsValid, row)} >
                                                     {/* <span className='material-icons'>{column.element(row)}</span> */}
                                                     <Pencil />
                                                 </IconButton>
@@ -54,11 +56,18 @@ export default function TableComponent({ tableData, tableColumns, action }: Tabl
                                         </TableCell>
                                     ))}
                                 </TableRow>
-                            )) : <p>No se encontraron datos</p>}
+                            )) : (
+                                <TableRow>
+                                    <TableCell colSpan={tableColumns.length} align='center'>
+                                        <ErrorMessage>No hay datos</ErrorMessage>
+                                    </TableCell>
+                                </TableRow>
+                            ) }
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Paper>
+            
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
@@ -69,6 +78,7 @@ export default function TableComponent({ tableData, tableColumns, action }: Tabl
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+            
         </div>
 
     );

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IDataForm, IForm, IOptions } from '../interfaces/form.interface';
+import { FormValues, IDataForm, IForm, IOptions } from '../interfaces/form.interface';
 import ErrorMessage from './ErrorMessage';
 
 export const FormComponent = ({ title, description, descriptionColored, dataForm, defaultValues, validationSchema, buttonText }: IForm) => {
 
-    const { register, reset, handleSubmit, formState: { errors } } = useForm({
+    const { register, reset, handleSubmit, formState: { errors } } = useForm<FormValues>({
         defaultValues,
         resolver: zodResolver(validationSchema as any),
     });
@@ -71,6 +71,16 @@ export const FormComponent = ({ title, description, descriptionColored, dataForm
                                 ))}
                             </select>
 
+                            {errors[form.name]?.message && <ErrorMessage>{errors[form.name]?.message?.toString()}</ErrorMessage>}
+                        </div>
+                    ) ||
+                    (form.type == 'textArea' &&
+                        <div key={index} className="flex flex-col gap-5">
+                            <label className='font-normal text-xl'>{form.label}</label>
+                            <textarea
+                                className={`w-full p-3 rounded-lg border-gray-300 border ${errors[form.name]?.message ? 'border-red-500' : 'border-blue-200'} focus:border-blue-500`}
+                                {...register(form.name)}
+                            />
                             {errors[form.name]?.message && <ErrorMessage>{errors[form.name]?.message?.toString()}</ErrorMessage>}
                         </div>
                     )

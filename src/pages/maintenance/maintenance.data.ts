@@ -3,26 +3,34 @@ import { IColumns } from "../../interfaces/table.interface";
 import { IDataForm } from "../../interfaces/form.interface";
 
 export interface IMaintenance {
-    vehicleId: string;
-    scheduledProgramationType: "preventiva" | "correctiva";
-    status: "pendiente" | "en proceso" | "completada";
+    id: string;
+    maintenanceType: string;
+    maintenanceDate: string;
+    description: string;
+    equipmentId: string;
+    createdAt: string;
 };
 
 export const maintenanceColumns : IColumns[] = [
     {
-        label: 'ID',
-        column: 'vehicleId',
-        element: (data: IMaintenance) => data.vehicleId,
+        label: 'Vehículo',
+        column: 'equipmentId',
+        element: (data: IMaintenance) => data.equipmentId,
     },
     {
-        label: 'Tipo de Programación',
-        column: 'scheduledProgramationType',
-        element: (data: IMaintenance) => data.scheduledProgramationType,
+        label: 'Tipo de mantenimiento',
+        column: 'maintenanceType',
+        element: (data: IMaintenance) => data.maintenanceType,
     },
     {
-        label: 'Estado',
-        column: 'status',
-        element: (data: IMaintenance) => data.status,
+        label: 'Descripción',
+        column: 'description',
+        element: (data: IMaintenance) => data.description,
+    },
+    {
+        label: 'Fecha de Mantenimiento',
+        column: 'maintenanceDate',
+        element: (data: IMaintenance) => data.maintenanceDate,
     },
     {
         label: 'Editar',
@@ -30,68 +38,20 @@ export const maintenanceColumns : IColumns[] = [
         element: () => 'edit',
         canFilter: false
     },
-]
-
-export const maintenanceData : IMaintenance[] = [
-    {
-        vehicleId: "CAM-001",
-        scheduledProgramationType: "preventiva",
-        status: "en proceso"
-    },
-    {
-        vehicleId: "CAM-002",
-        scheduledProgramationType: "correctiva",
-        status: "completada"
-    },
-    {
-        vehicleId: "CAM-003",
-        scheduledProgramationType: "preventiva",
-        status: "completada"
-    },
-    {
-        vehicleId: "CAM-004",
-        scheduledProgramationType: "preventiva",
-        status: "completada"
-    },
-    {
-        vehicleId: "CAM-005",
-        scheduledProgramationType: "preventiva",
-        status: "en proceso"
-    },
-    {
-        vehicleId: "CAM-006",
-        scheduledProgramationType: "correctiva",
-        status: "completada"
-    },
-    {
-        vehicleId: "CAM-007",
-        scheduledProgramationType: "preventiva",
-        status: "en proceso"
-    },
-    {
-        vehicleId: "CAM-008",
-        scheduledProgramationType: "preventiva",
-        status: "completada"
-    },
-    {
-        vehicleId: "CAM-009",
-        scheduledProgramationType: "preventiva",
-        status: "pendiente"
-    },
 ];
 
 export const maintenanceDataForm: IDataForm[] = [
     {
-        label: 'Id',
+        label: 'Vehículo',
         value: '',
         type: 'text',
-        name: 'vehicleId',
+        name: 'id',
     },
     {
-        label: 'Tipo de programación',
+        label: 'Tipo de mantenimiento',
         value: '',
         type: 'select',
-        name: 'scheduledProgramationType',
+        name: 'maintenanceType',
         options: [
             {
                 label: 'preventiva',
@@ -104,36 +64,54 @@ export const maintenanceDataForm: IDataForm[] = [
         ]
     },
     {
-        label: 'Estado',
+        label: 'Descripción',
         value: '',
-        type: 'select',
-        name: 'status',
-        options: [
-            {
-                label: 'Pendiente',
-                value: 'Pendiente'
-            },
-            {
-                label: 'En proceso',
-                value: 'En proceso'
-            },
-            {
-                label: 'Completada',
-                value: 'Completada'
-            }
-        ]
-    }
+        type: 'textArea',
+        name: 'description',
+    },
+    {
+        label: 'Fecha de Mantenimiento',
+        value: '',
+        type: 'text',
+        name: 'maintenanceDate',
+    },
+    // {
+    //     label: 'Estado',
+    //     value: '',
+    //     type: 'select',
+    //     name: 'status',
+    //     options: [
+    //         {
+    //             label: 'Pendiente',
+    //             value: 'Pendiente'
+    //         },
+    //         {
+    //             label: 'En proceso',
+    //             value: 'En proceso'
+    //         },
+    //         {
+    //             label: 'Completada',
+    //             value: 'Completada'
+    //         }
+    //     ]
+    // }
 ];
 
 export const maintenanceDefaultValues: IMaintenance = {
-    vehicleId: '0',
-    scheduledProgramationType: 'preventiva',
-    status: 'pendiente',
+    id: '0',
+    maintenanceType: '',
+    maintenanceDate: '',
+    description: '',
+    equipmentId: '',
+    createdAt: '',
 }
 
 export const maintenanceValidationSchema: object = z.object({
-    vehicleId: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    scheduledProgramationType: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    status: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    id: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    maintenanceType: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    maintenanceDate: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    equipmentId: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    createdAt: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
 });
 
