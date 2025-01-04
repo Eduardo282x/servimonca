@@ -94,12 +94,13 @@ export const usersDataForm: IDataForm[] = [
     }
 ];
 
-export const usersDefaultValues : IUsers = {
+export const usersDefaultValues : IUserForm = {
     identify: '',
     username: '',
     firstName: '',
     lastName: '',
-    password: '',
+    rolId: 0,
+    status: true,
 }
 
 export const usersValidationSchema : object = z.object({
@@ -107,5 +108,6 @@ export const usersValidationSchema : object = z.object({
     username: z.string().refine(email => email !== '', { message: 'El campo es requerido' }),
     firstName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     lastName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    password: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
+    rolId: z.number({ message: 'El campo es requerido' }),
+    status: z.boolean({ message: 'El campo es requerido' }),
 });

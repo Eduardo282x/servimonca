@@ -5,7 +5,7 @@ import DialogComponent from "../../components/DialogComponent";
 import { FormComponent } from "../../components/FormComponent";
 import { useEffect, useState } from "react";
 import { getDataApi } from "../../API/AxiosActions";
-import { IUsers, userColumns, usersDataForm, usersDefaultValues, usersValidationSchema } from "./users.data";
+import { IUserForm, IUsers, userColumns, usersDataForm, usersDefaultValues, usersValidationSchema } from "./users.data";
 import { actionsValid } from "../../interfaces/table.interface";
 import { Loader } from "../../components/loaders/Loader";
 
@@ -14,9 +14,9 @@ export const Users = () => {
     // useStates
     const [users, setUsers] = useState<IUsers[]>([]);
     const [tableData, setTableData] = useState<IUsers[]>([]);
-    const [defaultValues, setDefaultValues] = useState<IUsers>(usersDefaultValues);
+    const [defaultValues, setDefaultValues] = useState<IUserForm>(usersDefaultValues);
     const [dialog, setDialog] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
 
     // useEffects
     useEffect(() => {
@@ -47,11 +47,6 @@ export const Users = () => {
         openDialog();
     }
 
-    // Conditionals
-    if(loading) {
-        return <Loader />;
-    }
-
     return (
         <div>
             <p className=' text-3xl font-semibold mb-5'>Usuarios</p>
@@ -68,7 +63,7 @@ export const Users = () => {
                 </Button>
             </div>
 
-            <TableComponent tableData={tableData} tableColumns={userColumns} action={getActionTable} />
+            {loading ? <Loader /> : <TableComponent tableData={tableData} tableColumns={userColumns} action={getActionTable} />}
             
             <DialogComponent
                 dialog={dialog}
