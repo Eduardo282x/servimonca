@@ -3,19 +3,20 @@ import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
 
 export interface IUsers {
-    id:        number;
+    id: number;
     firstName: string;
-    lastName:  string;
-    username:  string;
-    password:  string;
-    identify:  string;
-    rolId:     number;
-    status:    boolean;
-    rol:       Rol;
+    lastName: string;
+    username: string;
+    password: string;
+    identify: string;
+    rolId: number;
+    status: boolean;
+    rol: Rol;
+    rolDescription: string;
 }
 
 export interface Rol {
-    id:  number;
+    id: number;
     rol: string;
 }
 
@@ -38,20 +39,35 @@ export const userColumns: IColumns[] = [
     },
     {
 
-        
+
         label: 'Usuario',
         column: 'username',
         element: (data: IUsers) => data.username,
     },
     {
         label: 'Rol',
-        column: 'rol',
-        element: (data: IUsers) => data.rol.rol,
+        column: 'rolDescription',
+        element: (data: IUsers) => data.rolDescription,
+    },
+    {
+        label: 'Estado',
+        column: 'status',
+        icon: true,
+        element: (data: IUsers) => data.status ? 'success' : 'error',
+        canFilter: false
     },
     {
         label: 'Editar',
         column: 'edit',
+        icon: true,
         element: () => 'edit',
+        canFilter: false
+    },
+    {
+        label: 'Eliminar',
+        column: 'delete',
+        icon: true,
+        element: () => 'delete',
         canFilter: false
     },
 ];
@@ -94,7 +110,7 @@ export const usersDataForm: IDataForm[] = [
     }
 ];
 
-export const usersDefaultValues : IUsers = {
+export const usersDefaultValues: IUsers = {
     identify: '',
     username: '',
     firstName: '',
@@ -102,7 +118,7 @@ export const usersDefaultValues : IUsers = {
     password: '',
 }
 
-export const usersValidationSchema : object = z.object({
+export const usersValidationSchema: object = z.object({
     identify: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     username: z.string().refine(email => email !== '', { message: 'El campo es requerido' }),
     firstName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),

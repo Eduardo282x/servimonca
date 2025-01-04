@@ -27,6 +27,10 @@ export const Users = () => {
     async function getUsers() {
         setLoading(true);
         await getDataApi('/user').then((response: IUsers[]) => {
+            response.map((user => {
+                user.rolDescription = user.rol.rol;
+                return user;
+            }))
             setUsers(response);
             setLoading(false);
         });
