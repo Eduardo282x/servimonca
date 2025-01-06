@@ -3,7 +3,7 @@ import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
 
 export interface IUsers {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     username: string;
@@ -38,8 +38,6 @@ export const userColumns: IColumns[] = [
         element: (data: IUsers) => data.identify,
     },
     {
-
-
         label: 'Usuario',
         column: 'username',
         element: (data: IUsers) => data.username,
@@ -110,18 +108,20 @@ export const usersDataForm: IDataForm[] = [
     }
 ];
 
-export const usersDefaultValues: IUsers = {
+export const usersDefaultValues : IUserForm = {
     identify: '',
     username: '',
     firstName: '',
     lastName: '',
-    password: '',
+    rolId: 0,
+    status: true,
 }
 
 export const usersValidationSchema: object = z.object({
     identify: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    username: z.string().refine(email => email !== '', { message: 'El campo es requerido' }),
+    username: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     firstName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     lastName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    password: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
+    rolId: z.number({ message: 'El campo es requerido' }),
+    status: z.boolean({ message: 'El campo es requerido' }),
 });
