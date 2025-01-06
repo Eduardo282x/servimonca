@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
+import { formatDate } from "../../utils/formater";
 
 export interface IHistory {
     id: string;
@@ -26,7 +27,7 @@ export const historyColumns: IColumns[] = [
     {
         label: 'Fecha',
         column: 'operationDate',
-        element: (data: IHistory) => data.operationDate,
+        element: (data: IHistory) => formatDate(data.operationDate),
     },
     {
         label: 'Descripción',

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { IColumns } from "../../interfaces/table.interface";
 import { IDataForm } from "../../interfaces/form.interface";
+import { formatDate } from "../../utils/formater";
 
 export interface IMaintenance {
     id: string;
@@ -30,7 +31,7 @@ export const maintenanceColumns : IColumns[] = [
     {
         label: 'Fecha de Mantenimiento',
         column: 'maintenanceDate',
-        element: (data: IMaintenance) => data.maintenanceDate,
+        element: (data: IMaintenance) => formatDate(data.maintenanceDate),
     },
     {
         label: 'Editar',
