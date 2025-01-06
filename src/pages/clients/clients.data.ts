@@ -3,171 +3,91 @@ import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
 
 export interface IClients {
+    id: string;
     customerName: string;
-    contactDetails: string;
-    rif: string;
-    address: string;
+    customerLastname: string;
+    customerEmail: string;
+    customerAddress: string;
+    createdAt: string;
 }
 
-export const clientsDataForm: IDataForm[] = [
+// Table
+export const customerColumns: IColumns[] = [
     {
-        label: 'Razón Social',
-        value: '',
-        type: 'text',
-        name: 'customerName',
-    },
-    {
-        label: 'Rif/Cédula',
-        value: '',
-        type: 'text',
-        name: 'rif',
-    },
-    {
-        label: 'Correo',
-        value: '',
-        type: 'email',
-        name: 'contactDetails',
-    },
-    {
-        label: 'Dirección',
-        value: '',
-        type: 'text',
-        name: 'address',
-    }
-];
-
-export const clientsDefaultValues : IClients = {
-    customerName: '',
-    contactDetails: '',
-    rif: '',
-    address: ''
-}
-
-export const clientsValidationSchema : object = z.object({
-    customerName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    contactDetails: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
-    rif: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    address: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
-});
-
-export const columnsCustomer: IColumns[] = [
-    {
-        label: 'Razón Social',
+        label: 'Nombre',
         column: 'customerName',
         element: (data: IClients) => data.customerName,
     },
     {
-        label: 'Rif/Cedula',
-        column: 'rif',
-        element: (data: IClients) => data.rif,
+        label: 'Apellido',
+        column: 'customerLastName',
+        element: (data: IClients) => data.customerLastname,
     },
     {
         label: 'Correo',
-        column: 'contactDetails',
-        element: (data: IClients) => data.contactDetails,
+        column: 'customerEmail',
+        element: (data: IClients) => data.customerEmail,
     },
     {
         label: 'Dirección',
-        column: 'address',
-        element: (data: IClients) => data.address.toString(),
+        column: 'customerAddress',
+        element: (data: IClients) => data.customerAddress.toString(),
     },
     {
         label: 'Editar',
         column: 'edit',
+        icon: true,
         element: () => 'edit',
         canFilter: false
     },
 ];
 
-export const customers: IClients[] = [
+//Dialog & Form
+export interface IClientsForm {
+    customerName: string;
+    customerLastname: string;
+    customerEmail: string;
+    customerAddress: string;
+}
+
+export const clientsDataForm: IDataForm[] = [
     {
-        customerName: 'Carlos Pérez',
-        contactDetails: 'carlos.perez@gmail.com',
-        rif: 'J -   8.678.493.453',
-        address: 'Avenida Bolívar, 123, Maracaibo',
+        label: 'Nombre',
+        value: '',
+        type: 'text',
+        name: 'customerName',
     },
     {
-        customerName: 'María Gómez',
-        contactDetails: 'maria.gomez@yahoo.com',
-        rif: 'V -   12.365.895',
-        address: 'Calle 10, Urb. La Trinidad, Caracas',
+        label: 'Apellido',
+        value: '',
+        type: 'text',
+        name: 'customerLastname',
     },
     {
-        customerName: 'José Rodríguez',
-        contactDetails: 'jose.rodriguez@hotmail.com',
-        rif: 'V -   20.395.695',
-        address: 'Carrera 8, Sector El Centro, Valencia',
+        label: 'Correo',
+        value: '',
+        type: 'email',
+        name: 'customerEmail',
     },
     {
-        customerName: 'Ana Fernández',
-        contactDetails: 'ana.fernandez@outlook.com',
-        rif: 'E -   2.465.705',
-        address: 'Pasaje Los Olivos, Mérida',
-    },
-    {
-        customerName: 'Luis Martínez',
-        contactDetails: 'luis.martinez@gmail.com',
-        rif: 'V -   6.968.483',
-        address: 'Calle Libertador, 45, Barquisimeto',
-    },
-    {
-        customerName: 'Clara Sánchez',
-        contactDetails: 'clara.sanchez@hotmail.com',
-        rif: 'J -   6.594.659',
-        address: 'Urbanización Los Cedros, San Cristóbal',
-    },
-    {
-        customerName: 'Pedro Morales',
-        contactDetails: 'pedro.morales@yahoo.com',
-        rif: '',
-        address: 'Calle Principal, El Vigía',
-    },
-    {
-        customerName: 'Isabel López',
-        contactDetails: 'isabel.lopez@gmail.com',
-        rif: '',
-        address: 'Calle Sucre, 12, Ciudad Bolívar',
-    },
-    {
-        customerName: 'Ramón Díaz',
-        contactDetails: 'ramon.diaz@outlook.com',
-        rif: '',
-        address: 'Sector La Pastora, Puerto Ordaz',
-    },
-    {
-        customerName: 'Sofía Torres',
-        contactDetails: 'sofia.torres@hotmail.com',
-        rif: '',
-        address: 'Avenida Sucre, Maracay',
-    },
-    {
-        customerName: 'Manuel Ruiz',
-        contactDetails: 'manuel.ruiz@yahoo.com',
-        rif: '',
-        address: 'Calle Colón, Porlamar',
-    },
-    {
-        customerName: 'Carolina Herrera',
-        contactDetails: 'carolina.herrera@gmail.com',
-        rif: '',
-        address: 'Urbanización Los Jardines, Barinas',
-    },
-    {
-        customerName: 'Javier Castro',
-        contactDetails: 'javier.castro@hotmail.com',
-        rif: '',
-        address: 'Sector La Candelaria, Valencia',
-    },
-    {
-        customerName: 'Lucía Vargas',
-        contactDetails: 'lucia.vargas@outlook.com',
-        rif: '',
-        address: 'Calle Miranda, Mérida',
-    },
-    {
-        customerName: 'Miguel Angel',
-        contactDetails: 'miguel.angel@gmail.com',
-        rif: '',
-        address: 'Avenida Principal, Ciudad Guayana',
-    },
+        label: 'Dirección',
+        value: '',
+        type: 'text',
+        name: 'customerAddress',
+    }
 ];
+
+export const clientsDefaultValues : IClientsForm = {
+    customerName: '',
+    customerLastname: '',
+    customerEmail: '',
+    customerAddress: ''
+}
+
+export const clientsValidationSchema : object = z.object({
+    customerName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    customerLastname: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    customerEmail: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
+    customerAddress: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
+});
+

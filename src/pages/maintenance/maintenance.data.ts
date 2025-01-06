@@ -35,6 +35,7 @@ export const maintenanceColumns : IColumns[] = [
     {
         label: 'Editar',
         column: 'edit',
+        icon: true,
         element: () => 'edit',
         canFilter: false
     },

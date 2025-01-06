@@ -16,21 +16,19 @@ export const Maintenance = () => {
     const [tableData, setTableData] = useState<IMaintenance[]>(maintenances);
     const [defaultValues, setDefaultValues] = useState<IMaintenance>(maintenanceDefaultValues);
     const [dialog, setDialog] = useState<boolean>(false);
-    const [ isLoading, setIsLoading ] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true);
 
     // useEffects
     useEffect(() => {
         getMaintenances();
-
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 500);
     }, []);
 
     // Async functions
     async function getMaintenances() {
+        setLoading(true);
         await getDataApi('/maintenance').then((response: IMaintenance[]) => {
             setMaintenances(response);
+            setLoading(false);
         });
     }
 
@@ -49,11 +47,6 @@ export const Maintenance = () => {
         openDialog();
     }
 
-    // Conditionals
-    if(isLoading) {
-        return <Loader />;
-    }
-
     return (
 
         <div>
@@ -64,15 +57,16 @@ export const Maintenance = () => {
                 <Filter tableData={maintenances} setTableData={setTableData} tableColumns={maintenanceColumns}></Filter>
 
                 <Button 
-                    variant="contained" 
                     onClick={addNewMaintenance} 
-                    className='flex gap-2'>
+                    variant="contained" 
+                    className='flex gap-2'
+                >
                         <span className='material-icons'>add_circle</span> Agregar
                 </Button>
 
             </div>
 
-            <TableComponent tableData={tableData} tableColumns={maintenanceColumns} action={getActionTable} />
+            {loading ? <Loader /> : <TableComponent tableData={tableData} tableColumns={maintenanceColumns} action={getActionTable} /> }
 
             <DialogComponent
                 dialog={dialog}

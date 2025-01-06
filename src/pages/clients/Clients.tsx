@@ -1,16 +1,38 @@
-import { clientsDataForm, clientsDefaultValues, clientsValidationSchema, columnsCustomer, customers, IClients } from './clients.data';
+import { clientsDataForm, clientsDefaultValues, clientsValidationSchema, customerColumns, IClients, IClientsForm } from './clients.data';
 import { Button } from '@mui/material';
 import TableComponent from '../../components/TableComponent';
 import Filter from '../../components/Filter';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { actionsValid } from '../../interfaces/table.interface';
+import { getDataApi } from '../../API/AxiosActions';
+import { Loader } from '../../components/loaders/Loader';
 
 export const Clients = () => {
-    const [defaultValues, setDefaultValues] = useState<IClients>(clientsDefaultValues);
-    const [dataTable, setDataTable] = useState<IClients[]>(customers);
+
+    // useStates
+    const [ clients, setClients ] = useState<IClients[]>([]);
+    const [tableData, setTableData] = useState<IClients[]>([]);
+    const [defaultValues, setDefaultValues] = useState<IClientsForm>(clientsDefaultValues);
     const [dialog, setDialog] = useState<boolean>(false);
+    const [ loading, setLoading ] = useState(true);
+
+    // useEffects
+    useEffect(() => {
+        getClients();
+    }, []);
+
+    // Async functions
+    async function getClients() {
+        setLoading(true);
+        await getDataApi('/customer').then((response: IClients[]) => {
+            setClients(response);
+            setLoading(false);
+        });
+    }
+
+    // Functions
     const openDialog = () => setDialog(true);
     
     const getActionTable = (action: actionsValid, data: IClients) => {
@@ -30,7 +52,7 @@ export const Clients = () => {
             <p className=' text-3xl font-semibold mb-5'>Clientes</p>
 
             <div className="flex items-center justify-between w-full my-5">
-                <Filter tableData={customers} setTableData={setDataTable} tableColumns={columnsCustomer}></Filter>
+                <Filter tableData={clients} setTableData={setTableData} tableColumns={customerColumns}></Filter>
 
                 <Button
                     onClick={addNewClient}
@@ -42,7 +64,7 @@ export const Clients = () => {
 
             </div>
 
-            <TableComponent tableData={dataTable} tableColumns={columnsCustomer} action={getActionTable} />
+            {loading ? <Loader /> : <TableComponent tableData={tableData} tableColumns={customerColumns} action={getActionTable} /> }
 
             <DialogComponent
                 dialog={dialog}
