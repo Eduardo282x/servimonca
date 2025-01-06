@@ -49,7 +49,7 @@ export const Workshop = () => {
 
     return (
         <div>
-            <p className=' text-3xl font-semibold mb-5'>Usuarios</p>
+            <p className=' text-3xl font-semibold mb-5'>Taller</p>
 
             <div className="flex items-center justify-between w-full my-5">
                 <Filter tableData={workshop} setTableData={setTableData} tableColumns={workshopColumns}></Filter>

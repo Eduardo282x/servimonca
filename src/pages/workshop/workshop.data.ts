@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
+import { formatDate } from "../../utils/formater";
 
 export interface IWorkshop {
     id: number;
@@ -16,7 +17,7 @@ export const workshopColumns: IColumns[] = [
     {
         label: 'Fecha de la Orden',
         column: 'workOrderDate',
-        element: (data: IWorkshop) => data.workOrderDate,
+        element: (data: IWorkshop) => formatDate(data.workOrderDate),
     },
     {
         label: 'Descripción',
