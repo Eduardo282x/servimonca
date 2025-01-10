@@ -13,18 +13,15 @@ import { SnackbarComponent } from "../../components/SnackbarComponent";
 import { BaseResponse } from "../../interfaces/actions-api.interface";
 
 export const Users = () => {
-
-    // useStates
+    // useStates 
     const [users, setUsers] = useState<IUsers[]>([]);
     const [tableData, setTableData] = useState<IUsers[]>([]);
     const [defaultValues, setDefaultValues] = useState<IUserForm>(usersDefaultValues);
-    const [formAction, setFormAction] = useState<actionsValid>('addApi');
+    const [formAction, setFormAction] = useState<actionsValid>('add');
     const [dialog, setDialog] = useState<boolean>(false);
-    const [snackbar, setSnackbar] = useState<BaseResponse>({
-        success: false,
-        message: ''
-    });
+    const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
     const [loading, setLoading] = useState<boolean>(true);
+    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
     // useEffects
     useEffect(() => {
@@ -45,29 +42,18 @@ export const Users = () => {
     }
 
     // Functions
-    const openDialog = async (tableReturn : TableReturn) => {
-
+    const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-
         const responseBaseApi : BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/user');
-
         setDefaultValues(responseBaseApi.body as IUsers);
-
+        setFormAction(responseBaseApi.action)
         if(responseBaseApi.open){setDialog(true)};
         if(responseBaseApi.close){setDialog(false)};
-        if(responseBaseApi){getUsers()};
-
-        if(responseBaseApi.action === 'add'){setFormAction('add')}
-        if(responseBaseApi.action === 'edit'){setFormAction('edit')}
-
-        if(responseBaseApi.snackbarMessage){setSnackbar(responseBaseApi.snackbarMessage)};
-
-    }
-
-    const addNewUser = () => {
-        setFormAction('add');
-        setDefaultValues(usersDefaultValues);
-        setDialog(true);
+        if(responseBaseApi.snackbarMessage.message !== ''){
+            setSnackbar(responseBaseApi.snackbarMessage); 
+            getUsers();
+            setOpenSnackbar(true);
+        };
     }
 
     return (
@@ -78,7 +64,7 @@ export const Users = () => {
                 <Filter tableData={users} setTableData={setTableData} tableColumns={userColumns}></Filter>
 
                 <Button
-                    onClick={addNewUser}
+                    onClick={() => openDialog({action: 'add', data: null})}
                     variant="contained"
                     className='flex gap-2'
                 >
@@ -88,8 +74,8 @@ export const Users = () => {
 
             {loading ? <Loader /> : <TableComponent tableData={tableData} tableColumns={userColumns} openDialog={openDialog} />}
 
-            { snackbar.success && <SnackbarComponent baseResponse={snackbar} />}
-            
+            <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
+
             <DialogComponent
                 dialog={dialog}
                 setDialog={setDialog}   

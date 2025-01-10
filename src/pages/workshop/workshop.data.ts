@@ -15,11 +15,6 @@ export interface IWorkshop {
 //Table
 export const workshopColumns: IColumns[] = [
     {
-        label: 'Fecha de la Orden',
-        column: 'workOrderDate',
-        element: (data: IWorkshop) => formatDate(data.workOrderDate),
-    },
-    {
         label: 'Descripción',
         column: 'description',
         element: (data: IWorkshop) => data.description,
@@ -28,6 +23,11 @@ export const workshopColumns: IColumns[] = [
         label: 'Estado',
         column: 'workOrderStatus',
         element: (data: IWorkshop) => data.workOrderStatus,
+    },
+    {
+        label: 'Fecha de la Orden',
+        column: 'workOrderDate',
+        element: (data: IWorkshop) => formatDate(data.workOrderDate),
     },
     {
         label: 'Editar',

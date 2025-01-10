@@ -13,11 +13,11 @@ export interface IMaintenance {
 };
 
 export const maintenanceColumns : IColumns[] = [
-    {
-        label: 'Vehículo',
-        column: 'equipmentId',
-        element: (data: IMaintenance) => data.equipmentId,
-    },
+    // {
+    //     label: 'Vehículo',
+    //     column: 'equipmentId',
+    //     element: (data: IMaintenance) => data.equipmentId,
+    // },
     {
         label: 'Tipo de mantenimiento',
         column: 'maintenanceType',
