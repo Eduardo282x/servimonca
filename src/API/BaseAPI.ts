@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { BaseResponse } from "../interfaces/actions-api.interface";
 import { actionsValid } from "../interfaces/table.interface"
 import { postDataApi, putDataApi, deleteDataApi } from "./AxiosActions";
@@ -7,7 +9,7 @@ export interface BaseApiReturn {
     open: boolean,
     body: object,
     action: actionsValid,
-    snackbarMessage: BaseResponse | void;
+    snackbarMessage: BaseResponse;
     // data: any
 }
 
@@ -51,23 +53,23 @@ export const BaseApi = async (action: actionsValid, data: any, body: any, id: st
     return response;
 }
 
-const addApi = async (url: string, newData: any) => {
+const addApi = async (url: string, newData: any): Promise<BaseResponse>=> {
     const addMessage = await postDataApi(url, newData).then((response: BaseResponse) => {
         return response;
     }).catch((err) => {
         console.log(err);
     });
 
-    return addMessage;
+    return addMessage as BaseResponse;
 }
-const updateApi = async (url: string, updateData: any) => {
+const updateApi = async (url: string, updateData: any): Promise<BaseResponse> => {
     const updateMessage = await putDataApi(url, updateData).then((response: BaseResponse) => {
         return response;
     }).catch((err) => {
         console.log(err);
     });
 
-    return updateMessage;
+    return updateMessage as BaseResponse;
 }
 const deleteApi = async (url: string, deleteData: any, id: string) => {
     await deleteDataApi(url, deleteData[id]).then((response: BaseResponse) => {
