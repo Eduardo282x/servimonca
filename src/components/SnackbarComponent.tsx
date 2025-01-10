@@ -7,13 +7,12 @@ interface SnackbarComponentProps {
   baseResponse: BaseResponse;
 }
 
-function SnackbarComponent({baseResponse} : SnackbarComponentProps) {
+export function SnackbarComponent({baseResponse} : SnackbarComponentProps) {
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(baseResponse.success);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
+  const vertical = 'bottom';
+  const horizontal = 'center';
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -24,13 +23,13 @@ function SnackbarComponent({baseResponse} : SnackbarComponentProps) {
     }
 
     setOpen(false);
-  };  
+  };
 
   return (
       
       <>
       
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{vertical, horizontal}} >
               <Alert
                   onClose={handleClose}
                   severity={baseResponse.success ? 'success' : 'error'}
@@ -47,4 +46,3 @@ function SnackbarComponent({baseResponse} : SnackbarComponentProps) {
 
 }
 
-export default Snackbar

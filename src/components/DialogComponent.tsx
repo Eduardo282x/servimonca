@@ -1,10 +1,11 @@
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
+import { actionsValid } from '../interfaces/table.interface';
 
 interface DialogComponentProps {
-  form: JSX.Element;
   dialog: boolean;
   setDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  form: JSX.Element;
 }
 
 export default function DialogComponent({ dialog, setDialog, form } : DialogComponentProps) {

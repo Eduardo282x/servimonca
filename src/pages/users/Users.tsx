@@ -6,8 +6,11 @@ import { FormComponent } from "../../components/FormComponent";
 import { useEffect, useState } from "react";
 import { getDataApi } from "../../API/AxiosActions";
 import { IUserForm, IUsers, userColumns, usersDataForm, usersDefaultValues, usersValidationSchema } from "./users.data";
-import { actionsValid } from "../../interfaces/table.interface";
+import { actionsValid, TableReturn } from "../../interfaces/table.interface";
 import { Loader } from "../../components/loaders/Loader";
+import { BaseApi, BaseApiReturn } from "../../API/BaseAPI";
+import { SnackbarComponent } from "../../components/SnackbarComponent";
+import { BaseResponse } from "../../interfaces/actions-api.interface";
 
 export const Users = () => {
 
@@ -15,7 +18,12 @@ export const Users = () => {
     const [users, setUsers] = useState<IUsers[]>([]);
     const [tableData, setTableData] = useState<IUsers[]>([]);
     const [defaultValues, setDefaultValues] = useState<IUserForm>(usersDefaultValues);
+    const [formAction, setFormAction] = useState<actionsValid>('addApi');
     const [dialog, setDialog] = useState<boolean>(false);
+    const [snackbar, setSnackbar] = useState<BaseResponse>({
+        success: false,
+        message: ''
+    });
     const [loading, setLoading] = useState<boolean>(true);
 
     // useEffects
@@ -37,18 +45,29 @@ export const Users = () => {
     }
 
     // Functions
-    const openDialog = () => setDialog(true);
+    const openDialog = async (tableReturn : TableReturn) => {
 
-    const getActionTable = (action: actionsValid, data: IUsers) => {
-        if(action === 'edit') {
-            setDefaultValues(data);
-            openDialog();
-        }
+        const { data, action } = tableReturn;
+
+        const responseBaseApi : BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/user');
+
+        setDefaultValues(responseBaseApi.body as IUsers);
+
+        if(responseBaseApi.open){setDialog(true)};
+        if(responseBaseApi.close){setDialog(false)};
+        if(responseBaseApi){getUsers()};
+
+        if(responseBaseApi.action === 'add'){setFormAction('add')}
+        if(responseBaseApi.action === 'edit'){setFormAction('edit')}
+
+        if(responseBaseApi.snackbarMessage){setSnackbar(responseBaseApi.snackbarMessage)};
+
     }
 
     const addNewUser = () => {
+        setFormAction('add');
         setDefaultValues(usersDefaultValues);
-        openDialog();
+        setDialog(true);
     }
 
     return (
@@ -67,24 +86,29 @@ export const Users = () => {
                 </Button>
             </div>
 
-            {loading ? <Loader /> : <TableComponent tableData={tableData} tableColumns={userColumns} action={getActionTable} />}
+            {loading ? <Loader /> : <TableComponent tableData={tableData} tableColumns={userColumns} openDialog={openDialog} />}
+
+            { snackbar.success && <SnackbarComponent baseResponse={snackbar} />}
             
             <DialogComponent
                 dialog={dialog}
-                setDialog={setDialog}
+                setDialog={setDialog}   
                 form={
                     <FormComponent
-                        title='Nuevo Usuario'
-                        description='Llena el formulario y agrega'
-                        descriptionColored='un nuevo usuario'
+                        title={formAction === 'add' ? 'Nuevo Usuario' : 'Editar Usuario'}
+                        description={formAction === 'add' ? 'Llena el formulario y agrega' : 'Edita los campos y modifica'}
+                        descriptionColored={formAction === 'add' ? 'un nuevo usuario' : 'un usuario'}
                         dataForm={usersDataForm}
                         defaultValues={defaultValues}
                         validationSchema={usersValidationSchema}
-                        action='add'
-                        buttonText='Agregar Usuario'
+                        action={formAction}
+                        buttonText={formAction === 'add' ? 'Agregar Usuario' : 'Editar Usuario'}
+                        onSubmitForm={openDialog}
                     />
                 }
             />
+
         </div>
+
     );
 }
