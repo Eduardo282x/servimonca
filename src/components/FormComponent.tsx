@@ -3,18 +3,26 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormValues, IDataForm, IForm, IOptions } from '../interfaces/form.interface';
 import ErrorMessage from './ErrorMessage';
+import { TableReturn } from '../interfaces/table.interface';
 
-export const FormComponent = ({ title, description, descriptionColored, dataForm, defaultValues, validationSchema, buttonText }: IForm) => {
+export const FormComponent = ({ title, description, descriptionColored, dataForm, defaultValues, validationSchema, buttonText, action, onSubmitForm }: IForm) => {
 
-    const { register, reset, handleSubmit, formState: { errors } } = useForm<FormValues>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
         defaultValues,
         resolver: zodResolver(validationSchema as any),
     });
 
-    const onSubmit = (values: any) => {
-        console.log(values);
-        console.log("Funciona");
-        reset();
+    const onSubmit = (returnForm: any) => {
+
+        returnForm.id = defaultValues.id;
+        returnForm.rolId = 1;
+        const formData : TableReturn = {
+            action: action === 'edit' ? 'editApi' : 'addApi',
+            data: returnForm
+        }
+
+        onSubmitForm(formData);
+
     }
 
     return (
@@ -88,9 +96,9 @@ export const FormComponent = ({ title, description, descriptionColored, dataForm
 
                 <div className='pt-3'>
                     <input 
-                    type="submit" 
-                    value={buttonText} 
-                    className="bg-blue-500 hover:bg-blue-600 w-full p-2 text-white uppercase font-bold cursor-pointer transition-colors rounded-lg text-sm"
+                        type="submit" 
+                        value={buttonText} 
+                        className="bg-blue-500 hover:bg-blue-600 w-full p-2 text-white uppercase font-bold cursor-pointer transition-colors rounded-lg text-sm"
                     />
                 </div>
             </form>

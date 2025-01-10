@@ -73,6 +73,7 @@ export const userColumns: IColumns[] = [
 
 //Dialog & Form
 export interface IUserForm {
+    id: string;
     firstName: string;
     lastName: string;
     username: string;
@@ -109,6 +110,7 @@ export const usersDataForm: IDataForm[] = [
 ];
 
 export const usersDefaultValues : IUserForm = {
+    id: '',
     identify: '',
     username: '',
     firstName: '',

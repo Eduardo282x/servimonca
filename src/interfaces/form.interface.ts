@@ -1,4 +1,4 @@
-import { actionsValid } from "./table.interface";
+import { actionsValid, TableReturn } from "./table.interface";
 
 export interface IForm {
     title: string;
@@ -9,6 +9,7 @@ export interface IForm {
     defaultValues: object;
     validationSchema: object;
     action: actionsValid;
+    onSubmitForm: (formData: TableReturn) => void;
 }
 
 export interface FormValues {

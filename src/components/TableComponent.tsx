@@ -2,23 +2,27 @@
 import { useState } from "react";
 import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton } from "@mui/material";
 import { Check, Pencil, Trash, X } from "lucide-react";
-import { IColumns } from "../interfaces/table.interface";
+import { IColumns, TableReturn } from "../interfaces/table.interface";
 import { actionsValid } from "../interfaces/table.interface";
 import ErrorMessage from "./ErrorMessage";
 
 interface TableComponentProps {
     tableData: any[];
     tableColumns: IColumns[];
-    action: (action: actionsValid, data: any) => void;
+    openDialog: (tableReturn: TableReturn) => Promise<void>;
 }
 
-export default function TableComponent({ tableData, tableColumns, action }: TableComponentProps) {
+export default function TableComponent({ tableData, tableColumns, openDialog }: TableComponentProps) {
 
     // useStates
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     // Functions
+    const editingBody = (action: actionsValid, data: any) => {
+        openDialog({action: action, data: data});
+    }
+
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -55,7 +59,7 @@ export default function TableComponent({ tableData, tableColumns, action }: Tabl
                                     {tableColumns && tableColumns.map((column: IColumns, index: number) => (
                                         <TableCell key={index}>
                                             {column.icon &&
-                                                <IconButton onClick={() => action(column.column as actionsValid, row)} >
+                                                <IconButton onClick={() => editingBody(column.column as actionsValid, row)} >
                                                     {showIcons(column.element(row))}
                                                 </IconButton>
                                             }
