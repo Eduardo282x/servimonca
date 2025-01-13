@@ -9,24 +9,23 @@ interface IFilter {
     tableColumns: IColumns[];
 }
 
-export default function Filter({ tableData, setTableData, tableColumns } : IFilter) {
+export default function Filter({ tableData, setTableData, tableColumns }: IFilter) {
     // useEffects
-    useEffect( () => {
+    useEffect(() => {
         setTableData(tableData);
     }, [tableData]);
 
     // Main Function
     const changeFilter = (filter: string) => {
-        
+
         if (tableData && tableData.length > 0) {
             const filterColumn = tableColumns.filter((col: IColumns) => col.canFilter !== false);
             const filtersKey = filterColumn.map((col: IColumns) => col.column);
-            const filterSearch = filtersKey.map((col: string) =>
-                    tableData.filter((fil) =>
-                        fil[col].toString().toLowerCase().includes(filter.toLowerCase().toString())
-                    )
+            const filterSearch = filtersKey.map((col: string) => 
+                tableData.filter((fil) =>
+                    fil[col].toString().toLowerCase().includes(filter.toLowerCase().toString())
                 )
-                .flat();
+            ).flat();
             const reduceFilter = new Set(filterSearch);
             const result = [...reduceFilter];
             setTableData(result);

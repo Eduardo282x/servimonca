@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Logo from "../../components/Logo";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -8,13 +8,13 @@ import { useState } from "react";
 import { ScreenLoader } from "../../components/loaders/ScreenLoader";
 import { postDataApi } from "../../API/AxiosActions";
 import { BaseResponse, BaseResponseLogin } from "../../interfaces/actions-api.interface";
-import { Snackbar } from "@mui/material";
+import { SnackbarComponent } from "../../components/SnackbarComponent";
 
 export default function LoginPage() {
     const navigate = useNavigate();
     const [loader, setLoader] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
-    const handleClose = () => setOpen(false);
+
     const [responseApi, setResponseApi] = useState<BaseResponseLogin>({} as BaseResponseLogin);
     const defaultValues: UserLoginForm = {
         username: '',
@@ -78,23 +78,7 @@ export default function LoginPage() {
                 >Iniciar Sesión</button>
             </form>
 
-            <Snackbar
-                open={open}
-                autoHideDuration={3000}
-                onClose={handleClose}
-                message={responseApi.message}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            />
-
-            <nav className="mt-10 hidden flex-col space-y-4">
-                <Link to={''} className="text-center text-gray-300 font-normal">
-                    ¿No tienes cuenta? Crear una
-                </Link>
-
-                <Link to={''} className="text-center text-gray-300 font-normal">
-                    ¿Olvidaste tu contraseña? Reestablecer
-                </Link>
-            </nav>
+            <SnackbarComponent baseResponse={responseApi} open={open} setOpen={setOpen}></SnackbarComponent>
         </div>
     );
 }

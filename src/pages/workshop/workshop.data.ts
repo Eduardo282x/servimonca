@@ -2,13 +2,12 @@ import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
 import { formatDate } from "../../utils/formater";
-import dayjs, { Dayjs } from "dayjs";
 
 export interface IWorkshop {
     id: string;
     equipmentId: number;
     model: Model
-    workOrderDate: Dayjs;
+    workOrderDate: Date;
     description: string;
     workOrderStatus: string;
     createdAt: string;
@@ -60,7 +59,7 @@ export const workshopColumns: IColumns[] = [
 export interface IWorkshopForm {
     id: string;
     equipmentId: number;
-    workOrderDate: Dayjs | null;
+    workOrderDate: Date | null;
     description: string;
     workOrderStatus: string;
 }
@@ -106,13 +105,14 @@ export const workshopDataForm: IDataForm[] = [
 export const workshopDefaultValues : IWorkshopForm = {
     id: '',
     equipmentId: 0,
-    workOrderDate: null,
+    workOrderDate: new Date(),
     description: '',
     workOrderStatus: '',
 }
 
-export const workshopValidationSchema: object = z.object({
+export const workshopValidationSchema = z.object({
     equipmentId: z.coerce.number({ message: 'El campo es requerido' }),
-    description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    workOrderStatus: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    description: z.string().min(1, { message: 'El campo es requerido' }),
+    workOrderStatus: z.string().min(1, { message: 'El campo es requerido' }),
+    workOrderDate: z.date().refine((date) => !isNaN(date.getTime()), { message: 'Debe ser una fecha válida' }), // Validar que sea una fecha válida
 });

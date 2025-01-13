@@ -23,7 +23,7 @@ export const Layout = () => {
                     <span className='material-icons'>account_circle</span>
                 </div>
 
-                <div className="p-8 w-full" onClick={() => setSidebarOpen(false)}>
+                <div className="p-8 w-full overflow-auto h-[95vh]" onClick={() => setSidebarOpen(false)}>
                     <Outlet></Outlet>
                 </div>
             </div>

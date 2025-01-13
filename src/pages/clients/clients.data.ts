@@ -20,18 +20,19 @@ export const customerColumns: IColumns[] = [
     },
     {
         label: 'Apellido',
-        column: 'customerLastName',
+        column: 'customerLastname',
         element: (data: IClients) => data.customerLastname,
+        canFilter: false,
     },
     {
         label: 'Correo',
         column: 'customerEmail',
-        element: (data: IClients) => data.customerEmail,
+        element: (data: IClients) => data.customerEmail.toString(),
     },
     {
         label: 'Dirección',
         column: 'customerAddress',
-        element: (data: IClients) => data.customerAddress.toString(),
+        element: (data: IClients) => data.customerAddress,
     },
     {
         label: 'Editar',

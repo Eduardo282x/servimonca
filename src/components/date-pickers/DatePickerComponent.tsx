@@ -3,6 +3,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import 'dayjs/locale/es'; 
 
 interface DatePickerProps {
   value: Dayjs | null;
@@ -11,9 +12,14 @@ interface DatePickerProps {
 
 export default function DatePickerComponent({ value, onChange }: DatePickerProps) {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
       <DemoContainer components={['DatePicker']}>
-        <DatePicker value={value} onChange={onChange} views={['year', 'month', 'day']} />
+        <DatePicker
+          className='w-full'
+          value={value}
+          onChange={onChange}
+          format='DD/MM/YYYY'
+          views={['year', 'month', 'day']} />
       </DemoContainer>
     </LocalizationProvider>
   );

@@ -2,27 +2,24 @@ import { z } from "zod";
 import { IColumns } from "../../interfaces/table.interface";
 import { IDataForm } from "../../interfaces/form.interface";
 import { formatDate } from "../../utils/formater";
+import { IStore } from "../store/store.data";
 
 export interface IMaintenance {
-    id: string;
+    id:              number;
     maintenanceType: string;
-    maintenanceDate: string;
-    description: string;
-    equipmentId: number;
-    vehicle: Vehicle
-    createdAt: string;
-};
-
-export interface Vehicle {
-    id: number;
-    vehicle: string;
+    maintenanceDate: Date;
+    description:     string;
+    equipmentId:     number;
+    createdAt:       Date;
+    equipment:       IStore;
 }
 
 export const maintenanceColumns : IColumns[] = [
     {
         label: 'Vehículo',
-        column: 'equipmentId',
-        element: (data: IMaintenance) => data.equipmentId.toString(),
+        column: 'brand',
+        element: (data: IMaintenance) => `${data.equipment.brand} - ${data.equipment.model}`,
+        canFilter: false
     },
     {
         label: 'Tipo de mantenimiento',
@@ -53,7 +50,7 @@ export interface IMaintenanceForm {
     id: string;
     equipmentId: number;
     maintenanceType: string;
-    maintenanceDate: string;
+    maintenanceDate: Date;
     description: string;
 }
 
@@ -72,12 +69,12 @@ export const maintenanceDataForm: IDataForm[] = [
         name: 'maintenanceType',
         options: [
             {
-                label: 'preventivo',
-                value: 1
+                label: 'Preventivo',
+                value: 'Preventivo'
             },
             {
-                label: 'correctivo',
-                value: 2
+                label: 'Correctivo',
+                value: 'Correctivo'
             }
         ]
     },
@@ -119,14 +116,14 @@ export const maintenanceDefaultValues: IMaintenanceForm = {
     id: '',
     equipmentId: 0,
     maintenanceType: '',
-    maintenanceDate: '',
+    maintenanceDate: new Date(),
     description: '',
 }
 
 export const maintenanceValidationSchema: object = z.object({
     equipmentId: z.coerce.number({ message: 'El campo es requerido' }),
     maintenanceType: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    maintenanceDate: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    maintenanceDate: z.date().refine((date) => !isNaN(date.getTime()), { message: 'Debe ser una fecha válida' }),
     description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
 });
 
