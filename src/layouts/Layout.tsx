@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react'
 import { Sidebar } from './Sidebar'
-import { Outlet } from 'react-router-dom'
-// import { validateUserLoged } from '../utils/auth';
+import { Outlet, useNavigate } from 'react-router-dom'
+import { validateUserLoged } from '../utils/auth';
+import { UserData } from '../interfaces/user.interface';
 
 export const Layout = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+    const [userInfo, setUserInfo] = useState<UserData>({} as UserData);
 
     useEffect(() => {
-        // if (!validateUserLoged()) {
-        //     navigate('/auth/login')
-        // }
+        if (!validateUserLoged()) {
+            navigate('/auth/login')
+        }else {
+            setUserInfo(validateUserLoged() as UserData)
+        }
     }, []);
 
     return (
@@ -19,7 +23,7 @@ export const Layout = () => {
 
             <div className="w-full">
                 <div className="w-full py-2 px-8 text-lg text-white flex items-center justify-end gap-2 bg-gray-800">
-                    <p>Bienvenido admin admin</p>
+                    <p>Bienvenido {userInfo.firstName} {userInfo.lastName}</p>
                     <span className='material-icons'>account_circle</span>
                 </div>
 

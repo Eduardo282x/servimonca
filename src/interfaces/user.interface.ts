@@ -1,8 +1,3 @@
-export interface IUser {
-    firstname: string;
-    rol: string;
-}
-
 export interface UserData {
     id:        number;
     firstName: string;
