@@ -8,16 +8,22 @@ export interface IMaintenance {
     maintenanceType: string;
     maintenanceDate: string;
     description: string;
-    equipmentId: string;
+    equipmentId: number;
+    vehicle: Vehicle
     createdAt: string;
 };
 
+export interface Vehicle {
+    id: number;
+    vehicle: string;
+}
+
 export const maintenanceColumns : IColumns[] = [
-    // {
-    //     label: 'Vehículo',
-    //     column: 'equipmentId',
-    //     element: (data: IMaintenance) => data.equipmentId,
-    // },
+    {
+        label: 'Vehículo',
+        column: 'equipmentId',
+        element: (data: IMaintenance) => data.equipmentId.toString(),
+    },
     {
         label: 'Tipo de mantenimiento',
         column: 'maintenanceType',
@@ -42,12 +48,22 @@ export const maintenanceColumns : IColumns[] = [
     },
 ];
 
+//Dialog & Form
+export interface IMaintenanceForm {
+    id: string;
+    equipmentId: number;
+    maintenanceType: string;
+    maintenanceDate: string;
+    description: string;
+}
+
 export const maintenanceDataForm: IDataForm[] = [
     {
         label: 'Vehículo',
         value: '',
-        type: 'text',
-        name: 'id',
+        type: 'select',
+        name: 'equipmentId',
+        options: []
     },
     {
         label: 'Tipo de mantenimiento',
@@ -56,12 +72,12 @@ export const maintenanceDataForm: IDataForm[] = [
         name: 'maintenanceType',
         options: [
             {
-                label: 'preventiva',
-                value: 0
+                label: 'preventivo',
+                value: 1
             },
             {
-                label: 'correctiva',
-                value: 1
+                label: 'correctivo',
+                value: 2
             }
         ]
     },
@@ -74,46 +90,43 @@ export const maintenanceDataForm: IDataForm[] = [
     {
         label: 'Fecha de Mantenimiento',
         value: '',
-        type: 'text',
+        type: 'date',
         name: 'maintenanceDate',
     },
-    // {
-    //     label: 'Estado',
-    //     value: '',
-    //     type: 'select',
-    //     name: 'status',
-    //     options: [
-    //         {
-    //             label: 'Pendiente',
-    //             value: 'Pendiente'
-    //         },
-    //         {
-    //             label: 'En proceso',
-    //             value: 'En proceso'
-    //         },
-    //         {
-    //             label: 'Completada',
-    //             value: 'Completada'
-    //         }
-    //     ]
-    // }
+    {
+        label: 'Estado',
+        value: '',
+        type: 'select',
+        name: 'status',
+        options: [
+            {
+                label: 'Pendiente',
+                value: 'Pendiente'
+            },
+            {
+                label: 'En proceso',
+                value: 'En proceso'
+            },
+            {
+                label: 'Completada',
+                value: 'Completada'
+            }
+        ]
+    }
 ];
 
-export const maintenanceDefaultValues: IMaintenance = {
-    id: '0',
+export const maintenanceDefaultValues: IMaintenanceForm = {
+    id: '',
+    equipmentId: 0,
     maintenanceType: '',
     maintenanceDate: '',
     description: '',
-    equipmentId: '',
-    createdAt: '',
 }
 
 export const maintenanceValidationSchema: object = z.object({
-    id: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    equipmentId: z.coerce.number({ message: 'El campo es requerido' }),
     maintenanceType: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     maintenanceDate: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    equipmentId: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    createdAt: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
 });
 

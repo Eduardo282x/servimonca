@@ -1,26 +1,32 @@
-import { Button } from '@mui/material';
 import TableComponent from '../../components/TableComponent';
-import { actionsValid } from '../../interfaces/table.interface';
+import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { useEffect, useState } from 'react';
-import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema } from './maintenance.data';
-import Filter from '../../components/Filter';
+import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, Vehicle } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { getDataApi } from '../../API/AxiosActions';
 import { Loader } from '../../components/loaders/Loader';
+import { BaseResponse } from '../../interfaces/actions-api.interface';
+import { BaseApi, BaseApiReturn } from '../../API/BaseAPI';
+import { SnackbarComponent } from '../../components/SnackbarComponent';
+import { IDataForm } from '../../interfaces/form.interface';
 
 export const Maintenance = () => {
 
     // useStates
     const [maintenances, setMaintenances] = useState<IMaintenance[]>([]);
-    const [tableData, setTableData] = useState<IMaintenance[]>(maintenances);
-    const [defaultValues, setDefaultValues] = useState<IMaintenance>(maintenanceDefaultValues);
+    const [defaultValues, setDefaultValues] = useState<IMaintenanceForm>(maintenanceDefaultValues);
+    const [formAction, setFormAction] = useState<actionsValid>('add');
     const [dialog, setDialog] = useState<boolean>(false);
+    const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
     const [loading, setLoading] = useState<boolean>(true);
+    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+    const [dataForm, setDataForm] = useState<IDataForm[]>(maintenanceDataForm);
 
     // useEffects
     useEffect(() => {
         getMaintenances();
+        getVehicles();
     }, []);
 
     // Async functions
@@ -32,55 +38,57 @@ export const Maintenance = () => {
         });
     }
 
-    // Functions
-    const openDialog = () => setDialog(true);
-
-    const getActionTable = (action: actionsValid, data: IMaintenance) => {
-        if (action === 'edit') {
-            setDefaultValues(data);
-            openDialog();
-        }
+    async function getVehicles() {
+        await getDataApi('/equipment').then((response: Vehicle[]) => {
+            const newDataForm = [...dataForm];
+            const findEquipmentId = newDataForm.find(form => form.name === 'equipmentId') as IDataForm;
+            findEquipmentId.options = response.map(option => {
+                return {
+                    value: option.id,
+                    label: option.vehicle
+                }
+            });
+        })
     }
 
-    const addNewMaintenance = () => {
-        setDefaultValues(maintenanceDefaultValues);
-        openDialog();
+    // Functions
+    const openDialog = async (tableReturn: TableReturn) => {
+        const { data, action } = tableReturn;
+        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/maintenance');
+        setDefaultValues(responseBaseApi.body as IMaintenance);
+        setFormAction(responseBaseApi.action)
+        if (responseBaseApi.open) { setDialog(true) };
+        if (responseBaseApi.close) { setDialog(false) };
+        if (responseBaseApi.snackbarMessage.message !== '') {
+            setSnackbar(responseBaseApi.snackbarMessage);
+            getMaintenances();
+            setOpenSnackbar(true);
+        };
     }
 
     return (
 
         <div>
             <p className=' text-3xl font-semibold mb-5'>Mantenimiento</p>
-            
-            <div className="flex items-center justify-between w-full my-5">
 
-                <Filter tableData={maintenances} setTableData={setTableData} tableColumns={maintenanceColumns}></Filter>
+            {loading ? <Loader /> : <TableComponent tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />}
 
-                <Button 
-                    onClick={addNewMaintenance} 
-                    variant="contained" 
-                    className='flex gap-2'
-                >
-                        <span className='material-icons'>add_circle</span> Agregar
-                </Button>
-
-            </div>
-
-            {loading ? <Loader /> : <TableComponent tableData={tableData} tableColumns={maintenanceColumns} action={getActionTable} /> }
+            <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 
             <DialogComponent
                 dialog={dialog}
                 setDialog={setDialog}
                 form={
                     <FormComponent
-                        title='Nuevo Cliente'
-                        description='Llena el formulario y agrega'
-                        descriptionColored='un nuevo cliente'
+                        title={formAction === 'addApi' ? 'Nuevo Mantenimiento' : 'Editar Mantenimiento'}
+                        description={formAction === 'addApi' ? 'Llena el formulario y agrega' : 'Edita los campos y modifica'}
+                        descriptionColored={formAction === 'addApi' ? 'un nuevo mantenimiento' : 'un mantenimiento'}
                         dataForm={maintenanceDataForm}
                         defaultValues={defaultValues}
                         validationSchema={maintenanceValidationSchema}
-                        action='add'
-                        buttonText='Agregar Cliente'
+                        action={formAction}
+                        buttonText={formAction === 'addApi' ? 'Agregar Mantenimiento' : 'Editar Mantenimiento'}
+                        onSubmitForm={openDialog}
                     />
                 }
             />

@@ -5,22 +5,30 @@ import DialogComponent from "../../components/DialogComponent";
 import { FormComponent } from "../../components/FormComponent";
 import { useEffect, useState } from "react";
 import { getDataApi } from "../../API/AxiosActions";
-import { actionsValid } from "../../interfaces/table.interface";
+import { actionsValid, TableReturn } from "../../interfaces/table.interface";
 import { Loader } from "../../components/loaders/Loader";
-import { IWorkshop, IWorkshopForm, workshopColumns, workshopDataForm, workshopDefaultValues, workshopValidationSchema } from "./workshop.data";
+import { IWorkshop, IWorkshopForm, Model, workshopColumns, workshopDataForm, workshopDefaultValues, workshopValidationSchema } from "./workshop.data";
+import { BaseResponse } from "../../interfaces/actions-api.interface";
+import { IDataForm } from "../../interfaces/form.interface";
+import { SnackbarComponent } from "../../components/SnackbarComponent";
+import { BaseApi, BaseApiReturn } from "../../API/BaseAPI";
 
 export const Workshop = () => {
 
     // useStates
     const [workshop, setWorkshop] = useState<IWorkshop[]>([]);
-    const [tableData, setTableData] = useState<IWorkshop[]>([]);
     const [defaultValues, setDefaultValues] = useState<IWorkshopForm>(workshopDefaultValues);
+    const [formAction, setFormAction] = useState<actionsValid>('add');
     const [dialog, setDialog] = useState<boolean>(false);
+    const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
     const [loading, setLoading] = useState<boolean>(true);
+    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+    const [dataForm, setDataForm] = useState<IDataForm[]>(workshopDataForm);
 
     // useEffects
     useEffect(() => {
         getWorshop();
+        getModels();
     }, []);
 
     // Async functions
@@ -32,52 +40,58 @@ export const Workshop = () => {
         });
     }
 
-    // Functions
-    const openDialog = () => setDialog(true);
-
-    const getActionTable = (action: actionsValid, data: IWorkshop) => {
-        if(action === 'edit') {
-            setDefaultValues(data);
-            openDialog();
-        }
+    async function getModels() {
+        await getDataApi('/equipment').then((response: Model[]) => {
+            const newDataForm = [...dataForm];
+            const findEquipmentId = newDataForm.find(form => form.name === 'equipmentId') as IDataForm;
+            findEquipmentId.options = response.map(option => {
+                return {
+                    value: option.id,
+                    label: option.model
+                }
+            });
+        })
     }
 
-    const addNewWorshop = () => {
-        setDefaultValues(workshopDefaultValues);
-        openDialog();
+    // Functions
+    const openDialog = async (tableReturn: TableReturn) => {
+        const { data, action } = tableReturn;
+        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/work-order');
+        setDefaultValues(responseBaseApi.body as IWorkshop);
+        setFormAction(responseBaseApi.action)
+        if (responseBaseApi.open) { setDialog(true) };
+        if (responseBaseApi.close) { setDialog(false) };
+        if (responseBaseApi.snackbarMessage.message !== '') {
+            setSnackbar(responseBaseApi.snackbarMessage);
+            getWorshop();
+            setOpenSnackbar(true);
+        };
+
+        console.log(responseBaseApi)
     }
 
     return (
         <div>
             <p className=' text-3xl font-semibold mb-5'>Taller</p>
 
-            <div className="flex items-center justify-between w-full my-5">
-                <Filter tableData={workshop} setTableData={setTableData} tableColumns={workshopColumns}></Filter>
+            {loading ? <Loader /> : <TableComponent tableData={workshop} tableColumns={workshopColumns} openDialog={openDialog} />}
 
-                <Button
-                    onClick={addNewWorshop}
-                    variant="contained"
-                    className='flex gap-2'
-                >
-                    <span className='material-icons'>add_circle</span> Agregar
-                </Button>
-            </div>
+            <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 
-            {loading ? <Loader /> : <TableComponent tableData={tableData} tableColumns={workshopColumns} action={getActionTable} />}
-            
             <DialogComponent
                 dialog={dialog}
                 setDialog={setDialog}
                 form={
                     <FormComponent
-                        title='Nuevo Usuario'
-                        description='Llena el formulario y agrega'
-                        descriptionColored='un nuevo usuario'
+                        title={formAction === 'addApi' ? 'Nueva Orden' : 'Editar Orden'}
+                        description={formAction === 'addApi' ? 'Llena el formulario y agrega' : 'Edita los campos y modifica'}
+                        descriptionColored={formAction === 'addApi' ? 'una nueva orden' : 'una orden'}
                         dataForm={workshopDataForm}
                         defaultValues={defaultValues}
                         validationSchema={workshopValidationSchema}
-                        action='add'
-                        buttonText='Agregar Usuario'
+                        action={formAction}
+                        buttonText={formAction === 'addApi' ? 'Agregar Orden' : 'Editar Orden'}
+                        onSubmitForm={openDialog}
                     />
                 }
             />

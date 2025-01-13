@@ -1,6 +1,5 @@
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import { actionsValid } from '../interfaces/table.interface';
 
 interface DialogComponentProps {
   dialog: boolean;
