@@ -1,22 +1,27 @@
-import { columnsStore, IStore, IStoreForm, storeDataForm, storeDefaultValues, storeValidationSchema } from './store.data.ts';
-import { Button } from '@mui/material';
+import { IStore, IStoreForm, storeColumns, storeDataForm, storeDefaultValues, storeValidationSchema } from './store.data.ts';
 import TableComponent from '../../components/TableComponent';
-import Filter from '../../components/Filter';
 import { useEffect, useState } from 'react';
 import DialogComponent from '../../components/DialogComponent.tsx';
 import { FormComponent } from '../../components/FormComponent.tsx';
-import { actionsValid } from '../../interfaces/table.interface.ts';
+import { actionsValid, TableReturn } from '../../interfaces/table.interface.ts';
 import { getDataApi } from '../../API/AxiosActions.ts';
 import { Loader } from '../../components/loaders/Loader.tsx';
+import { IDataForm } from '../../interfaces/form.interface.ts';
+import { BaseResponse } from '../../interfaces/actions-api.interface.ts';
+import { BaseApi, BaseApiReturn } from '../../API/BaseAPI.ts';
+import { SnackbarComponent } from '../../components/SnackbarComponent.tsx';
 
 export const Store = () => {
 
     // useStates
-    const [ equipment, setEquipment ] = useState<IStore[]>([]);
-    const [tableData, setTableData] = useState<IStore[]>([]);
+    const [equipment, setEquipment] = useState<IStore[]>([]);
     const [defaultValues, setDefaultValues] = useState<IStoreForm>(storeDefaultValues);
-    const [dialog, setDialog] = useState(false);
+    const [formAction, setFormAction] = useState<actionsValid>('add');
+    const [dialog, setDialog] = useState<boolean>(false);
+    const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
     const [loading, setLoading] = useState<boolean>(true);
+    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+    const [dataForm, setDataForm] = useState<IDataForm[]>(storeDataForm);
 
     // useEffects
     useEffect(() => {
@@ -32,19 +37,33 @@ export const Store = () => {
         });
     }
 
+    // async function getStatus() {
+    //     await getDataApi('/user/roles').then((response: Status[]) => {
+    //         const newDataForm = [...dataForm];
+    //         const findRolId = newDataForm.find(form => form.name === 'rolId') as IDataForm;
+    //         findRolId.options = response.map(option => {
+    //             return {
+    //                 value: option.id,
+    //                 label: option.rol
+    //             }
+    //         });
+    //     })
+    // }
+
     // Functions
-    const openDialog = () => setDialog(true);
+    const openDialog = async (tableReturn: TableReturn) => {
 
-    const getActionTable = (action: actionsValid, data: IStore) => {
-        if (action === 'edit') {
-            setDefaultValues(data);
-            openDialog();
-        }
-    }
-
-    const addNewEquipment = () => {
-        setDefaultValues(storeDefaultValues);
-        openDialog();
+        const { data, action } = tableReturn;
+        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/equipment');
+        setDefaultValues(responseBaseApi.body as IStore);
+        setFormAction(responseBaseApi.action)
+        if (responseBaseApi.open) { setDialog(true) };
+        if (responseBaseApi.close) { setDialog(false) };
+        if (responseBaseApi.snackbarMessage.message !== '') {
+            setSnackbar(responseBaseApi.snackbarMessage);
+            getEquipments();
+            setOpenSnackbar(true);
+        };
     }
 
     return (
@@ -52,35 +71,24 @@ export const Store = () => {
 
             <p className=' text-3xl font-semibold mb-5'>Almacén</p>
 
-            <div className="flex items-center justify-between w-full my-5">
+            {loading ? <Loader /> : <TableComponent tableData={equipment} tableColumns={storeColumns} openDialog={openDialog} />}
 
-                <Filter tableData={equipment} setTableData={setTableData} tableColumns={columnsStore}></Filter>
-
-                <Button
-                    onClick={addNewEquipment}
-                    variant="contained"
-                    className='flex gap-2'
-                >
-                    <span className='material-icons'>add_circle</span> Agregar
-                </Button>
-
-            </div>
-
-            {loading ? <Loader /> : <TableComponent tableData={tableData} tableColumns={columnsStore} action={getActionTable} /> }
+            <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 
             <DialogComponent
                 dialog={dialog}
                 setDialog={setDialog}
                 form={
                     <FormComponent
-                        title='Nuevo Producto'
-                        description='Llena el formulario y agrega'
-                        descriptionColored='un nuevo producto'
+                        title={formAction === 'addApi' ? 'Nuevo Usuario' : 'Editar Usuario'}
+                        description={formAction === 'addApi' ? 'Llena el formulario y agrega' : 'Edita los campos y modifica'}
+                        descriptionColored={formAction === 'addApi' ? 'un nuevo usuario' : 'un usuario'}
                         dataForm={storeDataForm}
                         defaultValues={defaultValues}
                         validationSchema={storeValidationSchema}
-                        action='add'
-                        buttonText='Agregar Producto'
+                        action={formAction}
+                        buttonText={formAction === 'addApi' ? 'Agregar Usuario' : 'Editar Usuario'}
+                        onSubmitForm={openDialog}
                     />
                 }
             />

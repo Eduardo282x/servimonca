@@ -9,6 +9,7 @@ interface SnackbarComponentProps {
 }
 
 export function SnackbarComponent({ baseResponse ,open,setOpen }: SnackbarComponentProps) {
+  
   const vertical = 'bottom';
   const horizontal = 'center';
 

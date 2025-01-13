@@ -1,21 +1,29 @@
 import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
+import dayjs, { Dayjs } from "dayjs";
 
 export interface IStore {
     id: string;
     model: string;
     brand: string;
-    yearManufactured: number;
+    yearManufactured: Dayjs;
     serialNumber: string;
     loadCapacity: number;
     dimensions: string;
-    currentStatus: string;
+    currentStatusId: number;
+    status: Status;
+    statusDescription: string;
     createdAt: string;
 }
 
+export interface Status {
+    id: number;
+    status: string;
+}
+
 // Table
-export const columnsStore: IColumns[] = [
+export const storeColumns: IColumns[] = [
     {
         label: 'Modelo',
         column: 'model',
@@ -46,11 +54,11 @@ export const columnsStore: IColumns[] = [
         column: 'dimensions',
         element: (data: IStore) => data.dimensions,
     },
-    // {
-    //     label: 'Estado',
-    //     column: 'currentStatusId',
-    //     element: (data: IStore) => data.currentStatus,
-    // },
+    {
+        label: 'Estado',
+        column: 'statusDescription',
+        element: (data: IStore) => data.statusDescription,
+    },
     {
         label: 'Editar',
         column: 'edit',
@@ -62,13 +70,14 @@ export const columnsStore: IColumns[] = [
 
 // Dialog & Form
 export interface IStoreForm {
+    id: '';
     model: string;
     brand: string;
-    yearManufactured: number;
+    yearManufactured: Dayjs;
     serialNumber: string;
     loadCapacity: number;
     dimensions: string;
-    currentStatus: string;
+    currentStatusId: number;
 }
 
 export const storeDataForm: IDataForm[] = [
@@ -87,7 +96,7 @@ export const storeDataForm: IDataForm[] = [
     {
         label: 'Año Fabricación',
         value: '',
-        type: 'number',
+        type: 'date',
         name: 'yearManufactured',
     },
     {
@@ -112,41 +121,50 @@ export const storeDataForm: IDataForm[] = [
         label: 'Estado',
         value: '',
         type: 'select',
-        name: 'currentStatus',
+        name: 'currentStatusId',
         options: [
             {
                 label: 'Disponible',
-                value: 0
-            },
-            {
-                label: 'En uso',
                 value: 1
             },
             {
-                label: 'En reparación',
+                label: 'En alquiler',
                 value: 2
-            }
+            },
+            {
+                label: 'En mantenimiento',
+                value: 3
+            },
+            {
+                label: 'Reparacion',
+                value: 4
+            },
+            {
+                label: 'No disponible',
+                value: 5
+            },
         ]
     }
 ];
 
 export const storeDefaultValues: IStoreForm = {
+    id: '',
     model: '',
     brand: '',
-    yearManufactured: 0,
+    yearManufactured: dayjs(),
     serialNumber: '',
     loadCapacity: 0,
     dimensions: '',
-    currentStatus: ''
+    currentStatusId: 0
 }
 
 export const storeValidationSchema: object = z.object({
     model: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     brand: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    yearManufactured: z.number({ message: 'El campo es requerido' }),
     serialNumber: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     loadCapacity: z.number({ message: 'El campo es requerido' }),
     dimensions: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    currentStatus: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
+    currentStatusId: z.coerce.number({ message: 'El campo es requerido' }),
 });
+
 

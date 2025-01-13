@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
+import { getDataApi } from "../../API/AxiosActions";
 
 export interface IUsers {
     id: string;
@@ -10,7 +11,6 @@ export interface IUsers {
     password: string;
     identify: string;
     rolId: number;
-    status: boolean;
     rol: Rol;
     rolDescription: string;
 }
@@ -48,13 +48,6 @@ export const userColumns: IColumns[] = [
         element: (data: IUsers) => data.rolDescription,
     },
     {
-        label: 'Estado',
-        column: 'status',
-        icon: true,
-        element: (data: IUsers) => data.status ? 'success' : 'error',
-        canFilter: false
-    },
-    {
         label: 'Editar',
         column: 'edit',
         icon: true,
@@ -79,7 +72,6 @@ export interface IUserForm {
     username: string;
     identify: string;
     rolId: number;
-    status: boolean;
 }
 
 export const usersDataForm: IDataForm[] = [
@@ -106,6 +98,13 @@ export const usersDataForm: IDataForm[] = [
         value: '',
         type: 'text',
         name: 'username',
+    },
+    {
+        label: 'Rol',
+        value: '',
+        type: 'select',
+        name: 'rolId',
+        options: []
     }
 ];
 
@@ -116,7 +115,6 @@ export const usersDefaultValues : IUserForm = {
     firstName: '',
     lastName: '',
     rolId: 0,
-    status: true,
 }
 
 export const usersValidationSchema: object = z.object({
@@ -124,6 +122,24 @@ export const usersValidationSchema: object = z.object({
     username: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     firstName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     lastName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    rolId: z.number({ message: 'El campo es requerido' }),
-    status: z.boolean({ message: 'El campo es requerido' }),
+    rolId: z.coerce.number({ message: 'El campo es requerido' }),
 });
+
+// functions
+export const getDataApiV2 = async () : Promise<IUsers[]> => {
+    return await getDataApi('/user').then((response: IUsers[]) => {
+        response.map((user => {
+            user.rolDescription = user.rol.rol;
+            return user;
+        }))
+        return response;
+    })
+}
+
+
+
+
+
+
+
+

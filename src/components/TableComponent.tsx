@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton } from "@mui/material";
+import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton, Button } from "@mui/material";
 import { Check, Pencil, Trash, X } from "lucide-react";
 import { IColumns, TableReturn } from "../interfaces/table.interface";
 import { actionsValid } from "../interfaces/table.interface";
 import ErrorMessage from "./ErrorMessage";
+import Filter from "./Filter";
 
 interface TableComponentProps {
     tableData: any[];
@@ -15,12 +16,13 @@ interface TableComponentProps {
 export default function TableComponent({ tableData, tableColumns, openDialog }: TableComponentProps) {
 
     // useStates
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [page, setPage] = useState<number>(0);
+    const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+    const [dataFilter, setDataFilter] = useState(tableData);
 
     // Functions
     const editingBody = (action: actionsValid, data: any) => {
-        openDialog({action: action, data: data});
+        openDialog({ action: action, data: data });
     }
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -35,13 +37,25 @@ export default function TableComponent({ tableData, tableColumns, openDialog }: 
     const showIcons = (icon: string) => {
         if (icon === 'edit') return <Pencil />;
         if (icon === 'delete') return <Trash color="#ff0000" />;
-        if (icon === 'success') return <Check color="#00ff33"/>;
+        if (icon === 'success') return <Check color="#00ff33" />;
         if (icon === 'error') return <X color="#ff0000" />;
     }
 
     return (
 
         <div>
+
+            <div className="flex items-center justify-between w-full my-5">
+                <Filter tableData={tableData} setTableData={setDataFilter} tableColumns={tableColumns}></Filter>
+
+                <Button
+                    onClick={() => openDialog({action: 'add', data: null})}
+                    variant="contained"
+                    className='flex gap-2'
+                >
+                    <span className='material-icons'>add_circle</span> Agregar
+                </Button>
+            </div>
 
             <Paper sx={{ width: '100%' }}>
                 <TableContainer component={Paper}>
@@ -54,7 +68,7 @@ export default function TableComponent({ tableData, tableColumns, openDialog }: 
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {tableData.length > 0 ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
+                            {dataFilter.length > 0 ? dataFilter.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
                                 <TableRow key={index}>
                                     {tableColumns && tableColumns.map((column: IColumns, index: number) => (
                                         <TableCell key={index}>

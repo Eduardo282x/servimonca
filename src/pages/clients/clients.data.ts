@@ -44,6 +44,7 @@ export const customerColumns: IColumns[] = [
 
 //Dialog & Form
 export interface IClientsForm {
+    id: string;
     customerName: string;
     customerLastname: string;
     customerEmail: string;
@@ -78,6 +79,7 @@ export const clientsDataForm: IDataForm[] = [
 ];
 
 export const clientsDefaultValues : IClientsForm = {
+    id: '',
     customerName: '',
     customerLastname: '',
     customerEmail: '',

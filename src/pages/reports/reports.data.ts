@@ -46,8 +46,18 @@ export const reportsDataForm: IDataForm[] = [
     {
         label: 'Tipo de Reporte',
         value: '',
-        type: 'text',
+        type: 'select',
         name: 'reportType',
+        options: [
+            {
+                label: 'Inventario',
+                value: 'Inventario'
+            },
+            {
+                label: 'Mantenimiento',
+                value: 'Mantenimiento'
+            }
+        ]
     },
     {
         label: 'Descripción',

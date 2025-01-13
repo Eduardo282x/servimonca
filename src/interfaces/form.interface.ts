@@ -24,7 +24,7 @@ export interface IDataForm {
     options?: IOptions[];
 }
 
-export type TypesInputs = 'text' | 'number' | 'select' | 'textArea' | 'email';
+export type TypesInputs = 'text' | 'number' | 'select' | 'textArea' | 'email' | 'date' | 'year';
 
 export interface IOptions {
     label: string;

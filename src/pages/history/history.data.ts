@@ -6,7 +6,7 @@ import { formatDate } from "../../utils/formater";
 export interface IHistory {
     id: string;
     sparePartId: string;
-    operationType: 'entrada' | 'salida' | '';
+    operationType: string;
     quantity: number;
     operationDate: string;
     description: string;
@@ -14,6 +14,11 @@ export interface IHistory {
 
 //Table
 export const historyColumns: IColumns[] = [
+    {
+        label: 'Repuesto',
+        column: 'operationType',
+        element: (data: IHistory) => data.sparePartId,
+    },
     {
         label: 'Operación Realizada',
         column: 'operationType',
@@ -46,7 +51,8 @@ export const historyColumns: IColumns[] = [
 
 //Dialog & Form
 export interface IHistoryForm {
-    operationType: 'entrada' | 'salida' | '';
+    sparePartId: string;
+    operationType: string;
     quantity: number;
     operationDate: string;
     description: string;
@@ -54,10 +60,26 @@ export interface IHistoryForm {
 
 export const historyDataForm: IDataForm[] = [
     {
+        label: 'Repuesto',
+        value: '',
+        type: 'select',
+        name: 'sparePartId',
+    },
+    {
         label: 'Tipo de Operación',
         value: '',
-        type: 'text',
+        type: 'select',
         name: 'operationType',
+        options: [
+            {
+                label: 'Entrada',
+                value: 'Entrada'
+            },
+            {
+                label: 'Salida',
+                value: 'Salida'
+            }
+        ]
     },
     {
         label: 'Cantidad',
@@ -68,7 +90,7 @@ export const historyDataForm: IDataForm[] = [
     {
         label: 'Fecha',
         value: '',
-        type: 'text',
+        type: 'date',
         name: 'operationDate',
     },
     {
@@ -80,6 +102,7 @@ export const historyDataForm: IDataForm[] = [
 ];
 
 export const historyDefaultValues : IHistoryForm = {
+    sparePartId: '',
     operationType: '',
     quantity: 0,
     operationDate: '',
@@ -87,6 +110,7 @@ export const historyDefaultValues : IHistoryForm = {
 }
 
 export const historyValidationSchema: object = z.object({
+    sparePartId: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     operationType: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     quantity: z.number({ message: 'El campo es requerido' }),
     operationDate: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),

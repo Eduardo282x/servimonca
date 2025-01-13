@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { BaseResponse } from "../interfaces/actions-api.interface";
 import { actionsValid } from "../interfaces/table.interface"
 import { postDataApi, putDataApi, deleteDataApi } from "./AxiosActions";
@@ -24,7 +22,9 @@ export const BaseApi = async (action: actionsValid, data: any, body: any, id: st
     };
     
     response.body = action === 'edit' ? data : body;
-    response.action = action === 'edit' ? 'edit' : 'add';
+    response.action = action === 'edit' ? 'editApi' : 'addApi';
+
+    console.log(data)
     
     if(action === 'add' || action === 'edit') {
         response.open = true
