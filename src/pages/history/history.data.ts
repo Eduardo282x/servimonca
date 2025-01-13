@@ -4,20 +4,37 @@ import { IColumns } from "../../interfaces/table.interface";
 import { formatDate } from "../../utils/formater";
 
 export interface IHistory {
-    id: string;
-    sparePartId: string;
+    id:            number;
+    sparePartId:   number;
     operationType: string;
-    quantity: number;
-    operationDate: string;
-    description: string;
+    quantity:      number;
+    operationDate: Date;
+    description:   string;
+    sparePart:     SparePart;
 }
+
+export interface SparePart {
+    id:            number;
+    sparePartName: string;
+    description:   string;
+    currentStock:  number;
+    minimumStock:  number;
+    maximumStock:  number;
+    createdAt:     Date;
+}
+
 
 //Table
 export const historyColumns: IColumns[] = [
     {
         label: 'Repuesto',
         column: 'operationType',
-        element: (data: IHistory) => data.sparePartId,
+        element: (data: IHistory) => data.sparePart.sparePartName,
+    },
+    {
+        label: 'Descripción',
+        column: 'description',
+        element: (data: IHistory) => data.description,
     },
     {
         label: 'Operación Realizada',
@@ -33,11 +50,6 @@ export const historyColumns: IColumns[] = [
         label: 'Fecha',
         column: 'operationDate',
         element: (data: IHistory) => formatDate(data.operationDate),
-    },
-    {
-        label: 'Descripción',
-        column: 'description',
-        element: (data: IHistory) => data.description,
     },
     {
         label: 'Editar',

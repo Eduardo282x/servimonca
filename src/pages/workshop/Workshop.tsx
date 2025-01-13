@@ -1,5 +1,3 @@
-import { Button } from "@mui/material";
-import Filter from "../../components/Filter";
 import TableComponent from "../../components/TableComponent";
 import DialogComponent from "../../components/DialogComponent";
 import { FormComponent } from "../../components/FormComponent";
@@ -50,6 +48,7 @@ export const Workshop = () => {
                     label: option.model
                 }
             });
+            setDataForm(newDataForm)
         })
     }
 
@@ -57,7 +56,7 @@ export const Workshop = () => {
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
         const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/work-order');
-        setDefaultValues(responseBaseApi.body as IWorkshop);
+        setDefaultValues(responseBaseApi.body as IWorkshopForm);
         setFormAction(responseBaseApi.action)
         if (responseBaseApi.open) { setDialog(true) };
         if (responseBaseApi.close) { setDialog(false) };

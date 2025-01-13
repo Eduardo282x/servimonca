@@ -1,7 +1,7 @@
 import TableComponent from '../../components/TableComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { useEffect, useState } from 'react';
-import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, Vehicle } from './maintenance.data';
+import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { getDataApi } from '../../API/AxiosActions';
@@ -10,6 +10,7 @@ import { BaseResponse } from '../../interfaces/actions-api.interface';
 import { BaseApi, BaseApiReturn } from '../../API/BaseAPI';
 import { SnackbarComponent } from '../../components/SnackbarComponent';
 import { IDataForm } from '../../interfaces/form.interface';
+import { IStore } from '../store/store.data';
 
 export const Maintenance = () => {
 
@@ -39,15 +40,19 @@ export const Maintenance = () => {
     }
 
     async function getVehicles() {
-        await getDataApi('/equipment').then((response: Vehicle[]) => {
+        await getDataApi('/equipment').then((response: IStore[]) => {
             const newDataForm = [...dataForm];
             const findEquipmentId = newDataForm.find(form => form.name === 'equipmentId') as IDataForm;
             findEquipmentId.options = response.map(option => {
                 return {
                     value: option.id,
-                    label: option.vehicle
+                    label: `${option.brand} - ${option.model}`
                 }
             });
+
+            console.log(newDataForm);
+            
+            setDataForm(newDataForm)
         })
     }
 
@@ -55,7 +60,7 @@ export const Maintenance = () => {
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
         const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/maintenance');
-        setDefaultValues(responseBaseApi.body as IMaintenance);
+        setDefaultValues(responseBaseApi.body as IMaintenanceForm);
         setFormAction(responseBaseApi.action)
         if (responseBaseApi.open) { setDialog(true) };
         if (responseBaseApi.close) { setDialog(false) };

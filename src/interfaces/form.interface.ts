@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { actionsValid, TableReturn } from "./table.interface";
 
 export interface IForm {
@@ -6,7 +7,7 @@ export interface IForm {
     descriptionColored?: string;
     buttonText: string;
     dataForm: IDataForm[];
-    defaultValues: object;
+    defaultValues: any;
     validationSchema: object;
     action: actionsValid;
     onSubmitForm: (formData: TableReturn) => void;

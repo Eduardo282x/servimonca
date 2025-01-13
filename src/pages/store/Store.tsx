@@ -6,7 +6,7 @@ import { FormComponent } from '../../components/FormComponent.tsx';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface.ts';
 import { getDataApi } from '../../API/AxiosActions.ts';
 import { Loader } from '../../components/loaders/Loader.tsx';
-import { IDataForm } from '../../interfaces/form.interface.ts';
+// import { IDataForm } from '../../interfaces/form.interface.ts';
 import { BaseResponse } from '../../interfaces/actions-api.interface.ts';
 import { BaseApi, BaseApiReturn } from '../../API/BaseAPI.ts';
 import { SnackbarComponent } from '../../components/SnackbarComponent.tsx';
@@ -21,7 +21,7 @@ export const Store = () => {
     const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
     const [loading, setLoading] = useState<boolean>(true);
     const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
-    const [dataForm, setDataForm] = useState<IDataForm[]>(storeDataForm);
+    // const [dataForm, setDataForm] = useState<IDataForm[]>(storeDataForm);
 
     // useEffects
     useEffect(() => {
@@ -52,10 +52,9 @@ export const Store = () => {
 
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
-
         const { data, action } = tableReturn;
         const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/equipment');
-        setDefaultValues(responseBaseApi.body as IStore);
+        setDefaultValues(responseBaseApi.body as IStoreForm);
         setFormAction(responseBaseApi.action)
         if (responseBaseApi.open) { setDialog(true) };
         if (responseBaseApi.close) { setDialog(false) };
@@ -80,14 +79,14 @@ export const Store = () => {
                 setDialog={setDialog}
                 form={
                     <FormComponent
-                        title={formAction === 'addApi' ? 'Nuevo Usuario' : 'Editar Usuario'}
+                        title={formAction === 'addApi' ? 'Nuevo Elemento' : 'Editar Elemento'}
                         description={formAction === 'addApi' ? 'Llena el formulario y agrega' : 'Edita los campos y modifica'}
-                        descriptionColored={formAction === 'addApi' ? 'un nuevo usuario' : 'un usuario'}
+                        descriptionColored={formAction === 'addApi' ? 'un nuevo elemento' : 'un elemento'}
                         dataForm={storeDataForm}
                         defaultValues={defaultValues}
                         validationSchema={storeValidationSchema}
                         action={formAction}
-                        buttonText={formAction === 'addApi' ? 'Agregar Usuario' : 'Editar Usuario'}
+                        buttonText={formAction === 'addApi' ? 'Agregar elemento' : 'Editar elemento'}
                         onSubmitForm={openDialog}
                     />
                 }

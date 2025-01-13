@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
+import { formatDate } from "../../utils/formater";
 
 export interface IReports {
     id: string;
@@ -12,11 +13,6 @@ export interface IReports {
 //Table
 export const reportColumns: IColumns[] = [
     {
-        label: 'Reporte',
-        column: 'id',
-        element: (data: IReports) => data.id,
-    },
-    {
         label: 'Tipo de Reporte',
         column: 'reportType',
         element: (data: IReports) => data.reportType,
@@ -25,6 +21,12 @@ export const reportColumns: IColumns[] = [
         label: 'Descripción',
         column: 'description',
         element: (data: IReports) => data.description,
+    },
+    {
+        label: 'Fecha',
+        column: 'createdAt',
+        element: (data: IReports) => formatDate(data.createdAt),
+        canFilter: false
     },
     {
         label: 'Editar',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseResponse } from "../interfaces/actions-api.interface";
 import { actionsValid } from "../interfaces/table.interface"
 import { postDataApi, putDataApi, deleteDataApi } from "./AxiosActions";
@@ -24,8 +25,6 @@ export const BaseApi = async (action: actionsValid, data: any, body: any, id: st
     response.body = action === 'edit' ? data : body;
     response.action = action === 'edit' ? 'editApi' : 'addApi';
 
-    console.log(data)
-    
     if(action === 'add' || action === 'edit') {
         response.open = true
     }
@@ -72,9 +71,10 @@ const updateApi = async (url: string, updateData: any): Promise<BaseResponse> =>
     return updateMessage as BaseResponse;
 }
 const deleteApi = async (url: string, deleteData: any, id: string) => {
-    await deleteDataApi(url, deleteData[id]).then((response: BaseResponse) => {
-        console.log(response);
+    const deleteMessage = await deleteDataApi(url, deleteData[id]).then((response: BaseResponse) => {
+        return response;
     }).catch((err) => {
         console.log(err);
     })
+    return deleteMessage as BaseResponse;
 }

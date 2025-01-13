@@ -1,26 +1,25 @@
 import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
-import dayjs, { Dayjs } from "dayjs";
 
 export interface IStore {
-    id: string;
+    id: number;
     model: string;
     brand: string;
-    yearManufactured: Dayjs;
+    yearManufactured: number;
     serialNumber: string;
     loadCapacity: number;
     dimensions: string;
     currentStatusId: number;
-    status: Status;
-    statusDescription: string;
-    createdAt: string;
+    createdAt: Date;
+    currentStatus: CurrentStatus;
 }
 
-export interface Status {
+export interface CurrentStatus {
     id: number;
     status: string;
 }
+
 
 // Table
 export const storeColumns: IColumns[] = [
@@ -56,8 +55,9 @@ export const storeColumns: IColumns[] = [
     },
     {
         label: 'Estado',
-        column: 'statusDescription',
-        element: (data: IStore) => data.statusDescription,
+        column: 'status',
+        element: (data: IStore) => data.currentStatus.status,
+        canFilter: false
     },
     {
         label: 'Editar',
@@ -73,7 +73,7 @@ export interface IStoreForm {
     id: '';
     model: string;
     brand: string;
-    yearManufactured: Dayjs;
+    yearManufactured: Date;
     serialNumber: string;
     loadCapacity: number;
     dimensions: string;
@@ -96,7 +96,7 @@ export const storeDataForm: IDataForm[] = [
     {
         label: 'Año Fabricación',
         value: '',
-        type: 'date',
+        type: 'number',
         name: 'yearManufactured',
     },
     {
@@ -151,7 +151,7 @@ export const storeDefaultValues: IStoreForm = {
     id: '',
     model: '',
     brand: '',
-    yearManufactured: dayjs(),
+    yearManufactured: new Date(),
     serialNumber: '',
     loadCapacity: 0,
     dimensions: '',
@@ -165,6 +165,7 @@ export const storeValidationSchema: object = z.object({
     loadCapacity: z.number({ message: 'El campo es requerido' }),
     dimensions: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     currentStatusId: z.coerce.number({ message: 'El campo es requerido' }),
+    yearManufactured: z.coerce.number({ message: 'El campo es requerido' }),
 });
 
 
