@@ -9,7 +9,6 @@ import { Loader } from '../../components/loaders/Loader';
 import { BaseResponse } from '../../interfaces/actions-api.interface';
 import { BaseApi, BaseApiReturn } from '../../API/BaseAPI';
 import { SnackbarComponent } from '../../components/SnackbarComponent';
-import dayjs from 'dayjs';
 
 export const Clients = () => {
 
@@ -30,7 +29,7 @@ export const Clients = () => {
     // Async functions
     async function getClients() {
         setLoading(true);
-        await getDataApi('/customer').then((response: IClients[]) => {
+        await getDataApi('/clients').then((response: IClients[]) => {
             setClients(response);
             setLoading(false);
         });
@@ -39,8 +38,8 @@ export const Clients = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/customer');
-        setDefaultValues(responseBaseApi.body as IClients);
+        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/clients');
+        setDefaultValues(responseBaseApi.body as IClientsForm);
         setFormAction(responseBaseApi.action);
         if (responseBaseApi.open) { setDialog(true) };
         if (responseBaseApi.close) { setDialog(false) };

@@ -2,29 +2,39 @@ import { z } from "zod";
 import { IColumns } from "../../interfaces/table.interface";
 import { IDataForm } from "../../interfaces/form.interface";
 import { formatDate } from "../../utils/formater";
-import { IStore } from "../store/store.data";
+
 
 export interface IMaintenance {
     id:              number;
-    maintenanceType: string;
-    maintenanceDate: Date;
-    description:     string;
     equipmentId:     number;
+    sparePartId:     number;
+    type:            string;
+    description:     string;
+    maintenanceDate: Date;
     createdAt:       Date;
-    equipment:       IStore;
+    equipment:       Equipment;
 }
+
+export interface Equipment {
+    id:            number;
+    model:         string;
+    serialNumber:  string;
+    currentStatus: string;
+    placa:         string;
+    createdAt:     Date;
+}
+
 
 export const maintenanceColumns : IColumns[] = [
     {
-        label: 'Vehículo',
-        column: 'brand',
-        element: (data: IMaintenance) => `${data.equipment.brand} - ${data.equipment.model}`,
-        canFilter: false
-    },
-    {
         label: 'Tipo de mantenimiento',
         column: 'maintenanceType',
-        element: (data: IMaintenance) => data.maintenanceType,
+        element: (data: IMaintenance) => data.type,
+    },
+    {
+        label: 'Equipo',
+        column: 'model',
+        element: (data: IMaintenance) => data.equipment.model,
     },
     {
         label: 'Descripción',

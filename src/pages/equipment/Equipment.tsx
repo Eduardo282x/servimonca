@@ -1,5 +1,5 @@
-import { IStore, IStoreForm, storeColumns, storeDataForm, storeDefaultValues, storeValidationSchema } from './store.data.ts';
-import TableComponent from '../../components/TableComponent';
+import { IStore, IStoreForm, storeColumns, storeDataForm, storeDefaultValues, storeValidationSchema } from './equipment.data.ts';
+import TableComponent from '../../components/TableComponent.tsx';
 import { useEffect, useState } from 'react';
 import DialogComponent from '../../components/DialogComponent.tsx';
 import { FormComponent } from '../../components/FormComponent.tsx';
@@ -11,7 +11,7 @@ import { BaseResponse } from '../../interfaces/actions-api.interface.ts';
 import { BaseApi, BaseApiReturn } from '../../API/BaseAPI.ts';
 import { SnackbarComponent } from '../../components/SnackbarComponent.tsx';
 
-export const Store = () => {
+export const Equipment = () => {
 
     // useStates
     const [equipment, setEquipment] = useState<IStore[]>([]);

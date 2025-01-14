@@ -1,3 +1,5 @@
+import { Roles } from "../layouts/sidebar.data";
+
 export interface UserData {
     id:        number;
     firstName: string;
@@ -12,5 +14,5 @@ export interface UserData {
 
 export interface Rol {
     id:  number;
-    rol: string;
+    rol: Roles;
 }

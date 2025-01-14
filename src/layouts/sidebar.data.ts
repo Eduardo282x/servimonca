@@ -12,8 +12,8 @@ export type Roles = 'Administrador' | 'Personal' | 'Almacén' | 'Taller'
 
 export const sidebarMenu: ISidebarMenu[] = [
     {
-        label: 'Almacen',
-        redirectTo: '/almacen',
+        label: 'Equipos',
+        redirectTo: '/equipos',
         icon: 'domain_disabled',
         permissions: ['Administrador', 'Personal', 'Almacén'],
         active: false
@@ -37,13 +37,6 @@ export const sidebarMenu: ISidebarMenu[] = [
         redirectTo: '/mantenimiento',
         icon: 'build',
         permissions: ['Administrador', 'Taller'],
-        active: false
-    },
-    {
-        label: 'Historial',
-        redirectTo: '/historial',
-        icon: 'schedule',
-        permissions: ['Administrador', 'Personal'],
         active: false
     },
     {
