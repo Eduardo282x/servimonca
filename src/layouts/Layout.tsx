@@ -12,9 +12,8 @@ export const Layout = () => {
     useEffect(() => {
         if (!validateUserLoged()) {
             navigate('/auth/login')
-        }else {
-            setUserInfo(validateUserLoged() as UserData)
         }
+        setUserInfo(validateUserLoged() as UserData)
     }, []);
 
     return (
