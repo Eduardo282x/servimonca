@@ -2,37 +2,51 @@ import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
 
+
 export interface IClients {
-    id: string;
-    customerName: string;
-    customerLastname: string;
-    customerEmail: string;
-    customerAddress: string;
-    createdAt: string;
+    id:        number;
+    name:      string;
+    lastname:  string;
+    rif:       string;
+    phone:     string;
+    email:     string;
+    address:   string;
+    createdAt: Date;
 }
+
 
 // Table
 export const customerColumns: IColumns[] = [
     {
         label: 'Nombre',
         column: 'customerName',
-        element: (data: IClients) => data.customerName,
+        element: (data: IClients) => data.name,
     },
     {
         label: 'Apellido',
-        column: 'customerLastname',
-        element: (data: IClients) => data.customerLastname,
+        column: 'customerLastnamea',
+        element: (data: IClients) => data.lastname,
         canFilter: false,
+    },
+    {
+        label: 'Razón social',
+        column: 'customerEmail',
+        element: (data: IClients) => data.email.toString(),
+    },
+    {
+        label: 'Teléfono',
+        column: 'customerEmail',
+        element: (data: IClients) => data.phone.toString(),
     },
     {
         label: 'Correo',
         column: 'customerEmail',
-        element: (data: IClients) => data.customerEmail.toString(),
+        element: (data: IClients) => data.email.toString(),
     },
     {
         label: 'Dirección',
         column: 'customerAddress',
-        element: (data: IClients) => data.customerAddress,
+        element: (data: IClients) => data.address,
     },
     {
         label: 'Editar',

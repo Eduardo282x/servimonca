@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react'
-import { ISidebarMenu, Roles, sidebarMenu } from './sidebar.data';
+import { ISidebarMenu, sidebarMenu } from './sidebar.data';
 import { useLocation, useNavigate } from 'react-router-dom';
-// import { validateUserLoged } from '../utils/auth';
-import { IUser } from '../interfaces/user.interface';
+import { validateUserLoged } from '../utils/auth';
 import Logo from '../components/Logo';
+import { UserData } from '../interfaces/user.interface';
 
 interface ISidebarProps {
     open: boolean;
@@ -14,10 +14,14 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [menuSidebar, setMenuSidebar] = useState<ISidebarMenu[]>(sidebarMenu);
-    const userLoged: IUser = {
-        firstname: 'User Test',
-        rol: 'Administrador'
-    }
+    const [userInfo, setUserInfo] = useState<UserData>({} as UserData);
+
+    useEffect(() => {
+        setUserInfo(validateUserLoged() as UserData);
+
+        console.log(userInfo);
+        
+    }, []);
 
     const changeMenu = (opt: ISidebarMenu) => {
         const updatedMenu = sidebarMenu.map(menu => ({
@@ -39,7 +43,6 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
     }, [])
 
     const logout = () => {
-        // validateUserLoged(false);
         navigate('/auth/login');
     }
 
@@ -49,8 +52,8 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
                 <div className="flex items-center justify-center my-3">
                     <Logo widthLogo={open ? 'w-20' : 'w-10'} heightLogo={open ? 'w-20' : 'w-10'} ></Logo>
                 </div>
-
-                {menuSidebar && menuSidebar.filter(rol => rol.permissions.includes(userLoged.rol as Roles)).map((menu: ISidebarMenu, index: number) => (
+                {/* .filter(rol => rol.permissions.includes(userInfo.rol.rol as Roles)) */}
+                {menuSidebar && menuSidebar.map((menu: ISidebarMenu, index: number) => (
                     <div key={index} onClick={() => changeMenu(menu)} className={`flex items-center justify-between ${open ? 'gap-2 w-60' : 'gap-10 w-14'}  px-4 py-2 rounded-md ${menu.active && '!text-white bg-blue-400'} text-gray-500 hover:text-white hover:bg-blue-400 transition-all cursor-pointer`}>
                         <span className='material-icons'>{menu.icon}</span>
                         <span>{menu.label}</span>

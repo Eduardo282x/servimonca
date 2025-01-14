@@ -10,7 +10,7 @@ import { BaseResponse } from '../../interfaces/actions-api.interface';
 import { BaseApi, BaseApiReturn } from '../../API/BaseAPI';
 import { SnackbarComponent } from '../../components/SnackbarComponent';
 import { IDataForm } from '../../interfaces/form.interface';
-import { IStore } from '../store/store.data';
+import { IStore } from '../equipment/equipment.data';
 
 export const Maintenance = () => {
 
@@ -50,8 +50,6 @@ export const Maintenance = () => {
                 }
             });
 
-            console.log(newDataForm);
-            
             setDataForm(newDataForm)
         })
     }

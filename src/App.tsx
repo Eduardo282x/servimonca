@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
 import LoginPage from "./pages/auth/Login";
 import { Layout } from "./layouts/Layout";
-import { Store } from "./pages/store/Store";
+import { Equipment } from "./pages/equipment/Equipment";
 import { Rent } from "./pages/rent/Rent";
 import { History } from "./pages/history/History";
 import { Reports } from "./pages/reports/Reports";
@@ -22,7 +22,7 @@ export default function App() {
               </Route>
 
               <Route element={<Layout />}>
-                <Route path='/almacen' element={<Store />} />
+                <Route path='/equipos' element={<Equipment />} />
                 <Route path='/clientes' element={<Clients />} />
                 <Route path='/alquiler' element={<Rent />} />
                 <Route path='/taller' element={<Workshop />} />

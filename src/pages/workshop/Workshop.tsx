@@ -65,8 +65,6 @@ export const Workshop = () => {
             getWorshop();
             setOpenSnackbar(true);
         };
-
-        console.log(responseBaseApi)
     }
 
     return (
