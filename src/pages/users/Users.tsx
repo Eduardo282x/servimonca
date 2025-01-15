@@ -45,7 +45,7 @@ export const Users = () => {
                     label: option.rol
                 }
             });
-
+            
             setDataForm(newDataForm);
         });
     }

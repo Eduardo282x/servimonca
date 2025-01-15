@@ -102,6 +102,39 @@ export const sparePartDataForm: IDataForm[] = [
     }
 ];
 
+export const sparePartEditDataForm: IDataForm[] = [
+    {
+        label: 'Repuesto',
+        value: '',
+        type: 'text',
+        name: 'sparePart',
+    },
+    {
+        label: 'Marca',
+        value: '',
+        type: 'text',
+        name: 'brand',
+    },
+    {
+        label: 'Modelo',
+        value: '',
+        type: 'text',
+        name: 'model',
+    },
+    {
+        label: 'Descripción',
+        value: '',
+        type: 'text',
+        name: 'description',
+    },
+    {
+        label: 'Cantidad critica',
+        value: '',
+        type: 'number',
+        name: 'criticAmount',
+    }
+];
+
 export const sparePartDefaultValues: ISparePartForm = {
     id: '',
     sparePart: '',

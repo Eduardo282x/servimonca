@@ -11,9 +11,10 @@ interface TableComponentProps {
     tableData: any[];
     tableColumns: IColumns[];
     openDialog: (tableReturn: TableReturn) => Promise<void>;
+    addButton?: string;
 }
 
-export default function TableComponent({ tableData, tableColumns, openDialog }: TableComponentProps) {
+export default function TableComponent({ tableData, tableColumns, openDialog, addButton }: TableComponentProps) {
 
     // useStates
     const [page, setPage] = useState<number>(0);
@@ -53,7 +54,7 @@ export default function TableComponent({ tableData, tableColumns, openDialog }: 
                     variant="contained"
                     className='flex gap-2'
                 >
-                    <span className='material-icons'>add_circle</span> Agregar
+                    <span className='material-icons'>add_circle</span> {addButton ? addButton : 'Agregar'}
                 </Button>
             </div>
 
