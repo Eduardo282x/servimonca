@@ -8,7 +8,7 @@ import TableComponent from '../../components/TableComponent';
 import { BaseResponse } from '../../interfaces/actions-api.interface';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { Loader } from '../../components/loaders/Loader';
-import { ISparePart, ISparePartForm, sparePartColumns, sparePartDataForm, sparePartDefaultValues, sparePartValidationSchema } from './sparePart.data';
+import { ISparePart, ISparePartForm, sparePartColumns, sparePartDataForm, sparePartDefaultValues, sparePartEditDataForm, sparePartValidationSchema } from './sparePart.data';
 
 export const SparePart = () => {
     // useStates
@@ -49,13 +49,15 @@ export const SparePart = () => {
         };
     }
 
+    console.log(formAction)
+
 
     return (
         <div>
             <div>
                 <p className=' text-3xl font-semibold mb-5'>Repuestos</p>
 
-                {loading ? <Loader /> : <TableComponent tableData={maintenances} tableColumns={sparePartColumns} openDialog={openDialog} />}
+                {loading ? <Loader /> : <TableComponent tableData={maintenances} tableColumns={sparePartColumns} openDialog={openDialog} addButton='Ingresar Orden de Compra' />}
 
                 <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 
@@ -67,7 +69,7 @@ export const SparePart = () => {
                             title={formAction === 'addApi' ? 'Nuevo Mantenimiento' : 'Editar Mantenimiento'}
                             description={formAction === 'addApi' ? 'Llena el formulario y agrega' : 'Edita los campos y modifica'}
                             descriptionColored={formAction === 'addApi' ? 'un nuevo mantenimiento' : 'un mantenimiento'}
-                            dataForm={sparePartDataForm}
+                            dataForm={formAction === 'editApi' ? sparePartEditDataForm : sparePartDataForm}
                             defaultValues={defaultValues}
                             validationSchema={sparePartValidationSchema}
                             action={formAction}

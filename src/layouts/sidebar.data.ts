@@ -7,7 +7,7 @@ export interface ISidebarMenu {
 }
 
 // ALMACEN ALQUILER MANTENIMIENTO HISTORIAL Clientes
-export type Roles = 'Administrador' | 'Personal' | 'Almacén' | 'Taller'
+export type Roles = 'Administrador' | 'Personal Administrativo' | 'Almacén' | 'Taller'
 
 
 export const sidebarMenu: ISidebarMenu[] = [
@@ -15,14 +15,14 @@ export const sidebarMenu: ISidebarMenu[] = [
         label: 'Equipos',
         redirectTo: '/equipos',
         icon: 'front_loader',
-        permissions: ['Administrador', 'Personal', 'Almacén'],
+        permissions: ['Administrador', 'Personal Administrativo', 'Almacén'],
         active: false
     },
     {
         label: 'Repuestos',
         redirectTo: '/repuestos',
         icon: 'donut_small',
-        permissions: ['Administrador', 'Personal', 'Taller'],
+        permissions: ['Administrador', 'Personal Administrativo', 'Taller'],
         active: false
     },
     {
@@ -36,7 +36,7 @@ export const sidebarMenu: ISidebarMenu[] = [
         label: 'Clientes',
         redirectTo: '/clientes',
         icon: 'groups',
-        permissions: ['Administrador', 'Personal'],
+        permissions: ['Administrador', 'Personal Administrativo'],
         active: false
     },
     {
