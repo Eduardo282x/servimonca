@@ -14,13 +14,11 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [menuSidebar, setMenuSidebar] = useState<ISidebarMenu[]>(sidebarMenu);
-    const [userInfo, setUserInfo] = useState<UserData>({} as UserData);
 
     useEffect(() => {
-        setUserInfo(validateUserLoged() as UserData);
-
-        console.log(userInfo);
-        
+        const userData = validateUserLoged() as UserData;
+        const newMenu = sidebarMenu.filter(menu => menu.permissions.includes(userData.rol.rol))
+        setMenuSidebar(newMenu)
     }, []);
 
     const changeMenu = (opt: ISidebarMenu) => {

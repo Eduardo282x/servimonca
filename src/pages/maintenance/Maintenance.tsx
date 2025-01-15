@@ -10,7 +10,7 @@ import { BaseResponse } from '../../interfaces/actions-api.interface';
 import { BaseApi, BaseApiReturn } from '../../API/BaseAPI';
 import { SnackbarComponent } from '../../components/SnackbarComponent';
 import { IDataForm } from '../../interfaces/form.interface';
-import { IStore } from '../equipment/equipment.data';
+import { IEquipment } from '../equipment/equipment.data';
 
 export const Maintenance = () => {
 
@@ -40,13 +40,13 @@ export const Maintenance = () => {
     }
 
     async function getVehicles() {
-        await getDataApi('/equipment').then((response: IStore[]) => {
+        await getDataApi('/equipment').then((response: IEquipment[]) => {
             const newDataForm = [...dataForm];
             const findEquipmentId = newDataForm.find(form => form.name === 'equipmentId') as IDataForm;
             findEquipmentId.options = response.map(option => {
                 return {
                     value: option.id,
-                    label: `${option.brand} - ${option.model}`
+                    label: `${option.model}`
                 }
             });
 

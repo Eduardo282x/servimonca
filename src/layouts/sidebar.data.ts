@@ -14,15 +14,22 @@ export const sidebarMenu: ISidebarMenu[] = [
     {
         label: 'Equipos',
         redirectTo: '/equipos',
-        icon: 'domain_disabled',
+        icon: 'front_loader',
         permissions: ['Administrador', 'Personal', 'Almacén'],
         active: false
     },
     {
-        label: 'Taller',
-        redirectTo: '/taller',
-        icon: 'home_repair_service',
+        label: 'Repuestos',
+        redirectTo: '/repuestos',
+        icon: 'donut_small',
         permissions: ['Administrador', 'Personal', 'Taller'],
+        active: false
+    },
+    {
+        label: 'Mantenimiento',
+        redirectTo: '/mantenimiento',
+        icon: 'construction',
+        permissions: ['Administrador', 'Taller'],
         active: false
     },
     {
@@ -30,13 +37,6 @@ export const sidebarMenu: ISidebarMenu[] = [
         redirectTo: '/clientes',
         icon: 'groups',
         permissions: ['Administrador', 'Personal'],
-        active: false
-    },
-    {
-        label: 'Mantenimiento',
-        redirectTo: '/mantenimiento',
-        icon: 'build',
-        permissions: ['Administrador', 'Taller'],
         active: false
     },
     {

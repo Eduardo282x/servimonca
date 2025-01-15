@@ -4,13 +4,12 @@ import LoginPage from "./pages/auth/Login";
 import { Layout } from "./layouts/Layout";
 import { Equipment } from "./pages/equipment/Equipment";
 import { Rent } from "./pages/rent/Rent";
-import { History } from "./pages/history/History";
 import { Reports } from "./pages/reports/Reports";
 import { Maintenance } from "./pages/maintenance/Maintenance";
-import 'material-icons/iconfont/material-icons.css';
 import { Clients } from "./pages/clients/Clients";
-import { Workshop } from "./pages/workshop/Workshop";
 import { Users } from "./pages/Users/Users";
+import 'material-icons/iconfont/material-icons.css';
+import { SparePart } from "./pages/sparePart/SparePart";
 
 export default function App() {
     return (
@@ -25,8 +24,7 @@ export default function App() {
                 <Route path='/equipos' element={<Equipment />} />
                 <Route path='/clientes' element={<Clients />} />
                 <Route path='/alquiler' element={<Rent />} />
-                <Route path='/taller' element={<Workshop />} />
-                <Route path='/historial' element={<History />} />
+                <Route path='/repuestos' element={<SparePart />} />
                 <Route path='/reportes' element={<Reports />} />
                 <Route path='/mantenimiento' element={<Maintenance />} />
                 <Route path='/usuarios' element={<Users />} />

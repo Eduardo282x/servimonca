@@ -2,6 +2,7 @@ import { z } from "zod";
 import { IColumns } from "../../interfaces/table.interface";
 import { IDataForm } from "../../interfaces/form.interface";
 import { formatDate } from "../../utils/formater";
+import { IEquipment } from "../equipment/equipment.data";
 
 
 export interface IMaintenance {
@@ -12,18 +13,8 @@ export interface IMaintenance {
     description:     string;
     maintenanceDate: Date;
     createdAt:       Date;
-    equipment:       Equipment;
+    equipment:       IEquipment;
 }
-
-export interface Equipment {
-    id:            number;
-    model:         string;
-    serialNumber:  string;
-    currentStatus: string;
-    placa:         string;
-    createdAt:     Date;
-}
-
 
 export const maintenanceColumns : IColumns[] = [
     {
