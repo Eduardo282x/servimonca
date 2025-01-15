@@ -2,22 +2,13 @@ import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
 
-export interface IStore {
-    id: number;
-    model: string;
-    brand: string;
-    yearManufactured: number;
-    serialNumber: string;
-    loadCapacity: number;
-    dimensions: string;
-    currentStatusId: number;
-    createdAt: Date;
-    currentStatus: CurrentStatus;
-}
-
-export interface CurrentStatus {
-    id: number;
-    status: string;
+export interface IEquipment {
+    id:            number;
+    model:         string;
+    serialNumber:  string;
+    currentStatus: string;
+    placa:         string;
+    createdAt:     Date;
 }
 
 
@@ -26,38 +17,22 @@ export const storeColumns: IColumns[] = [
     {
         label: 'Modelo',
         column: 'model',
-        element: (data: IStore) => data.model,
-    },
-    {
-        label: 'Marca',
-        column: 'brand',
-        element: (data: IStore) => data.brand,
-    },
-    {
-        label: 'Año Fabricacion',
-        column: 'yearManufactured',
-        element: (data: IStore) => data.yearManufactured.toString(),
+        element: (data: IEquipment) => data.model,
     },
     {
         label: 'Numero de serie',
         column: 'serialNumber',
-        element: (data: IStore) => data.serialNumber,
+        element: (data: IEquipment) => data.serialNumber,
     },
     {
-        label: 'Capacidad de Carga',
-        column: 'loadCapacity',
-        element: (data: IStore) => data.loadCapacity.toString(),
-    },
-    {
-        label: 'Dimensiones',
-        column: 'dimensions',
-        element: (data: IStore) => data.dimensions,
+        label: 'Placa',
+        column: 'placa',
+        element: (data: IEquipment) => data.placa,
     },
     {
         label: 'Estado',
-        column: 'status',
-        element: (data: IStore) => data.currentStatus.status,
-        canFilter: false
+        column: 'currentStatus',
+        element: (data: IEquipment) => data.currentStatus.toString(),
     },
     {
         label: 'Editar',
@@ -69,7 +44,7 @@ export const storeColumns: IColumns[] = [
 ];
 
 // Dialog & Form
-export interface IStoreForm {
+export interface EquipmentForm {
     id: '';
     model: string;
     brand: string;
@@ -147,7 +122,7 @@ export const storeDataForm: IDataForm[] = [
     }
 ];
 
-export const storeDefaultValues: IStoreForm = {
+export const storeDefaultValues: EquipmentForm = {
     id: '',
     model: '',
     brand: '',

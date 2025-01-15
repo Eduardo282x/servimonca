@@ -1,4 +1,4 @@
-import { IStore, IStoreForm, storeColumns, storeDataForm, storeDefaultValues, storeValidationSchema } from './equipment.data.ts';
+import { EquipmentForm, IEquipment, storeColumns, storeDataForm, storeDefaultValues, storeValidationSchema } from './equipment.data.ts';
 import TableComponent from '../../components/TableComponent.tsx';
 import { useEffect, useState } from 'react';
 import DialogComponent from '../../components/DialogComponent.tsx';
@@ -14,8 +14,8 @@ import { SnackbarComponent } from '../../components/SnackbarComponent.tsx';
 export const Equipment = () => {
 
     // useStates
-    const [equipment, setEquipment] = useState<IStore[]>([]);
-    const [defaultValues, setDefaultValues] = useState<IStoreForm>(storeDefaultValues);
+    const [equipment, setEquipment] = useState<IEquipment[]>([]);
+    const [defaultValues, setDefaultValues] = useState<EquipmentForm>(storeDefaultValues);
     const [formAction, setFormAction] = useState<actionsValid>('add');
     const [dialog, setDialog] = useState<boolean>(false);
     const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
@@ -31,7 +31,7 @@ export const Equipment = () => {
     // Asuync functions
     async function getEquipments() {
         setLoading(true);
-        await getDataApi('/equipment').then((response: IStore[]) => {
+        await getDataApi('/equipment').then((response: IEquipment[]) => {
             setEquipment(response);
             setLoading(false);
         });
@@ -54,7 +54,7 @@ export const Equipment = () => {
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
         const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/equipment');
-        setDefaultValues(responseBaseApi.body as IStoreForm);
+        setDefaultValues(responseBaseApi.body as EquipmentForm);
         setFormAction(responseBaseApi.action)
         if (responseBaseApi.open) { setDialog(true) };
         if (responseBaseApi.close) { setDialog(false) };
@@ -68,7 +68,7 @@ export const Equipment = () => {
     return (
         <div>
 
-            <p className=' text-3xl font-semibold mb-5'>Almacén</p>
+            <p className=' text-3xl font-semibold mb-5'>Equipos</p>
 
             {loading ? <Loader /> : <TableComponent tableData={equipment} tableColumns={storeColumns} openDialog={openDialog} />}
 

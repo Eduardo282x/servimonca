@@ -1,5 +1,3 @@
-import { z } from "zod";
-import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
 import { formatDate } from "../../utils/formater";
 
@@ -36,45 +34,3 @@ export const reportColumns: IColumns[] = [
         canFilter: false
     },
 ];
-
-
-//Dialog & Form
-export interface IReportForm {
-    reportType: string;
-    description: string;
-}
-
-export const reportsDataForm: IDataForm[] = [
-    {
-        label: 'Tipo de Reporte',
-        value: '',
-        type: 'select',
-        name: 'reportType',
-        options: [
-            {
-                label: 'Inventario',
-                value: 'Inventario'
-            },
-            {
-                label: 'Mantenimiento',
-                value: 'Mantenimiento'
-            }
-        ]
-    },
-    {
-        label: 'Descripción',
-        value: '',
-        type: 'text',
-        name: 'description',
-    },
-];
-
-export const reportsDefaultValues : IReportForm = {
-    reportType: '',
-    description: '',
-}
-
-export const reportsValidationSchema: object = z.object({
-    reportType: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    description: z.string().refine(email => email !== '', { message: 'El campo es requerido' }),
-});

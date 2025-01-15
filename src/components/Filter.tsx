@@ -17,7 +17,6 @@ export default function Filter({ tableData, setTableData, tableColumns }: IFilte
 
     // Main Function
     const changeFilter = (filter: string) => {
-
         if (tableData && tableData.length > 0) {
             const filterColumn = tableColumns.filter((col: IColumns) => col.canFilter !== false);
             const filtersKey = filterColumn.map((col: IColumns) => col.column);
