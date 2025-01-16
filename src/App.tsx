@@ -10,6 +10,7 @@ import { Clients } from "./pages/clients/Clients";
 import { Users } from "./pages/Users/Users";
 import 'material-icons/iconfont/material-icons.css';
 import { SparePart } from "./pages/sparePart/SparePart";
+import { Profile } from "./pages/profile/Profile";
 
 export default function App() {
     return (
@@ -28,6 +29,7 @@ export default function App() {
                 <Route path='/reportes' element={<Reports />} />
                 <Route path='/mantenimiento' element={<Maintenance />} />
                 <Route path='/usuarios' element={<Users />} />
+                <Route path='/perfil' element={<Profile />} />
               </Route>
 
             </Routes>
