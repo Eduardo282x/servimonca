@@ -19,33 +19,33 @@ export interface IClients {
 export const customerColumns: IColumns[] = [
     {
         label: 'Nombre',
-        column: 'customerName',
+        column: 'name',
         element: (data: IClients) => data.name,
     },
     {
         label: 'Apellido',
-        column: 'customerLastnamea',
+        column: 'lastname',
         element: (data: IClients) => data.lastname,
         canFilter: false,
     },
     {
         label: 'Razón social',
-        column: 'customerEmail',
-        element: (data: IClients) => data.email.toString(),
+        column: 'rif',
+        element: (data: IClients) => data.rif.toString(),
     },
     {
         label: 'Teléfono',
-        column: 'customerEmail',
+        column: 'phone',
         element: (data: IClients) => data.phone.toString(),
     },
     {
         label: 'Correo',
-        column: 'customerEmail',
+        column: 'email',
         element: (data: IClients) => data.email.toString(),
     },
     {
         label: 'Dirección',
-        column: 'customerAddress',
+        column: 'address',
         element: (data: IClients) => data.address,
     },
     {
