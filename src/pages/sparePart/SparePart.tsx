@@ -66,14 +66,14 @@ export const SparePart = () => {
                     setDialog={setDialog}
                     form={
                         <FormComponent
-                            title={formAction === 'addApi' ? 'Nuevo Mantenimiento' : 'Editar Mantenimiento'}
+                            title={formAction === 'addApi' ? 'Nuevo Repuesto' : 'Editar Repuesto'}
                             description={formAction === 'addApi' ? 'Llena el formulario y agrega' : 'Edita los campos y modifica'}
-                            descriptionColored={formAction === 'addApi' ? 'un nuevo mantenimiento' : 'un mantenimiento'}
+                            descriptionColored={formAction === 'addApi' ? 'un nuevo repuesto' : 'un repuesto'}
                             dataForm={formAction === 'editApi' ? sparePartEditDataForm : sparePartDataForm}
                             defaultValues={defaultValues}
                             validationSchema={sparePartValidationSchema}
                             action={formAction}
-                            buttonText={formAction === 'addApi' ? 'Agregar Mantenimiento' : 'Editar Mantenimiento'}
+                            buttonText={formAction === 'addApi' ? 'Agregar repuesto' : 'Editar repuesto'}
                             onSubmitForm={openDialog}
                         />
                     }
