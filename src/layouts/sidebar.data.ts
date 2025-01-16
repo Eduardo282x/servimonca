@@ -52,5 +52,12 @@ export const sidebarMenu: ISidebarMenu[] = [
         icon: 'group',
         permissions: ['Administrador'],
         active: false
+    },
+    {
+        label: 'Perfil',
+        redirectTo: '/perfil',
+        icon: 'person',
+        permissions: ['Administrador', 'Personal Administrativo','Almacén','Taller'],
+        active: false
     }
 ]
