@@ -57,6 +57,9 @@ export const Maintenance = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
+        if(action === 'edit'){
+            data.sparePartId = 1;
+        }
         const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/maintenance');
         setDefaultValues(responseBaseApi.body as IMaintenanceForm);
         setFormAction(responseBaseApi.action)
