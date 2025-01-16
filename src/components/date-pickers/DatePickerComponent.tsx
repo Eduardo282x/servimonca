@@ -3,7 +3,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import 'dayjs/locale/es'; 
+import 'dayjs/locale/es';
+import { currentYear } from './YearPickerComponent';
 
 interface DatePickerProps {
   value: Dayjs | null;
@@ -18,6 +19,7 @@ export default function DatePickerComponent({ value, onChange }: DatePickerProps
           className='w-full'
           value={value}
           onChange={onChange}
+          minDate={currentYear}
           format='DD/MM/YYYY'
           views={['year', 'month', 'day']} />
       </DemoContainer>

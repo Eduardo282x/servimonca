@@ -4,13 +4,13 @@ import { IColumns } from "../../interfaces/table.interface";
 
 
 export interface IClients {
-    id:        number;
-    name:      string;
-    lastname:  string;
-    rif:       string;
-    phone:     string;
-    email:     string;
-    address:   string;
+    id: number;
+    name: string;
+    lastname: string;
+    rif: string;
+    phone: string;
+    email: string;
+    address: string;
     createdAt: Date;
 }
 
@@ -59,11 +59,13 @@ export const customerColumns: IColumns[] = [
 
 //Dialog & Form
 export interface IClientsForm {
-    id: string;
-    customerName: string;
-    customerLastname: string;
-    customerEmail: string;
-    customerAddress: string;
+    id: number;
+    name: string;
+    lastname: string;
+    rif: string;
+    phone: string;
+    email: string;
+    address: string;
 }
 
 export const clientsDataForm: IDataForm[] = [
@@ -71,40 +73,56 @@ export const clientsDataForm: IDataForm[] = [
         label: 'Nombre',
         value: '',
         type: 'text',
-        name: 'customerName',
+        name: 'name',
     },
     {
         label: 'Apellido',
         value: '',
         type: 'text',
-        name: 'customerLastname',
+        name: 'lastname',
+    },
+    {
+        label: 'Rif',
+        value: '',
+        type: 'text',
+        name: 'rif',
+    },
+    {
+        label: 'Teléfono',
+        value: '',
+        type: 'text',
+        name: 'phone',
     },
     {
         label: 'Correo',
         value: '',
         type: 'email',
-        name: 'customerEmail',
+        name: 'email',
     },
     {
         label: 'Dirección',
         value: '',
         type: 'text',
-        name: 'customerAddress',
+        name: 'address',
     }
 ];
 
-export const clientsDefaultValues : IClientsForm = {
-    id: '',
-    customerName: '',
-    customerLastname: '',
-    customerEmail: '',
-    customerAddress: ''
+export const clientsDefaultValues: IClientsForm = {
+    id: 0,
+    name: '',
+    lastname: '',
+    rif: '',
+    phone: '',
+    email: '',
+    address: '',
 }
 
-export const clientsValidationSchema : object = z.object({
-    customerName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    customerLastname: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    customerEmail: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
-    customerAddress: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
+export const clientsValidationSchema: object = z.object({
+    name: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    lastname: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    rif: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
+    phone: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
+    email: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
+    address: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
 });
 

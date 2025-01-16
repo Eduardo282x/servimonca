@@ -8,7 +8,7 @@ interface YearPickerComponentProps {
     setYear: React.Dispatch<React.SetStateAction<dayjs.Dayjs | null>>;
 }
 
-const currentYear = dayjs();
+export const currentYear = dayjs();
 
 export default function YearPickerComponent({year, setYear} : YearPickerComponentProps) {
 
@@ -18,7 +18,7 @@ export default function YearPickerComponent({year, setYear} : YearPickerComponen
                 value={year}
                 onChange={(newYear) => setYear(dayjs(newYear))}
                 label="Selecciona un año"
-                maxDate={currentYear}
+                minDate={currentYear}
                 openTo="year"
                 views={['year']}
                 yearsOrder="desc"

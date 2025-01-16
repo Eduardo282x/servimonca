@@ -15,21 +15,21 @@ export const sidebarMenu: ISidebarMenu[] = [
         label: 'Equipos',
         redirectTo: '/equipos',
         icon: 'front_loader',
-        permissions: ['Administrador', 'Personal Administrativo', 'Almacén'],
+        permissions: ['Administrador', 'Almacén'],
         active: false
     },
     {
         label: 'Repuestos',
         redirectTo: '/repuestos',
         icon: 'donut_small',
-        permissions: ['Administrador', 'Personal Administrativo', 'Taller'],
+        permissions: ['Administrador', 'Taller'],
         active: false
     },
     {
         label: 'Mantenimiento',
         redirectTo: '/mantenimiento',
         icon: 'construction',
-        permissions: ['Administrador', 'Taller'],
+        permissions: ['Administrador', 'Personal Administrativo','Taller'],
         active: false
     },
     {
@@ -43,7 +43,7 @@ export const sidebarMenu: ISidebarMenu[] = [
         label: 'Reportes',
         redirectTo: '/reportes',
         icon: 'analytics',
-        permissions: ['Administrador'],
+        permissions: ['Administrador','Personal Administrativo',],
         active: false
     },
     {
