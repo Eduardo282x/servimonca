@@ -4,34 +4,25 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import 'dayjs/locale/es';
-import { currentYear } from './YearPickerComponent';
+import dayjs from 'dayjs';
 
 interface DatePickerProps {
   value: Dayjs | null;
   onChange: (newValue: Dayjs | null) => void;
-  includeMin: boolean;
+  minDate: dayjs.Dayjs | undefined;
 }
 
-export default function DatePickerComponent({ value, onChange, includeMin }: DatePickerProps) {
+export default function DatePickerComponent({ value, onChange, minDate }: DatePickerProps) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
       <DemoContainer components={['DatePicker']}>
-        {includeMin ? (
           <DatePicker
             className='w-full'
             value={value}
             onChange={onChange}
-            minDate={currentYear}
+            minDate={minDate}
             format='DD/MM/YYYY'
             views={['year', 'month', 'day']} />
-        ) : (
-          <DatePicker
-            className='w-full'
-            value={value}
-            onChange={onChange}
-            format='DD/MM/YYYY'
-            views={['year', 'month', 'day']} />
-        )}
       </DemoContainer>
     </LocalizationProvider>
   );

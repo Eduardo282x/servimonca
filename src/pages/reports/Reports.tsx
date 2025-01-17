@@ -1,17 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import TableComponent from "../../components/TableComponent";
 import { useEffect, useState } from "react";
 import { getDataApi } from "../../API/AxiosActions";
 import { IReportForm, IReports, keysForm, optionReports, validation } from "./reports.data";
 import { Controller, useForm } from "react-hook-form";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import DatePickerComponent from "../../components/date-pickers/DatePickerComponent";
 import { IOptions } from "../../interfaces/form.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+const minDate = dayjs();
 export const Reports = () => {
     // useStates
     const [reports, setReports] = useState<IReports[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [endDateMinDate, setEndDateMinDate] = useState<Dayjs>();
 
     const { control, setValue, handleSubmit, register, formState: { errors } } = useForm<IReportForm>({
         defaultValues: {
@@ -28,6 +31,7 @@ export const Reports = () => {
 
     const setChangeDatePicker = (formControl: keysForm, value: any) => {
         const formattedValue = value ? dayjs(value).toISOString() : null;
+        if(formControl === 'startDate') setEndDateMinDate(dayjs(value));
         setValue(formControl, new Date(formattedValue as string))
     }
 
@@ -72,7 +76,7 @@ export const Reports = () => {
                             defaultValue={null}
                             render={({ field }) => (
                                 <DatePickerComponent
-                                    includeMin={false}
+                                    minDate={minDate}
                                     value={field.value ? dayjs(field.value) : null} // Convertir el valor a Dayjs
                                     onChange={(date) => {
                                         setChangeDatePicker('startDate', date)
@@ -89,7 +93,7 @@ export const Reports = () => {
                             defaultValue={null}
                             render={({ field }) => (
                                 <DatePickerComponent
-                                    includeMin={false}
+                                    minDate={endDateMinDate}
                                     value={field.value ? dayjs(field.value) : null} // Convertir el valor a Dayjs
                                     onChange={(date) => {
                                         setChangeDatePicker('endDate', date)
@@ -100,8 +104,8 @@ export const Reports = () => {
                     </div>
                 </div>
 
-                <button 
-                className="disabled:bg-gray-400 bg-blue-500 hover:bg-blue-600 w-40 p-2 text-white font-bold cursor-pointer transition-colors rounded-lg text-sm mt-5"
+                <button
+                    className="disabled:bg-gray-400 bg-blue-500 hover:bg-blue-600 w-40 p-2 text-white font-bold cursor-pointer transition-colors rounded-lg text-sm mt-5"
                 > Enviar</button>
             </form>
             {/* {loading ? <Loader /> : <TableComponent addButton={'Agregar'} tableData={reports} tableColumns={reportColumns} openDialog={openDialog} />}

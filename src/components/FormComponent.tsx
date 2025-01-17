@@ -7,6 +7,8 @@ import { TableReturn } from '../interfaces/table.interface';
 import DatePickerComponent from './date-pickers/DatePickerComponent';
 import dayjs from "dayjs";
 
+export const minDate = dayjs();
+
 export const FormComponent = ({ title, description, descriptionColored, dataForm, defaultValues, validationSchema, buttonText, action, onSubmitForm }: IForm) => {
 
     const { control, register, handleSubmit, setValue, formState: { errors } } = useForm<FormValues>({
@@ -108,7 +110,7 @@ export const FormComponent = ({ title, description, descriptionColored, dataForm
                                 defaultValue={null}
                                 render={({ field }) => (
                                     <DatePickerComponent
-                                    includeMin={true}
+                                        minDate={minDate}
                                         value={field.value ? dayjs(field.value) : null} // Convertir el valor a Dayjs
                                         onChange={(date) => {
                                             setChangeDatePicker(form.name, date)
