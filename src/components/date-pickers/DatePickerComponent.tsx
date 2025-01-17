@@ -9,19 +9,29 @@ import { currentYear } from './YearPickerComponent';
 interface DatePickerProps {
   value: Dayjs | null;
   onChange: (newValue: Dayjs | null) => void;
+  includeMin: boolean;
 }
 
-export default function DatePickerComponent({ value, onChange }: DatePickerProps) {
+export default function DatePickerComponent({ value, onChange, includeMin }: DatePickerProps) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
       <DemoContainer components={['DatePicker']}>
-        <DatePicker
-          className='w-full'
-          value={value}
-          onChange={onChange}
-          minDate={currentYear}
-          format='DD/MM/YYYY'
-          views={['year', 'month', 'day']} />
+        {includeMin ? (
+          <DatePicker
+            className='w-full'
+            value={value}
+            onChange={onChange}
+            minDate={currentYear}
+            format='DD/MM/YYYY'
+            views={['year', 'month', 'day']} />
+        ) : (
+          <DatePicker
+            className='w-full'
+            value={value}
+            onChange={onChange}
+            format='DD/MM/YYYY'
+            views={['year', 'month', 'day']} />
+        )}
       </DemoContainer>
     </LocalizationProvider>
   );
