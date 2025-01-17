@@ -154,8 +154,5 @@ export const maintenanceTabsProperties = [
     {
         label: 'Solicitudes de Mantenimiento'
     },
-    {
-        label: 'Reportes'
-    }
 ]
 

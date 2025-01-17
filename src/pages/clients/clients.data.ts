@@ -29,7 +29,7 @@ export const customerColumns: IColumns[] = [
         canFilter: false,
     },
     {
-        label: 'Razón social',
+        label: 'Rif',
         column: 'rif',
         element: (data: IClients) => data.rif.toString(),
     },

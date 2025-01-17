@@ -33,6 +33,13 @@ export const sidebarMenu: ISidebarMenu[] = [
         active: false
     },
     {
+        label: 'Solicitudes',
+        redirectTo: '/solicitudes',
+        icon: 'description',
+        permissions: ['Administrador', 'Personal Administrativo','Taller'],
+        active: false
+    },
+    {
         label: 'Clientes',
         redirectTo: '/clientes',
         icon: 'groups',

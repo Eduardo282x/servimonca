@@ -26,7 +26,7 @@ export const Reports = () => {
         <div>
             <p className=' text-3xl font-semibold mb-5'>Reportes</p>
 
-            {/* {loading ? <Loader /> : <TableComponent tableData={reports} tableColumns={reportColumns} openDialog={openDialog} />}
+            {/* {loading ? <Loader /> : <TableComponent addButton={'Agregar'} tableData={reports} tableColumns={reportColumns} openDialog={openDialog} />}
 
             */}
         </div>
