@@ -26,7 +26,7 @@ export const sidebarMenu: ISidebarMenu[] = [
         active: false
     },
     {
-        label: 'Mantenimiento',
+        label: 'Taller',
         redirectTo: '/mantenimiento',
         icon: 'construction',
         permissions: ['Administrador', 'Personal Administrativo','Taller'],
