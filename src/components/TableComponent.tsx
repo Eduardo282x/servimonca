@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton, Button } from "@mui/material";
-import { Check, Pencil, Trash, X } from "lucide-react";
+import { Check, Info, Pencil, Trash, X } from "lucide-react";
 import { IColumns, TableReturn } from "../interfaces/table.interface";
 import { actionsValid } from "../interfaces/table.interface";
 import ErrorMessage from "./ErrorMessage";
@@ -11,7 +11,7 @@ interface TableComponentProps {
     tableData: any[];
     tableColumns: IColumns[];
     openDialog: (tableReturn: TableReturn) => Promise<void>;
-    addButton?: string;
+    addButton: string;
 }
 
 export default function TableComponent({ tableData, tableColumns, openDialog, addButton }: TableComponentProps) {
@@ -40,6 +40,7 @@ export default function TableComponent({ tableData, tableColumns, openDialog, ad
         if (icon === 'delete') return <Trash color="#ff0000" />;
         if (icon === 'success') return <Check color="#00ff33" />;
         if (icon === 'error') return <X color="#ff0000" />;
+        if (icon === 'info') return <Info color="#1565c0" />;
     }
 
     return (
@@ -49,13 +50,15 @@ export default function TableComponent({ tableData, tableColumns, openDialog, ad
             <div className="flex items-center justify-between w-full my-5">
                 <Filter tableData={tableData} setTableData={setDataFilter} tableColumns={tableColumns}></Filter>
 
-                <Button
-                    onClick={() => openDialog({action: 'add', data: null})}
-                    variant="contained"
-                    className='flex gap-2'
-                >
-                    <span className='material-icons'>add_circle</span> {addButton ? addButton : 'Agregar'}
-                </Button>
+                {addButton !== '' && (
+                    <Button
+                        onClick={() => openDialog({ action: 'add', data: null })}
+                        variant="contained"
+                        className='flex gap-2'
+                    >
+                        <span className='material-icons'>add_circle</span> {addButton}
+                    </Button>
+                )}
             </div>
 
             <Paper sx={{ width: '100%' }}>

@@ -54,7 +54,7 @@ export const sparePartColumns: IColumns[] = [
 
 //Dialog & Form
 export interface ISparePartForm {
-    id: string;
+    id: number;
     sparePart: string;
     brand: string;
     model: string;
@@ -136,7 +136,7 @@ export const sparePartEditDataForm: IDataForm[] = [
 ];
 
 export const sparePartDefaultValues: ISparePartForm = {
-    id: '',
+    id: 0,
     sparePart: '',
     brand: '',
     model: '',
@@ -154,3 +154,24 @@ export const sparePartValidationSchema: object = z.object({
     criticAmount: z.coerce.number({ message: 'El campo es requerido' }),
 });
 
+
+export const existSparePartDataForm: IDataForm[] = [
+    {
+        label: 'Repuesto',
+        value: '',
+        type: 'select',
+        name: 'id',
+        options: []
+    },
+    {
+        label: 'Cantidad',
+        value: '',
+        type: 'number',
+        name: 'amount',
+    },
+];
+
+export const sparePartExistValidationSchema: object = z.object({
+    id: z.coerce.number({ message: 'El campo es requerido' }),
+    amount: z.coerce.number({ message: 'El campo es requerido' }),
+});

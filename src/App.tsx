@@ -11,6 +11,7 @@ import { Users } from "./pages/Users/Users";
 import 'material-icons/iconfont/material-icons.css';
 import { SparePart } from "./pages/sparePart/SparePart";
 import { Profile } from "./pages/profile/Profile";
+import { Request } from "./pages/request/Request";
 
 export default function App() {
     return (
@@ -25,6 +26,7 @@ export default function App() {
                 <Route path='/equipos' element={<Equipment />} />
                 <Route path='/clientes' element={<Clients />} />
                 <Route path='/alquiler' element={<Rent />} />
+                <Route path='/solicitudes' element={<Request />} />
                 <Route path='/repuestos' element={<SparePart />} />
                 <Route path='/reportes' element={<Reports />} />
                 <Route path='/mantenimiento' element={<Maintenance />} />

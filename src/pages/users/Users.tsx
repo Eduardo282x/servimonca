@@ -69,7 +69,7 @@ export const Users = () => {
         <div>
             <p className=' text-3xl font-semibold mb-5'>Usuarios</p>
 
-            {loading ? <Loader /> : <TableComponent tableData={users} tableColumns={userColumns} openDialog={openDialog} />}
+            {loading ? <Loader /> : <TableComponent addButton={'Agregar'} tableData={users} tableColumns={userColumns} openDialog={openDialog} />}
 
             <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 

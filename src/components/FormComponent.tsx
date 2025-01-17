@@ -15,7 +15,7 @@ export const FormComponent = ({ title, description, descriptionColored, dataForm
     });
 
     const onSubmit = (returnForm: any) => {
-        (returnForm as FormValues).id = defaultValues.id;
+        (returnForm as FormValues).id = returnForm.id ? returnForm.id : defaultValues.id;
         const formData: TableReturn = {
             action: action,
             data: returnForm
@@ -32,9 +32,11 @@ export const FormComponent = ({ title, description, descriptionColored, dataForm
         <>
             <h2 className="text-center text-xl">{title}</h2>
 
-            <p className="text-xl font-bold mt-5">{description}  {''}
-                <span className="text-blue-600">{descriptionColored}</span>
-            </p>
+            {description !== '' && (
+                <p className="text-xl font-bold mt-5">{description}  {''}
+                    <span className="text-blue-600">{descriptionColored}</span>
+                </p>
+            )}
 
             <form onSubmit={handleSubmit(onSubmit)} className='mt-8 space-y-2' noValidate>
                 {dataForm && dataForm.map((form: IDataForm, index: number) => (

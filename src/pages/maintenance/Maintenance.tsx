@@ -59,7 +59,7 @@ export const Maintenance = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-        if(action === 'edit'){
+        if (action === 'edit') {
             data.sparePartId = 1;
         }
         const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/maintenance');
@@ -81,7 +81,18 @@ export const Maintenance = () => {
 
             <TabsComponent tabValue={tabValue} setTabValue={setTabValue} tabs={maintenanceTabsProperties} />
 
-            {!loading && tabValue === 0 ? <TableComponent tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} /> : <Loader />}
+            {!loading ?
+                <>
+                {tabValue === 0 && (
+
+                    <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />
+                )}
+                {tabValue !== 0 && (
+                    <p>En proceso...</p>
+                )}
+                </>
+                :
+                <Loader />}
 
             <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 
