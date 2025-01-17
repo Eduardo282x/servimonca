@@ -108,6 +108,7 @@ export const FormComponent = ({ title, description, descriptionColored, dataForm
                                 defaultValue={null}
                                 render={({ field }) => (
                                     <DatePickerComponent
+                                    includeMin={true}
                                         value={field.value ? dayjs(field.value) : null} // Convertir el valor a Dayjs
                                         onChange={(date) => {
                                             setChangeDatePicker(form.name, date)
