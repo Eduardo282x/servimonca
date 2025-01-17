@@ -2,16 +2,17 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
 import LoginPage from "./pages/auth/Login";
 import { Layout } from "./layouts/Layout";
-import { Equipment } from "./pages/equipment/Equipment";
+// import { Equipment } from "./pages/equipment/Equipment";
 import { Rent } from "./pages/rent/Rent";
 import { Reports } from "./pages/reports/Reports";
 import { Maintenance } from "./pages/maintenance/Maintenance";
 import { Clients } from "./pages/clients/Clients";
 import { Users } from "./pages/Users/Users";
 import 'material-icons/iconfont/material-icons.css';
-import { SparePart } from "./pages/sparePart/SparePart";
+// import { SparePart } from "./pages/sparePart/SparePart";
 import { Profile } from "./pages/profile/Profile";
 import { Request } from "./pages/request/Request";
+import { Store } from "./pages/Store/Store";
 
 export default function App() {
     return (
@@ -23,11 +24,12 @@ export default function App() {
               </Route>
 
               <Route element={<Layout />}>
-                <Route path='/equipos' element={<Equipment />} />
+                <Route path='/almacen' element={<Store />} />
+                {/* <Route path='/equipos' element={<Equipment />} />
+                <Route path='/repuestos' element={<SparePart />} /> */}
                 <Route path='/clientes' element={<Clients />} />
                 <Route path='/alquiler' element={<Rent />} />
                 <Route path='/solicitudes' element={<Request />} />
-                <Route path='/repuestos' element={<SparePart />} />
                 <Route path='/reportes' element={<Reports />} />
                 <Route path='/mantenimiento' element={<Maintenance />} />
                 <Route path='/usuarios' element={<Users />} />

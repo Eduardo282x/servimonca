@@ -12,19 +12,26 @@ export type Roles = 'Administrador' | 'Personal Administrativo' | 'Almacén' | '
 
 export const sidebarMenu: ISidebarMenu[] = [
     {
-        label: 'Equipos',
-        redirectTo: '/equipos',
-        icon: 'front_loader',
+        label: 'Almacén',
+        redirectTo: '/almacen',
+        icon: 'domain',
         permissions: ['Administrador', 'Almacén'],
         active: false
     },
-    {
-        label: 'Repuestos',
-        redirectTo: '/repuestos',
-        icon: 'donut_small',
-        permissions: ['Administrador', 'Taller'],
-        active: false
-    },
+    // {
+    //     label: 'Equipos',
+    //     redirectTo: '/equipos',
+    //     icon: 'front_loader',
+    //     permissions: ['Administrador', 'Almacén'],
+    //     active: false
+    // },
+    // {
+    //     label: 'Repuestos',
+    //     redirectTo: '/repuestos',
+    //     icon: 'donut_small',
+    //     permissions: ['Administrador', 'Taller'],
+    //     active: false
+    // },
     {
         label: 'Taller',
         redirectTo: '/mantenimiento',
