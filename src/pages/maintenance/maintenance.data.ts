@@ -143,3 +143,19 @@ export const maintenanceValidationSchema: object = z.object({
     // sparePartId: z.number({ message: 'El campo es requerido' })
 });
 
+// Tabs
+export const maintenanceTabsProperties = [
+    {
+        label: 'Mantenimientos'
+    },
+    {
+        label: 'Ordenes de Mantenimiento'
+    },
+    {
+        label: 'Solicitudes de Mantenimiento'
+    },
+    {
+        label: 'Reportes'
+    }
+]
+

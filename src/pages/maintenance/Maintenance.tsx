@@ -1,7 +1,7 @@
 import TableComponent from '../../components/TableComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { useEffect, useState } from 'react';
-import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm } from './maintenance.data';
+import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { getDataApi } from '../../API/AxiosActions';
@@ -11,6 +11,7 @@ import { BaseApi, BaseApiReturn } from '../../API/BaseAPI';
 import { SnackbarComponent } from '../../components/SnackbarComponent';
 import { IDataForm } from '../../interfaces/form.interface';
 import { IEquipment } from '../equipment/equipment.data';
+import TabsComponent from '../../components/TabsComponent';
 
 export const Maintenance = () => {
 
@@ -23,6 +24,7 @@ export const Maintenance = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
     const [dataForm, setDataForm] = useState<IDataForm[]>(maintenanceDataForm);
+    const [tabValue, setTabValue] = useState<number>(0);
 
     // useEffects
     useEffect(() => {
@@ -75,9 +77,11 @@ export const Maintenance = () => {
     return (
 
         <div>
-            <p className=' text-3xl font-semibold mb-5'>Mantenimiento</p>
+            <p className='text-4xl font-semibold mb-3'>Taller</p>
 
-            {loading ? <Loader /> : <TableComponent tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />}
+            <TabsComponent tabValue={tabValue} setTabValue={setTabValue} tabs={maintenanceTabsProperties} />
+
+            {!loading && tabValue === 0 ? <TableComponent tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} /> : <Loader />}
 
             <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 
