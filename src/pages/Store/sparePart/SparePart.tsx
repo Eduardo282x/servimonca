@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { getDataApi } from '../../../API/AxiosActions';
 import { BaseApiReturn, BaseApi } from '../../../API/BaseAPI';
 import DialogComponent from '../../../components/DialogComponent';
@@ -10,8 +10,9 @@ import { actionsValid, TableReturn } from '../../../interfaces/table.interface';
 import { Loader } from '../../../components/loaders/Loader';
 import { existSparePartDataForm, ISparePart, ISparePartForm, sparePartColumns, sparePartDataForm, sparePartDefaultValues, sparePartEditDataForm, sparePartExistValidationSchema, sparePartValidationSchema } from './sparePart.data';
 import { IDataForm } from '../../../interfaces/form.interface';
+import { updateStore } from '../Store';
 
-export const SparePart = () => {
+export const SparePart:FC<updateStore> = ({update, changeUpdate}) => {
     // useStates
     const [maintenances, setMaintenances] = useState<ISparePart[]>([]);
     const [defaultValues, setDefaultValues] = useState<ISparePartForm>(sparePartDefaultValues);
@@ -27,7 +28,7 @@ export const SparePart = () => {
     // useEffects
     useEffect(() => {
         getSparePart();
-    }, []);
+    }, [update]);
 
     // Async functions
     async function getSparePart() {
@@ -63,14 +64,14 @@ export const SparePart = () => {
             setSnackbar(responseBaseApi.snackbarMessage);
             getSparePart();
             setOpenSnackbar(true);
+            changeUpdate(true);
+            changeUpdate(false);
         };
     }
 
     return (
         <div>
             <div>
-                <p className=' text-3xl font-semibold mb-5'>Repuestos</p>
-
                 {loading ? <Loader /> : <TableComponent tableData={maintenances} tableColumns={sparePartColumns} openDialog={openDialog} addButton='Ingresar Orden de Compra' />}
 
                 <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>

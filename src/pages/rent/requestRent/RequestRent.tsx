@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { getDataApi } from '../../../API/AxiosActions';
 import { BaseApiReturn, BaseApi } from '../../../API/BaseAPI';
 import DialogComponent from '../../../components/DialogComponent';
@@ -11,8 +11,9 @@ import { UpdateStatusSparePart, requestDefaultValues, existSparePartValidationSc
 import { Loader } from '../../../components/loaders/Loader';
 import { ISparePart } from '../../Store/sparePart/sparePart.data';
 import { rentalColumns } from '../rentals/rental.data';
+import { updateStore } from '../../Store/Store';
 
-export const RequestRent = () => {
+export const RequestRent:FC<updateStore> = ({update, changeUpdate}) => {
     const [maintenances, setMaintenances] = useState<ISparePart[]>([]);
     const [formAction, setFormAction] = useState<actionsValid>('add');
     const [defaultValues, setDefaultValues] = useState<UpdateStatusSparePart>(requestDefaultValues);
@@ -32,7 +33,7 @@ export const RequestRent = () => {
     // useEffects
     useEffect(() => {
         getSparePart();
-    }, []);
+    }, [update]);
 
     // Async functions
     async function getSparePart() {
@@ -56,13 +57,15 @@ export const RequestRent = () => {
             setSnackbar(responseBaseApi.snackbarMessage);
             getSparePart();
             setOpenSnackbar(true);
+            changeUpdate(true);
+            changeUpdate(false);
         };
     }
 
     return (
         <div>
             <div>
-                <p className=' text-3xl font-semibold mb-5'>Solicitudes de alquiler</p>
+                {/* <p className=' text-3xl font-semibold mb-5'>Solicitudes de alquiler</p> */}
 
                 {loading ? <Loader /> : <TableComponent addButton={''} tableData={maintenances} tableColumns={columns} openDialog={openDialog} />}
 

@@ -120,8 +120,8 @@ export const clientsDefaultValues: IClientsForm = {
 export const clientsValidationSchema: object = z.object({
     name: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     lastname: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    rif: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
-    phone: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
+    rif: z.string().refine(email => email !== '', { message: 'El campo es requerido' }),
+    phone: z.string().refine(email => email !== '', { message: 'El campo es requerido' }),
     email: z.string().email().refine(email => email !== '', { message: 'El campo es requerido' }),
     address: z.string().refine(text => text !== '', { message: 'El campo es requerido' })
 });
