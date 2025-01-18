@@ -10,8 +10,8 @@ import { BaseResponse } from '../../interfaces/actions-api.interface';
 import { BaseApi, BaseApiReturn } from '../../API/BaseAPI';
 import { SnackbarComponent } from '../../components/SnackbarComponent';
 import { IDataForm } from '../../interfaces/form.interface';
-import { IEquipment } from '../equipment/equipment.data';
 import TabsComponent from '../../components/TabsComponent';
+import { IEquipment } from '../Store/equipment/equipment.data';
 
 export const Maintenance = () => {
 

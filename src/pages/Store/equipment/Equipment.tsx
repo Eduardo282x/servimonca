@@ -1,15 +1,15 @@
 import { EquipmentForm, IEquipment, storeColumns, storeDataForm, storeDefaultValues, storeValidationSchema } from './equipment.data.ts';
-import TableComponent from '../../components/TableComponent.tsx';
+import TableComponent from '../../../components/TableComponent.tsx';
 import { useEffect, useState } from 'react';
-import DialogComponent from '../../components/DialogComponent.tsx';
-import { FormComponent } from '../../components/FormComponent.tsx';
-import { actionsValid, TableReturn } from '../../interfaces/table.interface.ts';
-import { getDataApi } from '../../API/AxiosActions.ts';
-import { Loader } from '../../components/loaders/Loader.tsx';
-// import { IDataForm } from '../../interfaces/form.interface.ts';
-import { BaseResponse } from '../../interfaces/actions-api.interface.ts';
-import { BaseApi, BaseApiReturn } from '../../API/BaseAPI.ts';
-import { SnackbarComponent } from '../../components/SnackbarComponent.tsx';
+import DialogComponent from '../../../components/DialogComponent.tsx';
+import { FormComponent } from '../../../components/FormComponent.tsx';
+import { actionsValid, TableReturn } from '../../../interfaces/table.interface.ts';
+import { getDataApi } from '../../../API/AxiosActions.ts';
+import { Loader } from '../../../components/loaders/Loader.tsx';
+// import { IDataForm } from '../../../interfaces/form.interface.ts';
+import { BaseResponse } from '../../../interfaces/actions-api.interface.ts';
+import { BaseApi, BaseApiReturn } from '../../../API/BaseAPI.ts';
+import { SnackbarComponent } from '../../../components/SnackbarComponent.tsx';
 
 export const Equipment = () => {
 
