@@ -39,11 +39,18 @@ export const sidebarMenu: ISidebarMenu[] = [
         permissions: ['Administrador', 'Personal Administrativo','Taller'],
         active: false
     },
+    // {
+    //     label: 'Solicitudes',
+    //     redirectTo: '/solicitudes',
+    //     icon: 'description',
+    //     permissions: ['Administrador', 'Personal Administrativo','Taller'],
+    //     active: false
+    // },
     {
-        label: 'Solicitudes',
-        redirectTo: '/solicitudes',
-        icon: 'description',
-        permissions: ['Administrador', 'Personal Administrativo','Taller'],
+        label: 'Alquiler',
+        redirectTo: '/alquiler',
+        icon: 'garage',
+        permissions: ['Administrador', 'Personal Administrativo'],
         active: false
     },
     {

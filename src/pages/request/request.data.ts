@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { IDataForm } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
-import { ISparePart } from "../sparePart/sparePart.data";
+import { ISparePart } from "../Store/sparePart/sparePart.data";
 
 export const requestColumns: IColumns[] = [
     {

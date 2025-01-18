@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { IDataForm } from "../../interfaces/form.interface";
-import { IColumns } from "../../interfaces/table.interface";
+import { IDataForm } from "../../../interfaces/form.interface";
+import { IColumns } from "../../../interfaces/table.interface";
 
 export interface IEquipment {
     id:            number;
