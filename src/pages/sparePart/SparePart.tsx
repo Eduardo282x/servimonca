@@ -34,6 +34,7 @@ export const SparePart = () => {
         setLoading(true);
 
         await getDataApi('/sparepart/Approved').then((response: ISparePart[]) => {
+
             setMaintenances(response);
             setLoading(false);
 
@@ -69,7 +70,6 @@ export const SparePart = () => {
     return (
         <div>
             <div>
-                <p className=' text-3xl font-semibold mb-5'>Repuestos</p>
 
                 {loading ? <Loader /> : <TableComponent tableData={maintenances} tableColumns={sparePartColumns} openDialog={openDialog} addButton='Ingresar Orden de Compra' />}
 

@@ -1,7 +1,7 @@
 import TableComponent from '../../components/TableComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { useEffect, useState } from 'react';
-import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties } from './maintenance.data';
+import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties, maintenanceRequestsDataForm } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { getDataApi } from '../../API/AxiosActions';
@@ -83,16 +83,32 @@ export const Maintenance = () => {
 
             {!loading ?
                 <>
-                {tabValue === 0 && (
+                    {tabValue === 0 && (
 
-                    <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />
-                )}
-                {tabValue !== 0 && (
-                    <p>En proceso...</p>
-                )}
+                        <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />
+                    )}
+                    {tabValue === 1 && (
+                        <TableComponent addButton='' tableData={[]} tableColumns={[]} openDialog={openDialog} />
+                    )}
+                    {tabValue === 2 && (
+                        <div className='px-56 py-2'>
+                            <div className='p-10 border border-gray-400 border-spacing-2 rounded-lg'>
+                                <FormComponent 
+                                    title={'Solicitud de Mantenimiento'}
+                                    description={'Crea tu solicitud'}
+                                    descriptionColored={'de mantenimiento'}
+                                    dataForm={maintenanceRequestsDataForm}
+                                    defaultValues={[]}
+                                    validationSchema={[]}
+                                    action={formAction}
+                                    buttonText={'Agregar Solicitud'}
+                                    onSubmitForm={openDialog}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </>
-                :
-                <Loader />}
+                : <Loader />}
 
             <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 

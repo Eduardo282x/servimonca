@@ -154,5 +154,31 @@ export const maintenanceTabsProperties = [
     {
         label: 'Solicitudes de Mantenimiento'
     }
-]
+];
+
+
+
+// Maintenance Requests
+export interface IMaintenanceRequestsForm {
+    equipmentRequestsId: number;
+    sparepartRequestsId: number;
+}
+
+export const maintenanceRequestsDataForm: IDataForm[] = [
+    {
+        label: 'Vehículo',
+        value: '',
+        type: 'select',
+        name: 'equipmentRequestsId',
+        options: []
+    },
+    {
+        label: 'Repuesto',
+        value: '',
+        type: 'select',
+        name: 'sparepartRequestsId',
+        options: []
+    },
+];
+
 

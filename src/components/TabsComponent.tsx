@@ -12,7 +12,6 @@ export default function TabsComponent({tabValue, setTabValue, tabs} : TabsCompon
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
-        console.log(newValue)
     };
 
     return (
