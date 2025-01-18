@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { IColumns } from "../../interfaces/table.interface";
-import { IDataForm } from "../../interfaces/form.interface";
+import { IColumns } from "../../../interfaces/table.interface";
+import { IDataForm } from "../../../interfaces/form.interface";
 
 export interface ISparePart {
     id: number;

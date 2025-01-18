@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
-import { getDataApi } from '../../API/AxiosActions';
-import { BaseApiReturn, BaseApi } from '../../API/BaseAPI';
-import DialogComponent from '../../components/DialogComponent';
-import { FormComponent } from '../../components/FormComponent';
-import { SnackbarComponent } from '../../components/SnackbarComponent';
-import TableComponent from '../../components/TableComponent';
-import { BaseResponse } from '../../interfaces/actions-api.interface';
-import { actionsValid, TableReturn } from '../../interfaces/table.interface';
-import { Loader } from '../../components/loaders/Loader';
+import { getDataApi } from '../../../API/AxiosActions';
+import { BaseApiReturn, BaseApi } from '../../../API/BaseAPI';
+import DialogComponent from '../../../components/DialogComponent';
+import { FormComponent } from '../../../components/FormComponent';
+import { SnackbarComponent } from '../../../components/SnackbarComponent';
+import TableComponent from '../../../components/TableComponent';
+import { BaseResponse } from '../../../interfaces/actions-api.interface';
+import { actionsValid, TableReturn } from '../../../interfaces/table.interface';
+import { Loader } from '../../../components/loaders/Loader';
 import { existSparePartDataForm, ISparePart, ISparePartForm, sparePartColumns, sparePartDataForm, sparePartDefaultValues, sparePartEditDataForm, sparePartExistValidationSchema, sparePartValidationSchema } from './sparePart.data';
-import { IDataForm } from '../../interfaces/form.interface';
+import { IDataForm } from '../../../interfaces/form.interface';
 
 export const SparePart = () => {
     // useStates

@@ -27,6 +27,7 @@ export default function App() {
                 <Route path='/almacen' element={<Store />} />
                 {/* <Route path='/equipos' element={<Equipment />} />
                 <Route path='/repuestos' element={<SparePart />} /> */}
+                <Route path='/alquiler' element={<Rent />} />
                 <Route path='/clientes' element={<Clients />} />
                 <Route path='/alquiler' element={<Rent />} />
                 <Route path='/solicitudes' element={<Request />} />

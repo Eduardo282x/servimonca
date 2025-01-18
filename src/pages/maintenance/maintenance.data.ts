@@ -2,7 +2,7 @@ import { z } from "zod";
 import { IColumns } from "../../interfaces/table.interface";
 import { IDataForm } from "../../interfaces/form.interface";
 import { formatDate } from "../../utils/formater";
-import { IEquipment } from "../equipment/equipment.data";
+import { IEquipment } from "../Store/equipment/equipment.data";
 
 
 export interface IMaintenance {
