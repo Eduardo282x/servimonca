@@ -43,7 +43,7 @@ export const maintenanceColumns: IColumns[] = [
     {
         label: 'Repuesto',
         column: 'sparePart',
-        element: (data: IMaintenance) => typeof data.sparePart,
+        element: (data: IMaintenance) => data.sparePart.sparePart,
     },
     {
         label: 'Cantidad',
