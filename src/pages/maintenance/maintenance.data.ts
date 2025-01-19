@@ -3,18 +3,20 @@ import { IColumns } from "../../interfaces/table.interface";
 import { IDataForm } from "../../interfaces/form.interface";
 import { formatDate } from "../../utils/formater";
 import { IEquipment } from "../Store/equipment/equipment.data";
+import { ISparePart } from "../Store/sparePart/sparePart.data";
 
 
 export interface IMaintenance {
     id: number;
     equipmentId: number;
     sparePartId: number;
+    amount: number;
     type: string;
     description: string;
-    status: string;
     maintenanceDate: Date;
     createdAt: Date;
     equipment: IEquipment;
+    sparePart: ISparePart;
 }
 
 export const maintenanceColumns: IColumns[] = [
@@ -34,14 +36,19 @@ export const maintenanceColumns: IColumns[] = [
         element: (data: IMaintenance) => data.description,
     },
     {
-        label: 'Estado',
-        column: 'status',
-        element: (data: IMaintenance) => data.status,
-    },
-    {
         label: 'Fecha de Mantenimiento',
         column: 'maintenanceDate',
         element: (data: IMaintenance) => formatDate(data.maintenanceDate),
+    },
+    {
+        label: 'Repuesto',
+        column: 'sparePart',
+        element: (data: IMaintenance) => typeof data.sparePart,
+    },
+    {
+        label: 'Cantidad',
+        column: 'amount',
+        element: (data: IMaintenance) => data.amount.toString(),
     },
     {
         label: 'Editar',
@@ -56,12 +63,13 @@ export const maintenanceColumns: IColumns[] = [
 export interface IMaintenanceForm {
     id: string;
     equipmentId: number;
+    amount: number;
     maintenanceType: string;
     maintenanceDate: Date;
     description: string;
+    sparePart: string;
 
     type: string;
-    status: string;
     sparePartId: number;
 }
 
@@ -102,24 +110,16 @@ export const maintenanceDataForm: IDataForm[] = [
         name: 'maintenanceDate',
     },
     {
-        label: 'Estado',
+        label: 'Repuestos',
         value: '',
         type: 'select',
-        name: 'status',
-        options: [
-            {
-                label: 'Pendiente',
-                value: 'Pendiente'
-            },
-            {
-                label: 'En proceso',
-                value: 'En proceso'
-            },
-            {
-                label: 'Completada',
-                value: 'Completada'
-            }
-        ]
+        name: 'sparePartId',
+    },
+    {
+        label: 'Cantidad',
+        value: '',
+        type: 'number',
+        name: 'amount',
     }
 ];
 
@@ -130,8 +130,9 @@ export const maintenanceDefaultValues: IMaintenanceForm = {
     maintenanceDate: new Date(),
     description: '',
     type: '',
-    status: '',
-    sparePartId: 1,
+    sparePartId: 0,
+    amount: 0,
+    sparePart: ''
 }
 
 export const maintenanceValidationSchema: object = z.object({
@@ -154,31 +155,6 @@ export const maintenanceTabsProperties = [
     {
         label: 'Solicitudes de Mantenimiento'
     }
-];
-
-
-
-// Maintenance Requests
-export interface IMaintenanceRequestsForm {
-    equipmentRequestsId: number;
-    sparepartRequestsId: number;
-}
-
-export const maintenanceRequestsDataForm: IDataForm[] = [
-    {
-        label: 'Vehículo',
-        value: '',
-        type: 'select',
-        name: 'equipmentRequestsId',
-        options: []
-    },
-    {
-        label: 'Repuesto',
-        value: '',
-        type: 'select',
-        name: 'sparepartRequestsId',
-        options: []
-    },
 ];
 
 

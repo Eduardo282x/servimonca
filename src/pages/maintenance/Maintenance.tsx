@@ -1,7 +1,7 @@
 import TableComponent from '../../components/TableComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { useEffect, useState } from 'react';
-import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties, maintenanceRequestsDataForm } from './maintenance.data';
+import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { getDataApi } from '../../API/AxiosActions';
@@ -12,6 +12,7 @@ import { SnackbarComponent } from '../../components/SnackbarComponent';
 import { IDataForm } from '../../interfaces/form.interface';
 import TabsComponent from '../../components/TabsComponent';
 import { IEquipment } from '../Store/equipment/equipment.data';
+import { ISparePart } from '../Store/sparePart/sparePart.data';
 
 export const Maintenance = () => {
 
@@ -24,18 +25,20 @@ export const Maintenance = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
     const [dataForm, setDataForm] = useState<IDataForm[]>(maintenanceDataForm);
+    const [sparePartDataForm, setSparePartDataForm] = useState<IDataForm[]>(maintenanceDataForm);
     const [tabValue, setTabValue] = useState<number>(0);
 
     // useEffects
     useEffect(() => {
         getMaintenances();
         getVehicles();
+        getSpareParts()
     }, []);
 
     // Async functions
     async function getMaintenances() {
         setLoading(true);
-        await getDataApi('/maintenance').then((response: IMaintenance[]) => {
+        await getDataApi('/maintenance/all/Pendiente').then((response: IMaintenance[]) => {
             setMaintenances(response);
             setLoading(false);
         });
@@ -54,6 +57,21 @@ export const Maintenance = () => {
 
             setDataForm(newDataForm)
         })
+    }
+
+    async function getSpareParts() {
+        await getDataApi('/sparepart/Approved').then((response: ISparePart[]) => {
+            const newDataForm = [...sparePartDataForm];
+            const findSparePart = newDataForm.find(form => form.name === 'sparePartId') as IDataForm;
+            findSparePart.options = response.map(option => {
+                return {
+                    label: option.sparePart,
+                    value: option.id
+                }
+            });
+
+            setSparePartDataForm(newDataForm);
+        });
     }
 
     // Functions
@@ -88,16 +106,16 @@ export const Maintenance = () => {
                         <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />
                     )}
                     {tabValue === 1 && (
-                        <TableComponent addButton='' tableData={[]} tableColumns={[]} openDialog={openDialog} />
+                        <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />
                     )}
                     {tabValue === 2 && (
                         <div className='px-56 py-2'>
                             <div className='p-10 border border-gray-400 border-spacing-2 rounded-lg'>
-                                <FormComponent 
+                                <FormComponent
                                     title={'Solicitud de Mantenimiento'}
                                     description={'Crea tu solicitud'}
                                     descriptionColored={'de mantenimiento'}
-                                    dataForm={maintenanceRequestsDataForm}
+                                    dataForm={[]}
                                     defaultValues={[]}
                                     validationSchema={[]}
                                     action={formAction}
