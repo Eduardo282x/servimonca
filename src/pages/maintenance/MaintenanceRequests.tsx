@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react'
-import { getDataApi } from '../../API/AxiosActions';
-import { BaseResponse } from '../../interfaces/actions-api.interface';
-import { actionsValid, TableReturn } from '../../interfaces/table.interface';
-import { Loader } from 'lucide-react';
-import { BaseApiReturn, BaseApi } from '../../API/BaseAPI';
-import DialogComponent from '../../components/DialogComponent';
-import { FormComponent } from '../../components/FormComponent';
-import { SnackbarComponent } from '../../components/SnackbarComponent';
-import TableComponent from '../../components/TableComponent';
-import { existSparePartDataForm, existSparePartValidationSchema, requestColumns, requestDefaultValues, UpdateStatusSparePart } from './request.data';
-import { ISparePart } from '../Store/sparePart/sparePart.data';
+import { useEffect, useState } from "react";
+import { actionsValid, TableReturn } from "../../interfaces/table.interface";
+import { existMaintenanceDataForm, existMaintenanceValidationSchema, IMaintenance, maintenanceRequestColumns, maintenanceRequestDefaultValues, UpdateMaintenanceStatus } from "./maintenance.data";
+import { BaseResponse } from "../../interfaces/actions-api.interface";
+import { getDataApi } from "../../API/AxiosActions";
+import { BaseApi, BaseApiReturn } from "../../API/BaseAPI";
+import { Loader } from "../../components/loaders/Loader";
+import TableComponent from "../../components/TableComponent";
+import { SnackbarComponent } from "../../components/SnackbarComponent";
+import DialogComponent from "../../components/DialogComponent";
+import { FormComponent } from "../../components/FormComponent";
 
-export const Request = () => {
-    const [maintenances, setMaintenances] = useState<ISparePart[]>([]);
+
+export const MaintenanceRequests = () => {
+    const [maintenances, setMaintenances] = useState<IMaintenance[]>([]);
     const [formAction, setFormAction] = useState<actionsValid>('add');
-    const [defaultValues, setDefaultValues] = useState<UpdateStatusSparePart>(requestDefaultValues);
+    const [defaultValues, setDefaultValues] = useState<UpdateMaintenanceStatus>(maintenanceRequestDefaultValues);
     const [dialog, setDialog] = useState<boolean>(false);
     const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
     const [loading, setLoading] = useState<boolean>(true);
@@ -22,13 +22,13 @@ export const Request = () => {
 
     // useEffects
     useEffect(() => {
-        getSparePart();
+        getMaintenances();
     }, []);
 
     // Async functions
-    async function getSparePart() {
+    async function getMaintenances() {
         setLoading(true);
-        await getDataApi('/sparepart/Pending').then((response: ISparePart[]) => {
+        await getDataApi('/maintenance/all/Pendiente').then((response: IMaintenance[]) => {
             setMaintenances(response);
             setLoading(false);
         });
@@ -37,14 +37,15 @@ export const Request = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/sparepart/status');
-        setDefaultValues(responseBaseApi.body as UpdateStatusSparePart)
+        data.status = data.status === 'Approved' ? true : false;
+        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/maintenance/status');
+        setDefaultValues(responseBaseApi.body as UpdateMaintenanceStatus);
         setFormAction(responseBaseApi.action)
         if (responseBaseApi.open) { setDialog(true) };
         if (responseBaseApi.close) { setDialog(false) };
         if (responseBaseApi.snackbarMessage.message !== '') {
             setSnackbar(responseBaseApi.snackbarMessage);
-            getSparePart();
+            getMaintenances();
             setOpenSnackbar(true);
         };
     }
@@ -53,7 +54,7 @@ export const Request = () => {
         <div>
             <div>
 
-                {loading ? <Loader /> : <TableComponent addButton={''} tableData={maintenances} tableColumns={requestColumns} openDialog={openDialog} />}
+                {loading ? <Loader /> : <TableComponent addButton={''} tableData={maintenances} tableColumns={maintenanceRequestColumns} openDialog={openDialog} />}
 
                 <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 
@@ -66,9 +67,9 @@ export const Request = () => {
                                 title={'Solicitud'}
                                 description={''}
                                 descriptionColored={''}
-                                dataForm={existSparePartDataForm}
+                                dataForm={existMaintenanceDataForm}
                                 defaultValues={defaultValues}
-                                validationSchema={existSparePartValidationSchema}
+                                validationSchema={existMaintenanceValidationSchema}
                                 action={formAction}
                                 buttonText={'Enviar'}
                                 onSubmitForm={openDialog}

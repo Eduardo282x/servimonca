@@ -62,7 +62,6 @@ export const RequestRent = () => {
     return (
         <div>
             <div>
-                <p className=' text-3xl font-semibold mb-5'>Solicitudes de alquiler</p>
 
                 {loading ? <Loader /> : <TableComponent addButton={''} tableData={maintenances} tableColumns={columns} openDialog={openDialog} />}
 
