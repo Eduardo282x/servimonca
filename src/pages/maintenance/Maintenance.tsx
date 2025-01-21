@@ -1,7 +1,7 @@
 import TableComponent from '../../components/TableComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { useEffect, useState } from 'react';
-import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties } from './maintenance.data';
+import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties, maintenanceColumnsB, maintenanceDataFormB, maintenanceRequestColumns, existMaintenanceDataForm, existMaintenanceValidationSchema, maintenanceEditDataForm } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { getDataApi } from '../../API/AxiosActions';
@@ -12,6 +12,9 @@ import { SnackbarComponent } from '../../components/SnackbarComponent';
 import { IDataForm } from '../../interfaces/form.interface';
 import TabsComponent from '../../components/TabsComponent';
 import { IEquipment } from '../Store/equipment/equipment.data';
+import { ISparePart } from '../Store/sparePart/sparePart.data';
+import { IClients } from '../clients/clients.data';
+import { MaintenanceRequests } from './MaintenanceRequests';
 
 export const Maintenance = () => {
 
@@ -24,18 +27,22 @@ export const Maintenance = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
     const [dataForm, setDataForm] = useState<IDataForm[]>(maintenanceDataForm);
+    const [sparePartDataForm, setSparePartDataForm] = useState<IDataForm[]>(maintenanceDataForm);
+    const [clientDataForm, setClientDataForm] = useState<IDataForm[]>(maintenanceDataFormB);
     const [tabValue, setTabValue] = useState<number>(0);
 
     // useEffects
     useEffect(() => {
         getMaintenances();
         getVehicles();
+        getSpareParts();
+        getClients();
     }, []);
 
     // Async functions
     async function getMaintenances() {
         setLoading(true);
-        await getDataApi('/maintenance').then((response: IMaintenance[]) => {
+        await getDataApi('/maintenance/all/Pendiente').then((response: IMaintenance[]) => {
             setMaintenances(response);
             setLoading(false);
         });
@@ -54,6 +61,36 @@ export const Maintenance = () => {
 
             setDataForm(newDataForm)
         })
+    }
+
+    async function getClients() {
+        await getDataApi('/clients').then((response: IClients[]) => {
+            const newDataForm = [...clientDataForm];
+            const findClientId = newDataForm.find(form => form.name === 'clientId') as IDataForm;
+            findClientId.options = response.map(option => {
+                return {
+                    value: option.id,
+                    label: option.name
+                }
+            });
+
+            setClientDataForm(newDataForm)
+        })
+    }
+
+    async function getSpareParts() {
+        await getDataApi('/sparepart/Approved').then((response: ISparePart[]) => {
+            const newDataForm = [...sparePartDataForm];
+            const findSparePart = newDataForm.find(form => form.name === 'sparePartId') as IDataForm;
+            findSparePart.options = response.map(option => {
+                return {
+                    label: option.sparePart,
+                    value: option.id
+                }
+            });
+
+            setSparePartDataForm(newDataForm);
+        });
     }
 
     // Functions
@@ -83,16 +120,15 @@ export const Maintenance = () => {
 
             {!loading ?
                 <>
-                {tabValue === 0 && (
-
-                    <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />
-                )}
-                {tabValue !== 0 && (
-                    <p>En proceso...</p>
-                )}
+                    {tabValue === 0 && (
+                        <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />
+                    )}
+                    {tabValue === 1 && (
+                        <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumnsB} openDialog={openDialog} />
+                    )}
+                    {tabValue === 2 && <MaintenanceRequests />}
                 </>
-                :
-                <Loader />}
+                : <Loader />}
 
             <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 
@@ -104,7 +140,7 @@ export const Maintenance = () => {
                         title={formAction === 'addApi' ? 'Nuevo Mantenimiento' : 'Editar Mantenimiento'}
                         description={formAction === 'addApi' ? 'Llena el formulario y agrega' : 'Edita los campos y modifica'}
                         descriptionColored={formAction === 'addApi' ? 'un nuevo mantenimiento' : 'un mantenimiento'}
-                        dataForm={maintenanceDataForm}
+                        dataForm={formAction === 'editApi' ? maintenanceEditDataForm : (tabValue === 0 ? maintenanceDataForm : maintenanceDataFormB)}
                         defaultValues={defaultValues}
                         validationSchema={maintenanceValidationSchema}
                         action={formAction}

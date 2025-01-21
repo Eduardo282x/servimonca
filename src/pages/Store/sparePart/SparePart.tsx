@@ -35,6 +35,7 @@ export const SparePart:FC<updateStore> = ({update, changeUpdate}) => {
         setLoading(true);
 
         await getDataApi('/sparepart/Approved').then((response: ISparePart[]) => {
+
             setMaintenances(response);
             setLoading(false);
 
