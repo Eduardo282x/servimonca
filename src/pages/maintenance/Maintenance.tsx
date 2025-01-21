@@ -1,7 +1,7 @@
 import TableComponent from '../../components/TableComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { useEffect, useState } from 'react';
-import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties, maintenanceColumnsB, maintenanceDataFormB, maintenanceRequestColumns, existMaintenanceDataForm, existMaintenanceValidationSchema, maintenanceEditDataForm } from './maintenance.data';
+import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties, maintenanceColumnsB, maintenanceDataFormB, maintenanceEditDataForm } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { getDataApi } from '../../API/AxiosActions';
@@ -37,12 +37,13 @@ export const Maintenance = () => {
         getVehicles();
         getSpareParts();
         getClients();
-    }, []);
+    }, [tabValue]);
 
     // Async functions
     async function getMaintenances() {
         setLoading(true);
-        await getDataApi('/maintenance/all/Pendiente').then((response: IMaintenance[]) => {
+        const urlMaintenance = tabValue === 0 ? '/maintenance/Procesando' : '/maintenance/client/Procesando';
+        await getDataApi(urlMaintenance).then((response: IMaintenance[]) => {
             setMaintenances(response);
             setLoading(false);
         });

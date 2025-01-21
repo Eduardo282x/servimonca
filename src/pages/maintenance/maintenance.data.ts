@@ -66,7 +66,7 @@ export const maintenanceColumnsB: IColumns[] = [
     {
         label: 'Cliente',
         column: 'client',
-        element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '',
+        element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '-',
     },
     ...maintenanceColumns,
 ];
@@ -185,7 +185,7 @@ export const maintenanceRequestColumns: IColumns[] = [
     {
         label: 'Cliente',
         column: 'client',
-        element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '',
+        element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '-',
     },
     {
         label: 'Tipo de mantenimiento',
@@ -246,11 +246,11 @@ export const existMaintenanceDataForm: IDataForm[] = [
         options: [
             {
                 label: 'Aprobar',
-                value: 'Approved'
+                value: 'Procesando'
             },
             {
                 label: 'Denegar',
-                value: 'Deny'
+                value: 'Denegado'
             },
         ]
     },
