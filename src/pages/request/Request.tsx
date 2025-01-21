@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { getDataApi } from '../../API/AxiosActions';
 import { BaseResponse } from '../../interfaces/actions-api.interface';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
@@ -10,8 +10,9 @@ import { SnackbarComponent } from '../../components/SnackbarComponent';
 import TableComponent from '../../components/TableComponent';
 import { existSparePartDataForm, existSparePartValidationSchema, requestColumns, requestDefaultValues, UpdateStatusSparePart } from './request.data';
 import { ISparePart } from '../Store/sparePart/sparePart.data';
+import { updateStore } from '../Store/Store';
 
-export const Request = () => {
+export const Request:FC<updateStore> = ({update, changeUpdate}) => {
     const [maintenances, setMaintenances] = useState<ISparePart[]>([]);
     const [formAction, setFormAction] = useState<actionsValid>('add');
     const [defaultValues, setDefaultValues] = useState<UpdateStatusSparePart>(requestDefaultValues);
@@ -23,7 +24,7 @@ export const Request = () => {
     // useEffects
     useEffect(() => {
         getSparePart();
-    }, []);
+    }, [update]);
 
     // Async functions
     async function getSparePart() {
@@ -46,6 +47,8 @@ export const Request = () => {
             setSnackbar(responseBaseApi.snackbarMessage);
             getSparePart();
             setOpenSnackbar(true);
+            changeUpdate(true);
+            changeUpdate(false);
         };
     }
 
