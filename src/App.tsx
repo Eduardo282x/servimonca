@@ -11,7 +11,7 @@ import { Users } from "./pages/Users/Users";
 import 'material-icons/iconfont/material-icons.css';
 // import { SparePart } from "./pages/sparePart/SparePart";
 import { Profile } from "./pages/profile/Profile";
-import { Request } from "./pages/request/Request";
+// import { Request } from "./pages/request/Request";
 import { Store } from "./pages/Store/Store";
 
 export default function App() {
@@ -30,7 +30,7 @@ export default function App() {
                 <Route path='/alquiler' element={<Rent />} />
                 <Route path='/clientes' element={<Clients />} />
                 <Route path='/alquiler' element={<Rent />} />
-                <Route path='/solicitudes' element={<Request />} />
+                {/* <Route path='/solicitudes' element={<Request />} /> */}
                 <Route path='/reportes' element={<Reports />} />
                 <Route path='/mantenimiento' element={<Maintenance />} />
                 <Route path='/usuarios' element={<Users />} />
