@@ -17,14 +17,13 @@ export const FormComponent = ({ title, description, descriptionColored, dataForm
     });
 
     const onSubmit = (returnForm: any) => {
-        console.log(returnForm);
-        console.log(defaultValues);
         
         (returnForm as FormValues).id = returnForm.id ? returnForm.id : defaultValues.id;
         const formData: TableReturn = {
             action: action,
             data: returnForm
         }
+
         onSubmitForm(formData);
     }
 

@@ -1,7 +1,7 @@
 import TableComponent from '../../components/TableComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { useEffect, useState } from 'react';
-import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties, maintenanceColumnsB, maintenanceDataFormB, maintenanceEditDataForm } from './maintenance.data';
+import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties, maintenanceClientColumns, maintenanceEditDataForm, maintenanceClientDataForm, maintenanceClientDefaultValues, maintenanceClientValidationSchema, maintenanceEditDefaultValues, maintenanceEditValidationSchema, IMaintenanceEdit } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { getDataApi } from '../../API/AxiosActions';
@@ -21,6 +21,8 @@ export const Maintenance = () => {
     // useStates
     const [maintenances, setMaintenances] = useState<IMaintenance[]>([]);
     const [defaultValues, setDefaultValues] = useState<IMaintenanceForm>(maintenanceDefaultValues);
+    const [ clientDefaultValues, setClientDefaultValues ] = useState(maintenanceClientDefaultValues);
+    const [ editDefaultValues, setEditDefaultValues ] = useState(maintenanceEditDefaultValues);
     const [formAction, setFormAction] = useState<actionsValid>('add');
     const [dialog, setDialog] = useState<boolean>(false);
     const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
@@ -28,7 +30,7 @@ export const Maintenance = () => {
     const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
     const [dataForm, setDataForm] = useState<IDataForm[]>(maintenanceDataForm);
     const [sparePartDataForm, setSparePartDataForm] = useState<IDataForm[]>(maintenanceDataForm);
-    const [clientDataForm, setClientDataForm] = useState<IDataForm[]>(maintenanceDataFormB);
+    const [clientDataForm, setClientDataForm] = useState<IDataForm[]>(maintenanceClientDataForm);
     const [tabValue, setTabValue] = useState<number>(0);
 
     // useEffects
@@ -97,11 +99,14 @@ export const Maintenance = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-        if (action === 'edit') {
-            data.sparePartId = 1;
-        }
-        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/maintenance');
-        setDefaultValues(responseBaseApi.body as IMaintenanceForm);
+
+        console.log(data);
+
+        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', action === 'editApi' ? '/maintenance/completed' : '/maintenance');
+        if(action === 'edit') {setEditDefaultValues(responseBaseApi.body as IMaintenanceEdit)};
+        if(tabValue === 0) {setDefaultValues(responseBaseApi.body as IMaintenanceForm)};
+        if(tabValue === 1) {setClientDefaultValues(responseBaseApi.body as IMaintenanceForm)};
+        console.log(responseBaseApi.body)
         setFormAction(responseBaseApi.action)
         if (responseBaseApi.open) { setDialog(true) };
         if (responseBaseApi.close) { setDialog(false) };
@@ -125,7 +130,7 @@ export const Maintenance = () => {
                         <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />
                     )}
                     {tabValue === 1 && (
-                        <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumnsB} openDialog={openDialog} />
+                        <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceClientColumns} openDialog={openDialog} />
                     )}
                     {tabValue === 2 && <MaintenanceRequests />}
                 </>
@@ -141,9 +146,9 @@ export const Maintenance = () => {
                         title={formAction === 'addApi' ? 'Nuevo Mantenimiento' : 'Editar Mantenimiento'}
                         description={formAction === 'addApi' ? 'Llena el formulario y agrega' : 'Edita los campos y modifica'}
                         descriptionColored={formAction === 'addApi' ? 'un nuevo mantenimiento' : 'un mantenimiento'}
-                        dataForm={formAction === 'editApi' ? maintenanceEditDataForm : (tabValue === 0 ? maintenanceDataForm : maintenanceDataFormB)}
-                        defaultValues={defaultValues}
-                        validationSchema={maintenanceValidationSchema}
+                        dataForm={formAction === 'editApi' ? maintenanceEditDataForm : (tabValue === 0 ? maintenanceDataForm : maintenanceClientDataForm)}
+                        defaultValues={formAction === 'editApi' ? editDefaultValues : (tabValue === 0 ? defaultValues : clientDefaultValues)}
+                        validationSchema={formAction === 'editApi' ? maintenanceEditValidationSchema : (tabValue === 0 ? maintenanceValidationSchema : maintenanceClientValidationSchema)}
                         action={formAction}
                         buttonText={formAction === 'addApi' ? 'Agregar Mantenimiento' : 'Editar Mantenimiento'}
                         onSubmitForm={openDialog}
