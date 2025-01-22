@@ -18,13 +18,13 @@ export const sidebarMenu: ISidebarMenu[] = [
         permissions: ['Administrador', 'Almacén'],
         active: false
     },
-    // {
-    //     label: 'Equipos',
-    //     redirectTo: '/equipos',
-    //     icon: 'front_loader',
-    //     permissions: ['Administrador', 'Almacén'],
-    //     active: false
-    // },
+    {
+        label: 'Ordenes de compra',
+        redirectTo: '/ordenes-compra',
+        icon: 'list_alt',
+        permissions: ['Administrador', 'Personal Administrativo'],
+        active: false
+    },
     // {
     //     label: 'Repuestos',
     //     redirectTo: '/repuestos',

@@ -99,14 +99,10 @@ export const Maintenance = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-
-        console.log(data);
-
         const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', action === 'editApi' ? '/maintenance/completed' : '/maintenance');
         if(action === 'edit') {setEditDefaultValues(responseBaseApi.body as IMaintenanceEdit)};
         if(tabValue === 0) {setDefaultValues(responseBaseApi.body as IMaintenanceForm)};
         if(tabValue === 1) {setClientDefaultValues(responseBaseApi.body as IMaintenanceForm)};
-        console.log(responseBaseApi.body)
         setFormAction(responseBaseApi.action)
         if (responseBaseApi.open) { setDialog(true) };
         if (responseBaseApi.close) { setDialog(false) };

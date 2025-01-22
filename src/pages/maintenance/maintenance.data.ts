@@ -14,6 +14,7 @@ export interface IMaintenance {
     clientId?: number;
     amount: number;
     type: string;
+    status: string;
     description: string;
     maintenanceDate: Date;
     createdAt: Date;
@@ -24,7 +25,7 @@ export interface IMaintenance {
 
 export const maintenanceColumns: IColumns[] = [
     {
-        label: 'Tipo de mantenimiento',
+        label: 'Tipo',
         column: 'type',
         element: (data: IMaintenance) => data.type,
     },
@@ -39,7 +40,12 @@ export const maintenanceColumns: IColumns[] = [
         element: (data: IMaintenance) => data.description,
     },
     {
-        label: 'Fecha de Mantenimiento',
+        label: 'Estado',
+        column: 'status',
+        element: (data: IMaintenance) => data.status,
+    },
+    {
+        label: 'Fecha',
         column: 'maintenanceDate',
         element: (data: IMaintenance) => formatDate(data.maintenanceDate),
     },
@@ -219,7 +225,7 @@ export const maintenanceRequestColumns: IColumns[] = [
         element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '-',
     },
     {
-        label: 'Tipo de mantenimiento',
+        label: 'Tipo',
         column: 'type',
         element: (data: IMaintenance) => data.type,
     },
@@ -234,7 +240,12 @@ export const maintenanceRequestColumns: IColumns[] = [
         element: (data: IMaintenance) => data.description,
     },
     {
-        label: 'Fecha de Mantenimiento',
+        label: 'Estado',
+        column: 'status',
+        element: (data: IMaintenance) => data.status,
+    },
+    {
+        label: 'Fecha',
         column: 'maintenanceDate',
         element: (data: IMaintenance) => formatDate(data.maintenanceDate),
     },
