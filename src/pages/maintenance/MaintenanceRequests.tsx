@@ -37,7 +37,6 @@ export const MaintenanceRequests = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-        // data.status = data.status === 'Approved' ? true : false;
         const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/maintenance/status');
         setDefaultValues(responseBaseApi.body as UpdateMaintenanceStatus);
         setFormAction(responseBaseApi.action)

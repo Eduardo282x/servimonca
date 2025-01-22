@@ -6,7 +6,7 @@ import { IEquipment } from "../Store/equipment/equipment.data";
 import { ISparePart } from "../Store/sparePart/sparePart.data";
 import { IClients } from "../clients/clients.data";
 
-
+// ******************** Maintenance *********************
 export interface IMaintenance {
     id: number;
     equipmentId: number;
@@ -25,7 +25,7 @@ export interface IMaintenance {
 export const maintenanceColumns: IColumns[] = [
     {
         label: 'Tipo de mantenimiento',
-        column: 'maintenanceType',
+        column: 'type',
         element: (data: IMaintenance) => data.type,
     },
     {
@@ -62,29 +62,15 @@ export const maintenanceColumns: IColumns[] = [
     },
 ];
 
-export const maintenanceColumnsB: IColumns[] = [
-    {
-        label: 'Cliente',
-        column: 'client',
-        element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '-',
-    },
-    ...maintenanceColumns,
-];
-
 //Dialog & Form
 export interface IMaintenanceForm {
-    id: string;
-    equipmentId: number;
-    clientId?: number;
-    amount: number;
-    maintenanceType: string;
     maintenanceDate: Date;
     description: string;
-    sparePart: string;
-    client?: string;
-
     type: string;
+    equipmentId: number;
+    amount: number;
     sparePartId: number;
+    clientId?: number;
 }
 
 export const maintenanceDataForm: IDataForm[] = [
@@ -137,7 +123,38 @@ export const maintenanceDataForm: IDataForm[] = [
     }
 ];
 
-export const maintenanceDataFormB: IDataForm[] = [
+export const maintenanceDefaultValues: IMaintenanceForm = {
+    equipmentId: 0,
+    type: '',
+    maintenanceDate: new Date(),
+    description: '',
+    sparePartId: 0,
+    amount: 0,
+}
+
+export const maintenanceValidationSchema: object = z.object({
+    equipmentId: z.coerce.number({ message: 'El campo es requerido' }),
+    type: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    maintenanceDate: z.date().refine((date) => !isNaN(date.getTime()), { message: 'Debe ser una fecha válida' }),
+    description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    sparePartId: z.coerce.number({ message: 'El campo es requerido' }),
+    amount: z.number({ message: 'El campo es requerido' }),
+});
+
+// ******************** Maintenance Client *********************
+
+// Table
+export const maintenanceClientColumns: IColumns[] = [
+    {
+        label: 'Cliente',
+        column: 'client',
+        element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '-',
+    },
+    ...maintenanceColumns,
+];
+
+// Form & Dialog
+export const maintenanceClientDataForm: IDataForm[] = [
     {
         label: 'Cliente',
         value: '',
@@ -148,6 +165,32 @@ export const maintenanceDataFormB: IDataForm[] = [
     ...maintenanceDataForm
 ];
 
+export const maintenanceClientDefaultValues: IMaintenanceForm = {
+    clientId: 0,
+    equipmentId: 0,
+    type: '',
+    maintenanceDate: new Date(),
+    description: '',
+    sparePartId: 0,
+    amount: 0,
+}
+
+export const maintenanceClientValidationSchema: object = z.object({
+    clientId: z.coerce.number({ message: 'El campo es requerido' }),
+    equipmentId: z.coerce.number({ message: 'El campo es requerido' }),
+    type: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    maintenanceDate: z.date().refine((date) => !isNaN(date.getTime()), { message: 'Debe ser una fecha válida' }),
+    description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    sparePartId: z.coerce.number({ message: 'El campo es requerido' }),
+    amount: z.number({ message: 'El campo es requerido' }),
+});
+
+// ******************** Edit Maintenance *********************
+export interface IMaintenanceEdit {
+    id: number;
+    description: string;
+}
+
 export const maintenanceEditDataForm: IDataForm[] = [
     {
         label: 'Descripción',
@@ -155,27 +198,15 @@ export const maintenanceEditDataForm: IDataForm[] = [
         type: 'textArea',
         name: 'description',
     },
-]
+];
 
-export const maintenanceDefaultValues: IMaintenanceForm = {
-    id: '',
-    equipmentId: 0,
-    maintenanceType: '',
-    maintenanceDate: new Date(),
+export const maintenanceEditDefaultValues: IMaintenanceEdit = {
+    id: 0,
     description: '',
-    type: '',
-    sparePartId: 0,
-    amount: 0,
-    sparePart: ''
 }
 
-export const maintenanceValidationSchema: object = z.object({
-    equipmentId: z.coerce.number({ message: 'El campo es requerido' }),
-    type: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    maintenanceDate: z.date().refine((date) => !isNaN(date.getTime()), { message: 'Debe ser una fecha válida' }),
+export const maintenanceEditValidationSchema: object = z.object({
     description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    status: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    // sparePartId: z.number({ message: 'El campo es requerido' })
 });
 
 // ******************** Requests *********************
@@ -189,7 +220,7 @@ export const maintenanceRequestColumns: IColumns[] = [
     },
     {
         label: 'Tipo de mantenimiento',
-        column: 'maintenanceType',
+        column: 'type',
         element: (data: IMaintenance) => data.type,
     },
     {
@@ -261,7 +292,7 @@ export const existMaintenanceValidationSchema: object = z.object({
 });
 
 
-// Tabs
+// ******************** TABS *********************
 export const maintenanceTabsProperties = [
     {
         label: 'Mantenimientos'
