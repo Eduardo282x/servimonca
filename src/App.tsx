@@ -13,6 +13,7 @@ import 'material-icons/iconfont/material-icons.css';
 import { Profile } from "./pages/profile/Profile";
 import { Request } from "./pages/request/Request";
 import { Store } from "./pages/Store/Store";
+import { MaintenanceClient } from "./pages/maintenance/Maintenance-client";
 
 export default function App() {
     return (
@@ -34,6 +35,7 @@ export default function App() {
                 {/* <Route path='/solicitudes' element={<Request />} /> */}
                 <Route path='/reportes' element={<Reports />} />
                 <Route path='/mantenimiento' element={<Maintenance />} />
+                <Route path='/mantenimiento-cliente' element={<MaintenanceClient />} />
                 <Route path='/usuarios' element={<Users />} />
                 <Route path='/perfil' element={<Profile />} />
               </Route>

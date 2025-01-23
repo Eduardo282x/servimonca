@@ -3,6 +3,7 @@ import TabsComponent from '../../components/TabsComponent'
 // import { Request } from '../request/Request';
 import { Equipment } from './equipment/Equipment';
 import { SparePart } from './sparePart/SparePart';
+import { RequestSparePart } from '../maintenance/RequestSparePart';
 
 const storeTabsProperties = [
     {
@@ -32,7 +33,7 @@ export const Store = () => {
             <TabsComponent tabValue={tabValue} setTabValue={setTabValue} tabs={storeTabsProperties} />
             <div className={`${tabValue === 0 ? 'block' : 'hidden'}`}><Equipment /></div>
             <div className={`${tabValue === 1 ? 'block' : 'hidden'}`}><SparePart update={update} changeUpdate={setUpdate} /></div>
-            {/* <div className={`${tabValue === 2 ? 'block' : 'hidden'}`}><Request  update={update} changeUpdate={setUpdate}/></div> */}
+            <div className={`${tabValue === 2 ? 'block' : 'hidden'}`}><RequestSparePart /></div>
         </div>
     )
 }

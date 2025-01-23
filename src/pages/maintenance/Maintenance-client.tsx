@@ -1,7 +1,7 @@
 import TableComponent from '../../components/TableComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { useEffect, useState } from 'react';
-import { IMaintenance, maintenanceColumns, maintenanceDefaultValues, maintenanceDataForm, maintenanceValidationSchema, IMaintenanceForm, maintenanceTabsProperties, maintenanceEditDataForm, maintenanceClientDataForm, maintenanceClientDefaultValues, maintenanceClientValidationSchema, maintenanceEditDefaultValues, maintenanceEditValidationSchema, IMaintenanceEdit } from './maintenance.data';
+import { IMaintenance, maintenanceDataForm, IMaintenanceForm, maintenanceClientColumns, maintenanceEditDataForm, maintenanceClientDataForm, maintenanceClientDefaultValues, maintenanceClientValidationSchema, maintenanceEditValidationSchema } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { getDataApi } from '../../API/AxiosActions';
@@ -10,20 +10,16 @@ import { BaseResponse } from '../../interfaces/actions-api.interface';
 import { BaseApi, BaseApiReturn } from '../../API/BaseAPI';
 import { SnackbarComponent } from '../../components/SnackbarComponent';
 import { IDataForm } from '../../interfaces/form.interface';
-import TabsComponent from '../../components/TabsComponent';
 import { IEquipment } from '../Store/equipment/equipment.data';
 import { ISparePart } from '../Store/sparePart/sparePart.data';
 import { IClients } from '../clients/clients.data';
-import { MaintenanceRequests } from './MaintenanceRequests';
-import { RequestSparePart } from './RequestSparePart';
 
-export const Maintenance = () => {
+export const MaintenanceClient = () => {
 
     // useStates
     const [maintenances, setMaintenances] = useState<IMaintenance[]>([]);
-    const [defaultValues, setDefaultValues] = useState<IMaintenanceForm>(maintenanceDefaultValues);
-    const [ clientDefaultValues, setClientDefaultValues ] = useState(maintenanceClientDefaultValues);
-    const [ editDefaultValues, setEditDefaultValues ] = useState(maintenanceEditDefaultValues);
+    // const [defaultValues, setDefaultValues] = useState<IMaintenanceForm>(maintenanceDefaultValues);
+    const [clientDefaultValues, setClientDefaultValues] = useState(maintenanceClientDefaultValues);
     const [formAction, setFormAction] = useState<actionsValid>('add');
     const [dialog, setDialog] = useState<boolean>(false);
     const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
@@ -32,7 +28,6 @@ export const Maintenance = () => {
     const [dataForm, setDataForm] = useState<IDataForm[]>(maintenanceDataForm);
     const [sparePartDataForm, setSparePartDataForm] = useState<IDataForm[]>(maintenanceDataForm);
     const [clientDataForm, setClientDataForm] = useState<IDataForm[]>(maintenanceClientDataForm);
-    const [tabValue, setTabValue] = useState<number>(0);
 
     // useEffects
     useEffect(() => {
@@ -40,13 +35,12 @@ export const Maintenance = () => {
         getVehicles();
         getSpareParts();
         getClients();
-    }, [tabValue]);
+    }, []);
 
     // Async functions
     async function getMaintenances() {
         setLoading(true);
-        const urlMaintenance = tabValue === 0 ? '/maintenance/Procesando' : '/maintenance/client/Procesando';
-        await getDataApi(urlMaintenance).then((response: IMaintenance[]) => {
+        await getDataApi('/maintenance/client/Procesando').then((response: IMaintenance[]) => {
             setMaintenances(response);
             setLoading(false);
         });
@@ -100,10 +94,8 @@ export const Maintenance = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', action === 'editApi' ? '/maintenance/completed' : '/maintenance');
-        if(action === 'edit') {setEditDefaultValues(responseBaseApi.body as IMaintenanceEdit)};
-        if(tabValue === 0) {setDefaultValues(responseBaseApi.body as IMaintenanceForm)};
-        if(tabValue === 1) {setClientDefaultValues(responseBaseApi.body as IMaintenanceForm)};
+        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, clientDefaultValues, 'id', action === 'editApi' ? '/maintenance/completed' : '/maintenance');
+        if (action === 'edit') { setClientDefaultValues(responseBaseApi.body as IMaintenanceForm) };
         setFormAction(responseBaseApi.action)
         if (responseBaseApi.open) { setDialog(true) };
         if (responseBaseApi.close) { setDialog(false) };
@@ -117,20 +109,10 @@ export const Maintenance = () => {
     return (
 
         <div>
-            <p className='text-4xl font-semibold mb-3'>Taller</p>
-
-            <TabsComponent tabValue={tabValue} setTabValue={setTabValue} tabs={maintenanceTabsProperties} />
+            <p className='text-4xl font-semibold mb-3'>Solicitudes de mantenimiento</p>
 
             {!loading ?
-                <>
-                    {tabValue === 0 && (
-                        <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceColumns} openDialog={openDialog} />
-                    )}
-                    {tabValue === 1 && <MaintenanceRequests />}
-                    {tabValue === 2 && (
-                        <RequestSparePart/>
-                    )}
-                </>
+                <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceClientColumns} openDialog={openDialog} />
                 : <Loader />}
 
             <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
@@ -143,9 +125,9 @@ export const Maintenance = () => {
                         title={formAction === 'addApi' ? 'Nuevo Mantenimiento' : 'Finaliza el Mantenimiento'}
                         description={formAction === 'addApi' ? 'Llena el formulario y agrega' : 'Describe el mantenimiento'}
                         descriptionColored={formAction === 'addApi' ? 'un nuevo mantenimiento' : 'realizado'}
-                        dataForm={formAction === 'editApi' ? maintenanceEditDataForm : (tabValue === 0 ? maintenanceDataForm : maintenanceClientDataForm)}
-                        defaultValues={formAction === 'editApi' ? editDefaultValues : (tabValue === 0 ? defaultValues : clientDefaultValues)}
-                        validationSchema={formAction === 'editApi' ? maintenanceEditValidationSchema : (tabValue === 0 ? maintenanceValidationSchema : maintenanceClientValidationSchema)}
+                        dataForm={formAction === 'editApi' ? maintenanceEditDataForm : maintenanceClientDataForm}
+                        defaultValues={clientDefaultValues}
+                        validationSchema={formAction === 'editApi' ? maintenanceEditValidationSchema : maintenanceClientValidationSchema}
                         action={formAction}
                         buttonText={formAction === 'addApi' ? 'Agregar Mantenimiento' : 'Finalizar'}
                         onSubmitForm={openDialog}

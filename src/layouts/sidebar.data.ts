@@ -36,7 +36,14 @@ export const sidebarMenu: ISidebarMenu[] = [
         label: 'Taller',
         redirectTo: '/mantenimiento',
         icon: 'construction',
-        permissions: ['Administrador', 'Personal Administrativo','Taller'],
+        permissions: ['Administrador','Taller'],
+        active: false
+    },
+    {
+        label: 'Ordenes de mantenimiento',
+        redirectTo: '/mantenimiento-cliente',
+        icon: 'content_paste_go',
+        permissions: ['Administrador','Taller'],
         active: false
     },
     // {
@@ -64,7 +71,7 @@ export const sidebarMenu: ISidebarMenu[] = [
         label: 'Reportes',
         redirectTo: '/reportes',
         icon: 'analytics',
-        permissions: ['Administrador','Personal Administrativo',],
+        permissions: ['Administrador','Personal Administrativo'],
         active: false
     },
     {
