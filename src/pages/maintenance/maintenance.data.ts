@@ -3,7 +3,6 @@ import { IColumns } from "../../interfaces/table.interface";
 import { IDataForm } from "../../interfaces/form.interface";
 import { formatDate } from "../../utils/formater";
 import { IEquipment } from "../Store/equipment/equipment.data";
-import { ISparePart } from "../Store/sparePart/sparePart.data";
 import { IClients } from "../clients/clients.data";
 
 // ******************** Maintenance *********************
@@ -12,19 +11,18 @@ export interface IMaintenance {
     equipmentId: number;
     sparePartId: number;
     clientId?: number;
-    amount: number;
     type: string;
+    status: string;
     description: string;
     maintenanceDate: Date;
     createdAt: Date;
     equipment: IEquipment;
-    sparePart: ISparePart;
     client?: IClients;
 }
 
 export const maintenanceColumns: IColumns[] = [
     {
-        label: 'Tipo de mantenimiento',
+        label: 'Tipo',
         column: 'type',
         element: (data: IMaintenance) => data.type,
     },
@@ -39,19 +37,14 @@ export const maintenanceColumns: IColumns[] = [
         element: (data: IMaintenance) => data.description,
     },
     {
-        label: 'Fecha de Mantenimiento',
+        label: 'Estado',
+        column: 'status',
+        element: (data: IMaintenance) => data.status,
+    },
+    {
+        label: 'Fecha',
         column: 'maintenanceDate',
         element: (data: IMaintenance) => formatDate(data.maintenanceDate),
-    },
-    {
-        label: 'Repuesto',
-        column: 'sparePart',
-        element: (data: IMaintenance) => data.sparePart.sparePart,
-    },
-    {
-        label: 'Cantidad',
-        column: 'amount',
-        element: (data: IMaintenance) => data.amount.toString(),
     },
     {
         label: 'Editar',
@@ -219,7 +212,7 @@ export const maintenanceRequestColumns: IColumns[] = [
         element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '-',
     },
     {
-        label: 'Tipo de mantenimiento',
+        label: 'Tipo',
         column: 'type',
         element: (data: IMaintenance) => data.type,
     },
@@ -234,19 +227,14 @@ export const maintenanceRequestColumns: IColumns[] = [
         element: (data: IMaintenance) => data.description,
     },
     {
-        label: 'Fecha de Mantenimiento',
+        label: 'Estado',
+        column: 'status',
+        element: (data: IMaintenance) => data.status,
+    },
+    {
+        label: 'Fecha',
         column: 'maintenanceDate',
         element: (data: IMaintenance) => formatDate(data.maintenanceDate),
-    },
-    {
-        label: 'Repuesto',
-        column: 'sparePart',
-        element: (data: IMaintenance) => data.sparePart.sparePart,
-    },
-    {
-        label: 'Cantidad',
-        column: 'amount',
-        element: (data: IMaintenance) => data.amount.toString(),
     },
     {
         label: 'Cambiar',
@@ -298,10 +286,10 @@ export const maintenanceTabsProperties = [
         label: 'Mantenimientos'
     },
     {
-        label: 'Ordenes de Mantenimiento'
+        label: 'Solicitudes de Mantenimiento'
     },
     {
-        label: 'Solicitudes de Mantenimiento'
+        label: 'Solicitudes de Repuestos'
     }
 ];
 
