@@ -61,8 +61,6 @@ export interface IMaintenanceForm {
     description: string;
     type: string;
     equipmentId: number;
-    amount: number;
-    sparePartId: number;
     clientId?: number;
 }
 
@@ -101,18 +99,6 @@ export const maintenanceDataForm: IDataForm[] = [
         value: '',
         type: 'date',
         name: 'maintenanceDate',
-    },
-    {
-        label: 'Repuestos',
-        value: '',
-        type: 'select',
-        name: 'sparePartId',
-    },
-    {
-        label: 'Cantidad',
-        value: '',
-        type: 'number',
-        name: 'amount',
     }
 ];
 
@@ -120,9 +106,7 @@ export const maintenanceDefaultValues: IMaintenanceForm = {
     equipmentId: 0,
     type: '',
     maintenanceDate: new Date(),
-    description: '',
-    sparePartId: 0,
-    amount: 0,
+    description: ''
 }
 
 export const maintenanceValidationSchema: object = z.object({
@@ -130,8 +114,6 @@ export const maintenanceValidationSchema: object = z.object({
     type: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     maintenanceDate: z.date().refine((date) => !isNaN(date.getTime()), { message: 'Debe ser una fecha válida' }),
     description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    sparePartId: z.coerce.number({ message: 'El campo es requerido' }),
-    amount: z.number({ message: 'El campo es requerido' }),
 });
 
 // ******************** Maintenance Client *********************
@@ -164,8 +146,6 @@ export const maintenanceClientDefaultValues: IMaintenanceForm = {
     type: '',
     maintenanceDate: new Date(),
     description: '',
-    sparePartId: 0,
-    amount: 0,
 }
 
 export const maintenanceClientValidationSchema: object = z.object({
@@ -174,8 +154,6 @@ export const maintenanceClientValidationSchema: object = z.object({
     type: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     maintenanceDate: z.date().refine((date) => !isNaN(date.getTime()), { message: 'Debe ser una fecha válida' }),
     description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    sparePartId: z.coerce.number({ message: 'El campo es requerido' }),
-    amount: z.number({ message: 'El campo es requerido' }),
 });
 
 // ******************** Edit Maintenance *********************
@@ -289,7 +267,7 @@ export const maintenanceTabsProperties = [
         label: 'Solicitudes de Mantenimiento'
     },
     {
-        label: 'Solicitudes de Repuestos'
+        label: 'Repuestos de taller'
     }
 ];
 

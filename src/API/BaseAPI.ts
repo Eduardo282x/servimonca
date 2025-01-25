@@ -19,22 +19,24 @@ export const BaseApi = async (action: actionsValid, data: any, body: any, id: st
         open: false,
         body: {},
         action: '',
-        snackbarMessage: {success: false, message: ''},
+        snackbarMessage: { success: false, message: '' },
     };
-    
+
     response.body = action === 'edit' ? data : body;
     response.action = action === 'edit' ? 'editApi' : 'addApi';
 
-    if(action === 'add' || action === 'edit') {
+    if (action === 'add' || action === 'edit') {
         response.open = true
     }
 
-    if(action === 'add') {
+    if (action === 'add') {
         response.body = {};
     }
 
     if (action === 'delete') {
-        await deleteApi(urlComponent, data, id)
+        const message = await deleteApi(urlComponent, data, id);
+        response.snackbarMessage = message;
+        response.close = true;
     }
 
     if (action == 'addApi') {
@@ -52,7 +54,7 @@ export const BaseApi = async (action: actionsValid, data: any, body: any, id: st
     return response;
 }
 
-const addApi = async (url: string, newData: any): Promise<BaseResponse>=> {
+const addApi = async (url: string, newData: any): Promise<BaseResponse> => {
     const addMessage = await postDataApi(url, newData).then((response: BaseResponse) => {
         return response;
     }).catch((err) => {

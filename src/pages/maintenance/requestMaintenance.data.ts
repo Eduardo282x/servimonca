@@ -31,7 +31,7 @@ export const requestSparePartColumns: IColumns[] = [
         label: 'Cambiar',
         column: 'edit',
         icon: true,
-        element: () => 'info',
+        element: (data: IMaintenanceSparePart) => data.status === 'Aprobado' || data.status === 'Solicitado' ? 'info' : '',
         canFilter: false
     },
 ];
@@ -71,6 +71,15 @@ export const requestSpartePartMaintenanceDataForm: IDataForm[] = [
     },
 ];
 
+export const requestSpartePartMaintenanceDataFormV2: IDataForm[] = [
+    {
+        label: 'Cantidad usada',
+        value: '',
+        type: 'number',
+        name: 'amount',
+    },
+];
+
 export interface UpdateStatusSparePart {
     id: number;
     status: string;
@@ -84,5 +93,9 @@ export const requestDefaultValues: UpdateStatusSparePart = {
 
 export const requestSparePartValidationSchema: object = z.object({
     sparePartId: z.coerce.number({ message: 'El campo es requerido' }),
+    amount: z.number({ message: 'El campo es requerido' }),
+});
+
+export const requestSparePartValidationSchemaV2: object = z.object({
     amount: z.number({ message: 'El campo es requerido' }),
 });

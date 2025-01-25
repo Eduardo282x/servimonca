@@ -15,6 +15,7 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
     const location = useLocation();
     const [menuSidebar, setMenuSidebar] = useState<ISidebarMenu[]>([]);
 
+
     useEffect(() => {
 
         const userData = validateUserLoged() as UserData;

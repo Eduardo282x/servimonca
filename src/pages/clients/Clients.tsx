@@ -52,7 +52,7 @@ export const Clients = () => {
 
     return (
         <div>
-            <p className=' text-3xl font-semibold mb-5'>Clientes</p>
+            {/* <p className=' text-3xl font-semibold mb-5'>Clientes</p> */}
 
             {loading ? <Loader /> : <TableComponent addButton={'Agregar'} tableData={clients} tableColumns={customerColumns} openDialog={openDialog} />}
 

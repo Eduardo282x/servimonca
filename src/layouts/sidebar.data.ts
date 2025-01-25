@@ -19,20 +19,6 @@ export const sidebarMenu: ISidebarMenu[] = [
         active: false
     },
     {
-        label: 'Ordenes de compra',
-        redirectTo: '/ordenes-compra',
-        icon: 'list_alt',
-        permissions: ['Administrador', 'Personal Administrativo'],
-        active: false
-    },
-    // {
-    //     label: 'Repuestos',
-    //     redirectTo: '/repuestos',
-    //     icon: 'donut_small',
-    //     permissions: ['Administrador', 'Taller'],
-    //     active: false
-    // },
-    {
         label: 'Taller',
         redirectTo: '/mantenimiento',
         icon: 'construction',
@@ -40,30 +26,9 @@ export const sidebarMenu: ISidebarMenu[] = [
         active: false
     },
     {
-        label: 'Ordenes de mantenimiento',
-        redirectTo: '/mantenimiento-cliente',
-        icon: 'content_paste_go',
-        permissions: ['Administrador','Taller'],
-        active: false
-    },
-    // {
-    //     label: 'Solicitudes',
-    //     redirectTo: '/solicitudes',
-    //     icon: 'description',
-    //     permissions: ['Administrador', 'Personal Administrativo','Taller'],
-    //     active: false
-    // },
-    {
-        label: 'Alquiler',
-        redirectTo: '/alquiler',
-        icon: 'garage',
-        permissions: ['Administrador', 'Personal Administrativo'],
-        active: false
-    },
-    {
-        label: 'Clientes',
-        redirectTo: '/clientes',
-        icon: 'groups',
+        label: 'Ordenes de compra',
+        redirectTo: '/ordenes-compra',
+        icon: 'list_alt',
         permissions: ['Administrador', 'Personal Administrativo'],
         active: false
     },
@@ -72,6 +37,20 @@ export const sidebarMenu: ISidebarMenu[] = [
         redirectTo: '/reportes',
         icon: 'analytics',
         permissions: ['Administrador','Personal Administrativo'],
+        active: false
+    },
+    {
+        label: 'Servicios',
+        redirectTo: '/servicios',
+        icon: 'support_agent',
+        permissions: ['Administrador', 'Personal Administrativo'],
+        active: false
+    },
+    {
+        label: 'Métodos de pago',
+        redirectTo: '/metodos-pago',
+        icon: 'payments',
+        permissions: ['Administrador'],
         active: false
     },
     {

@@ -43,6 +43,12 @@ export default function TableComponent({ tableData, tableColumns, openDialog, ad
         if (icon === 'info') return <Info color="#1565c0" />;
     }
 
+    const changeRowColor = (row: any) => {
+        if(row.criticAmount > row.amount){
+            return {background: '#ff0000'}
+        }
+    }
+
     return (
 
         <div>
@@ -73,7 +79,7 @@ export default function TableComponent({ tableData, tableColumns, openDialog, ad
                         </TableHead>
                         <TableBody>
                             {dataFilter.length > 0 ? dataFilter.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any, index: number) => (
-                                <TableRow key={index}>
+                                <TableRow key={index} sx={changeRowColor(row)}>
                                     {tableColumns && tableColumns.map((column: IColumns, index: number) => (
                                         <TableCell key={index}>
                                             {column.icon &&
