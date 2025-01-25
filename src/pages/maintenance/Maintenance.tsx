@@ -53,7 +53,7 @@ export const Maintenance = () => {
     }
 
     async function getVehicles() {
-        await getDataApi('/equipment').then((response: IEquipment[]) => {
+        await getDataApi('/equipment/Disponible').then((response: IEquipment[]) => {
             const newDataForm = [...dataForm];
             const findEquipmentId = newDataForm.find(form => form.name === 'equipmentId') as IDataForm;
             findEquipmentId.options = response.map(option => {

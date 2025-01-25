@@ -4,6 +4,7 @@ import TabsComponent from '../../components/TabsComponent'
 import { Equipment } from './equipment/Equipment';
 import { SparePart } from './sparePart/SparePart';
 import { RequestSparePart } from '../maintenance/RequestSparePart';
+import { RentalsStore } from './rentals/RentalsStore';
 
 const storeTabsProperties = [
     {
@@ -14,7 +15,10 @@ const storeTabsProperties = [
     },
     {
         label: 'Solicitudes repuestos'
-    }
+    },
+    {
+        label: 'Solicitudes de alquiler'
+    },
 ];
 
 export interface updateStore {
@@ -34,6 +38,7 @@ export const Store = () => {
             <div className={`${tabValue === 0 ? 'block' : 'hidden'}`}><Equipment /></div>
             <div className={`${tabValue === 1 ? 'block' : 'hidden'}`}><SparePart update={update} changeUpdate={setUpdate} /></div>
             <div className={`${tabValue === 2 ? 'block' : 'hidden'}`}><RequestSparePart /></div>
+            <div className={`${tabValue === 3 ? 'block' : 'hidden'}`}><RentalsStore /></div>
         </div>
     )
 }

@@ -26,11 +26,9 @@ export const rentalColumns: IColumns[] = [
         element: (data: IRental) => formatNumberWithDots(data.totalCost, '', '$'),
     },
     {
-        label: 'Revisado',
-        column: 'checked',
-        element: (data: IRental) => data.checked ? 'success' : 'error',
-        icon: true,
-        canFilter: false
+        label: 'Pago',
+        column: 'totalCost',
+        element: (data: IRental) => data.payment.bank,
     },
     {
         label: 'Fecha Inicial',
@@ -41,6 +39,11 @@ export const rentalColumns: IColumns[] = [
         label: 'Fecha Fin',
         column: 'rentalEndDate',
         element: (data: IRental) => formatDate(data.rentalEndDate),
+    },
+    {
+        label: 'Estado',
+        column: 'status',
+        element: (data: IRental) => data.status.toString(),
     }
 ];
 

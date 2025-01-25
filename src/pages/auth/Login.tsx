@@ -35,7 +35,11 @@ export default function LoginPage() {
             if (response.success) {
                 localStorage.setItem('userData', JSON.stringify(returnApi.userData));
                 setTimeout(() => {
-                    navigate('/almacen')
+                    // if(returnApi.userData.rol.rol === 'Taller'){
+                    //     navigate('/mantenimiento')
+                    // } else {
+                    // }
+                    navigate('/perfil')
                 }, 1500);
             }
             setLoader(false);

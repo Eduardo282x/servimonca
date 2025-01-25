@@ -10,7 +10,7 @@ import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { UpdateStatusSparePart, requestDefaultValues, existSparePartValidationSchema } from '../request/request.data';
 import { ISparePart } from '../Store/sparePart/sparePart.data';
 import { Loader } from '../../components/loaders/Loader';
-import { IMaintenanceSparePart, requestSparePartColumns, requestSparePartValidationSchema, requestSpartePartMaintenanceDataForm, spartePartMaintenanceDataForm } from './requestMaintenance.data';
+import { IMaintenanceSparePart, requestSparePartColumns, requestSparePartValidationSchema, requestSparePartValidationSchemaV2, requestSpartePartMaintenanceDataForm, requestSpartePartMaintenanceDataFormV2, spartePartMaintenanceDataForm } from './requestMaintenance.data';
 import { useLocation } from 'react-router-dom';
 import { IDataForm } from '../../interfaces/form.interface';
 
@@ -61,7 +61,18 @@ export const RequestSparePart = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-        const url = location.pathname === '/mantenimiento' ? '/maintenance/sparePart' : '/maintenance/sparePart/status';
+        console.log(action);
+        
+        const url = location.pathname === '/mantenimiento' ?  (action === 'addApi' ? '/maintenance/sparePart' : '/maintenance/sparePart/amount') : '/maintenance/sparePart/status';
+        if (location.pathname === '/mantenimiento' && action === 'add') {
+            getSpareParts()
+        } 
+
+        if (location.pathname === '/mantenimiento' && action === 'edit') {
+            setSparePartDataForm(requestSpartePartMaintenanceDataFormV2)
+        } 
+
+
         const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', url);
         setDefaultValues(responseBaseApi.body as UpdateStatusSparePart)
         setFormAction(responseBaseApi.action)
@@ -89,12 +100,12 @@ export const RequestSparePart = () => {
                     form={
                         <div className='w-80'>
                             <FormComponent
-                                title={location.pathname === '/mantenimiento' ? 'Solicitar' : 'Solicitud'}
+                                title={location.pathname === '/mantenimiento' ? (formAction === 'addApi' ? 'Solicitar' : 'Actualizar') : 'Solicitud'}
                                 description={''}
                                 descriptionColored={''}
                                 dataForm={location.pathname === '/mantenimiento' ? sparePartDataForm : spartePartMaintenanceDataForm}
                                 defaultValues={defaultValues}
-                                validationSchema={location.pathname === '/mantenimiento' ? requestSparePartValidationSchema : existSparePartValidationSchema}
+                                validationSchema={location.pathname === '/mantenimiento' ? (formAction === 'addApi' ? requestSparePartValidationSchema : requestSparePartValidationSchemaV2) : existSparePartValidationSchema}
                                 action={formAction}
                                 buttonText={'Enviar'}
                                 onSubmitForm={openDialog}

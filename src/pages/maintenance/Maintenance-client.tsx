@@ -109,7 +109,7 @@ export const MaintenanceClient = () => {
     return (
 
         <div>
-            <p className='text-4xl font-semibold mb-3'>Solicitudes de mantenimiento</p>
+            {/* <p className='text-4xl font-semibold mb-3'>Mantenimiento de Clientes</p> */}
 
             {!loading ?
                 <TableComponent addButton={'Agregar'} tableData={maintenances} tableColumns={maintenanceClientColumns} openDialog={openDialog} />
