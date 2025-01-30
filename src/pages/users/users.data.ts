@@ -48,6 +48,13 @@ export const userColumns: IColumns[] = [
         element: (data: IUsers) => data.rolDescription,
     },
     {
+        label: 'Contraseña',
+        column: 'password',
+        icon: true,
+        element: () => 'password',
+        canFilter: false
+    },
+    {
         label: 'Editar',
         column: 'edit',
         icon: true,
@@ -72,6 +79,11 @@ export interface IUserForm {
     username: string;
     identify: string;
     rolId: number;
+}
+
+export interface IUserPasswordForm {
+    id: string;
+    password: string;
 }
 
 export const usersDataForm: IDataForm[] = [
@@ -108,6 +120,15 @@ export const usersDataForm: IDataForm[] = [
     }
 ];
 
+export const usersPasswordDataForm: IDataForm[] = [
+    {
+        label: 'Contraseña',
+        value: '',
+        type: 'text',
+        name: 'password',
+    }
+];
+
 export const usersDefaultValues : IUserForm = {
     id: '',
     identify: '',
@@ -117,12 +138,21 @@ export const usersDefaultValues : IUserForm = {
     rolId: 0,
 }
 
+export const usersPasswordDefaultValues : IUserPasswordForm = {
+    id: '',
+    password: ''
+}
+
 export const usersValidationSchema: object = z.object({
     identify: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     username: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     firstName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     lastName: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     rolId: z.coerce.number({ message: 'El campo es requerido' }),
+});
+
+export const usersPasswordValidationSchema: object = z.object({
+    password: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
 });
 
 // functions

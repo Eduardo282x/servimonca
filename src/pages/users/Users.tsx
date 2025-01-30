@@ -2,8 +2,8 @@ import TableComponent from "../../components/TableComponent";
 import DialogComponent from "../../components/DialogComponent";
 import { FormComponent } from "../../components/FormComponent";
 import { useEffect, useState } from "react";
-import { getDataApi } from "../../API/AxiosActions";
-import { getDataApiV2, IUserForm, IUsers, Rol, userColumns, usersDataForm, usersDefaultValues, usersValidationSchema } from "./users.data";
+import { getDataApi, putDataApi } from "../../API/AxiosActions";
+import { getDataApiV2, IUserForm, IUserPasswordForm, IUsers, Rol, userColumns, usersDataForm, usersDefaultValues, usersPasswordDataForm, usersPasswordDefaultValues, usersPasswordValidationSchema, usersValidationSchema } from "./users.data";
 import { actionsValid, TableReturn } from "../../interfaces/table.interface";
 import { Loader } from "../../components/loaders/Loader";
 import { BaseApi, BaseApiReturn } from "../../API/BaseAPI";
@@ -15,8 +15,10 @@ export const Users = () => {
     // useStates 
     const [users, setUsers] = useState<IUsers[]>([]);
     const [defaultValues, setDefaultValues] = useState<IUserForm>(usersDefaultValues);
+    const [defaultValuesPassword, setDefaultValuesPassword] = useState<IUserPasswordForm>(usersPasswordDefaultValues);
     const [formAction, setFormAction] = useState<actionsValid>('add');
     const [dialog, setDialog] = useState<boolean>(false);
+    const [dialogPassword, setDialogPassword] = useState<boolean>(false);
     const [snackbar, setSnackbar] = useState<BaseResponse>({} as BaseResponse);
     const [loading, setLoading] = useState<boolean>(true);
     const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
@@ -45,7 +47,7 @@ export const Users = () => {
                     label: option.rol
                 }
             });
-            
+
             setDataForm(newDataForm);
         });
     }
@@ -53,16 +55,30 @@ export const Users = () => {
     // Functions
     const openDialog = async (tableReturn: TableReturn) => {
         const { data, action } = tableReturn;
-        const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/user');
-        setDefaultValues(responseBaseApi.body as IUsers);
-        setFormAction(responseBaseApi.action)
-        if (responseBaseApi.open) { setDialog(true) };
-        if (responseBaseApi.close) { setDialog(false) };
-        if (responseBaseApi.snackbarMessage.message !== '') {
-            setSnackbar(responseBaseApi.snackbarMessage);
-            getUsers();
-            setOpenSnackbar(true);
-        };
+        if (action === 'password') {
+            setFormAction('passwordApi')
+            const parseData = {...data, password: ''}
+            setDefaultValuesPassword(parseData as IUserPasswordForm);
+            setDialogPassword(true)
+        }
+        else if (action === 'passwordApi') {
+            setDialogPassword(false)
+            await putDataApi('/auth/password', data).then((response: BaseResponse) => {
+                setSnackbar(response);
+                setOpenSnackbar(true);
+            })
+        } else {
+            const responseBaseApi: BaseApiReturn = await BaseApi(action, data, defaultValues, 'id', '/user');
+            setDefaultValues(responseBaseApi.body as IUsers);
+            setFormAction(responseBaseApi.action)
+            if (responseBaseApi.open) { setDialog(true) };
+            if (responseBaseApi.close) { setDialog(false) };
+            if (responseBaseApi.snackbarMessage.message !== '') {
+                setSnackbar(responseBaseApi.snackbarMessage);
+                getUsers();
+                setOpenSnackbar(true);
+            };
+        }
     }
 
     return (
@@ -86,6 +102,26 @@ export const Users = () => {
                         validationSchema={usersValidationSchema}
                         action={formAction}
                         buttonText={formAction === 'addApi' ? 'Agregar Usuario' : 'Editar Usuario'}
+                        onSubmitForm={openDialog}
+                    />
+                }
+            />
+
+            <DialogComponent
+                dialog={dialogPassword}
+                setDialog={setDialogPassword}
+                form={
+                    <FormComponent
+                        title={'Actualizar Contraseña'}
+                        description={''}
+                        descriptionColored={''}
+
+                        dataForm={usersPasswordDataForm}
+                        defaultValues={defaultValuesPassword}
+                        validationSchema={usersPasswordValidationSchema}
+
+                        action={formAction}
+                        buttonText={'Cambiar'}
                         onSubmitForm={openDialog}
                     />
                 }
