@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Paper, IconButton, Button } from "@mui/material";
-import { Check, Info, Pencil, Trash, X } from "lucide-react";
+import { Check, Info, LockKeyhole, Pencil, Trash, X } from "lucide-react";
 import { IColumns, TableReturn } from "../interfaces/table.interface";
 import { actionsValid } from "../interfaces/table.interface";
 import ErrorMessage from "./ErrorMessage";
@@ -41,6 +41,7 @@ export default function TableComponent({ tableData, tableColumns, openDialog, ad
         if (icon === 'success') return <Check color="#00ff33" />;
         if (icon === 'error') return <X color="#ff0000" />;
         if (icon === 'info') return <Info color="#1565c0" />;
+        if (icon === 'password') return <LockKeyhole color="#1565c0" />;
     }
 
     const changeRowColor = (row: any) => {
