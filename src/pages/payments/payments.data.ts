@@ -139,7 +139,7 @@ export const paymentDefaultValues: IPaymentForm = {
 export const paymentValidationSchema: object = z.object({
     bank: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     identify: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
-    email: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
+    email: z.string().email().refine(text => text !== '', { message: 'El campo es requerido' }),
     phone: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     owner: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     type: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),

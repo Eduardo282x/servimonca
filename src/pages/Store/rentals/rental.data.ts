@@ -23,12 +23,12 @@ export const rentalColumns: IColumns[] = [
     {
         label: 'Fecha Inicial',
         column: 'rentalStartDate',
-        element: (data: IRental) => formatDate(data.rentalStartDate),
+        element: (data: IRental) => data.rentalStartDate !== null ? formatDate(data.rentalStartDate) : '-',
     },
     {
         label: 'Fecha Fin',
         column: 'rentalEndDate',
-        element: (data: IRental) => formatDate(data.rentalEndDate),
+        element: (data: IRental) => data.rentalEndDate !== null ? formatDate(data.rentalEndDate) : '-',
     },
     {
         label: 'Estado',
@@ -47,8 +47,6 @@ export const rentalColumns: IColumns[] = [
 export interface IRentalForm {
     clientId: number;
     equipmentId: number;
-    rentalStartDate: Date;
-    rentalEndDate: Date;
     totalCost: number;
     paymentId: number;
     description: string;

@@ -6,6 +6,7 @@ import { IColumns, TableReturn } from "../interfaces/table.interface";
 import { actionsValid } from "../interfaces/table.interface";
 import ErrorMessage from "./ErrorMessage";
 import Filter from "./Filter";
+import { useLocation } from "react-router-dom";
 
 interface TableComponentProps {
     tableData: any[];
@@ -16,6 +17,7 @@ interface TableComponentProps {
 
 export default function TableComponent({ tableData, tableColumns, openDialog, addButton }: TableComponentProps) {
 
+    const location = useLocation();
     // useStates
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(5);
@@ -45,17 +47,18 @@ export default function TableComponent({ tableData, tableColumns, openDialog, ad
     }
 
     const changeRowColor = (row: any) => {
-        if(row.criticAmount > row.amount){
-            return {background: '#ff0000'}
+        if (row.criticAmount > row.amount && location.pathname === '/almacen') {
+            return { background: '#ff0000' }
         }
     }
 
     return (
 
         <div>
-
-            <div className="flex items-center justify-between w-full my-5">
-                <Filter tableData={tableData} setTableData={setDataFilter} tableColumns={tableColumns}></Filter>
+            <div className={`flex items-center ${addButton === 'Imprimir' ? 'justify-end' : 'justify-between'}  w-full my-5`}>
+                {addButton !== 'Imprimir' && <>
+                    <Filter tableData={tableData} setTableData={setDataFilter} tableColumns={tableColumns}></Filter>
+                </>}
 
                 {addButton !== '' && (
                     <Button
@@ -63,7 +66,7 @@ export default function TableComponent({ tableData, tableColumns, openDialog, ad
                         variant="contained"
                         className='flex gap-2'
                     >
-                        <span className='material-icons'>add_circle</span> {addButton}
+                        <span className='material-icons'>{addButton === 'Imprimir' ? 'download' : 'add_circle'}</span> {addButton}
                     </Button>
                 )}
             </div>
