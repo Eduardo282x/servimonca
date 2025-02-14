@@ -31,7 +31,7 @@ export const rentalColumns: IColumns[] = [
         element: (data: IRental) => data.payment.bank,
     },
     {
-        label: 'Fecha Inicial 23',
+        label: 'Fecha Inicial',
         column: 'rentalStartDate',
         element: (data: IRental) => data.rentalStartDate !== null ? formatDate(data.rentalStartDate) : '-',
     },
