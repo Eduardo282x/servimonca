@@ -33,6 +33,31 @@ export const requestSparePartColumns: IColumns[] = [
         label: 'Cambiar',
         column: 'edit',
         icon: true,
+        element: (data: IMaintenanceSparePart) => data.status === 'Aprobado' || data.status === 'Solicitado' ? 'info' : '',
+        canFilter: false
+    },
+];
+
+export const requestSparePartColumnsV2: IColumns[] = [
+    {
+        label: 'Repuesto',
+        column: 'sparePart',
+        element: (data: IMaintenanceSparePart) => data.sparePart.sparePart,
+    },
+    {
+        label: 'Cantidad',
+        column: 'amount',
+        element: (data: IMaintenanceSparePart) => data.amount.toString(),
+    },
+    {
+        label: 'Estado',
+        column: 'status',
+        element: (data: IMaintenanceSparePart) => data.status.toString(),
+    },
+    {
+        label: 'Cambiar',
+        column: 'edit',
+        icon: true,
         element: (data: IMaintenanceSparePart) => data.status === 'Aprobado' ? 'info' : '',
         canFilter: false
     },
