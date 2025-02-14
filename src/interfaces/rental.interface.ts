@@ -6,8 +6,8 @@ export interface IRental {
     id: number;
     clientId: number;
     equipmentId: number;
-    rentalStartDate: Date;
-    rentalEndDate: Date;
+    rentalStartDate: Date | null;
+    rentalEndDate: Date | null;
     totalCost: number;
     paymentId: number;
     payment: IPayments;

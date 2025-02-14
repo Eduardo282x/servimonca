@@ -46,7 +46,7 @@ export const Maintenance = () => {
     async function getMaintenances() {
         setLoading(true);
         const urlMaintenance = tabValue === 0 ? '/maintenance/Procesando' : '/maintenance/client/Procesando';
-        await getDataApi(urlMaintenance).then((response: IMaintenance[]) => {
+        await getDataApi('/maintenance/all/Procesando').then((response: IMaintenance[]) => {
             setMaintenances(response);
             setLoading(false);
         });

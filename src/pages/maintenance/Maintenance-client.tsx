@@ -40,7 +40,7 @@ export const MaintenanceClient = () => {
     // Async functions
     async function getMaintenances() {
         setLoading(true);
-        await getDataApi('/maintenance/client/Procesando').then((response: IMaintenance[]) => {
+        await getDataApi('/maintenance/clientAll').then((response: IMaintenance[]) => {
             setMaintenances(response);
             setLoading(false);
         });

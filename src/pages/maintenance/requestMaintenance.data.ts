@@ -7,9 +7,11 @@ export interface IMaintenanceSparePart {
     id:          number;
     sparePartId: number;
     amount:      number;
-    status:      string;
+    status:      SparePartStauts;
     sparePart:   ISparePart;
 }
+
+type SparePartStauts = 'Solicitado' | 'Denegado' | 'Aprobado';
 
 export const requestSparePartColumns: IColumns[] = [
     {
@@ -31,7 +33,7 @@ export const requestSparePartColumns: IColumns[] = [
         label: 'Cambiar',
         column: 'edit',
         icon: true,
-        element: (data: IMaintenanceSparePart) => data.status === 'Aprobado' || data.status === 'Solicitado' ? 'info' : '',
+        element: (data: IMaintenanceSparePart) => data.status === 'Aprobado' ? 'info' : '',
         canFilter: false
     },
 ];

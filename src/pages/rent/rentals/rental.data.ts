@@ -31,14 +31,14 @@ export const rentalColumns: IColumns[] = [
         element: (data: IRental) => data.payment.bank,
     },
     {
-        label: 'Fecha Inicial',
+        label: 'Fecha Inicial 23',
         column: 'rentalStartDate',
-        element: (data: IRental) => formatDate(data.rentalStartDate),
+        element: (data: IRental) => data.rentalStartDate !== null ? formatDate(data.rentalStartDate) : '-',
     },
     {
         label: 'Fecha Fin',
         column: 'rentalEndDate',
-        element: (data: IRental) => formatDate(data.rentalEndDate),
+        element: (data: IRental) => data.rentalEndDate !== null ? formatDate(data.rentalEndDate) : '-',
     },
     {
         label: 'Estado',
@@ -50,8 +50,6 @@ export const rentalColumns: IColumns[] = [
 export interface IRentalForm {
     clientId: number;
     equipmentId: number;
-    rentalStartDate: Date;
-    rentalEndDate: Date;
     totalCost: number;
     paymentId: number;
     description: string;
@@ -90,30 +88,12 @@ export const rentalDataForm: IDataForm[] = [
         value: '',
         type: 'number',
         name: 'totalCost',
-    },
-    {
-        label: 'Fecha de inicio del alquiler',
-        value: '',
-        type: 'date',
-        name: 'rentalStartDate',
-    },
-    {
-        label: 'Fecha de fin del alquiler',
-        value: '',
-        type: 'date',
-        name: 'rentalEndDate',
-    },
+    }
 ];
 
 export const rentalFormSchema = z.object({
     clientId: z.coerce.number().positive('Debe seleccionar un cliente válido.'),
     equipmentId: z.coerce.number().positive('Debe seleccionar un equipo válido.'),
-    rentalStartDate: z.date({
-        required_error: 'La fecha de inicio del alquiler es obligatoria.',
-    }),
-    rentalEndDate: z.date({
-        required_error: 'La fecha de fin del alquiler es obligatoria.',
-    }),
     totalCost: z.number().positive('El costo total debe ser mayor a cero.'),
     paymentId: z.coerce.number().positive('Debe seleccionar un método de pago válido.'),
     description: z

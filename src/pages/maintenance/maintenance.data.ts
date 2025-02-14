@@ -9,6 +9,7 @@ import { IClients } from "../clients/clients.data";
 export interface IMaintenance {
     id: number;
     equipmentId: number;
+    equipmentClient?: string;
     sparePartId: number;
     clientId?: number;
     type: string;
@@ -29,7 +30,7 @@ export const maintenanceColumns: IColumns[] = [
     {
         label: 'Equipo',
         column: 'model',
-        element: (data: IMaintenance) => data.equipment.model,
+        element: (data: IMaintenance) => data.equipment ? data.equipment.model : data.equipmentClient,
     },
     {
         label: 'Descripción',
@@ -60,7 +61,8 @@ export interface IMaintenanceForm {
     maintenanceDate: Date;
     description: string;
     type: string;
-    equipmentId: number;
+    equipmentId?: number;
+    equipmentClient?: string;
     clientId?: number;
 }
 
@@ -125,7 +127,7 @@ export const maintenanceClientColumns: IColumns[] = [
         column: 'client',
         element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '-',
     },
-    ...maintenanceColumns,
+    ...maintenanceColumns.filter(col => col.column !== 'edit'),
 ];
 
 // Form & Dialog
@@ -137,12 +139,18 @@ export const maintenanceClientDataForm: IDataForm[] = [
         name: 'clientId',
         options: []
     },
-    ...maintenanceDataForm
+    {
+        label: 'Vehículo',
+        value: '',
+        type: 'text',
+        name: 'equipmentClient',
+    },
+    ...maintenanceDataForm.filter(form => form.name !== 'equipmentId')
 ];
 
 export const maintenanceClientDefaultValues: IMaintenanceForm = {
     clientId: 0,
-    equipmentId: 0,
+    equipmentClient: '',
     type: '',
     maintenanceDate: new Date(),
     description: '',
@@ -150,7 +158,7 @@ export const maintenanceClientDefaultValues: IMaintenanceForm = {
 
 export const maintenanceClientValidationSchema: object = z.object({
     clientId: z.coerce.number({ message: 'El campo es requerido' }),
-    equipmentId: z.coerce.number({ message: 'El campo es requerido' }),
+    equipmentClient: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     type: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
     maintenanceDate: z.date().refine((date) => !isNaN(date.getTime()), { message: 'Debe ser una fecha válida' }),
     description: z.string().refine(text => text !== '', { message: 'El campo es requerido' }),
@@ -197,7 +205,7 @@ export const maintenanceRequestColumns: IColumns[] = [
     {
         label: 'Equipo',
         column: 'model',
-        element: (data: IMaintenance) => data.equipment.model,
+        element: (data: IMaintenance) => data.equipment ? data.equipment.model : data.equipmentClient?.toString(),
     },
     {
         label: 'Descripción',

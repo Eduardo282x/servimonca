@@ -1,8 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import api from "../env/axios";
 import { BaseResponse } from "../interfaces/actions-api.interface";
 
 export const getDataApi = (endpoint: string) => {
     return api.get(endpoint).then((response) => {
+        return response.data;
+    }).catch(err => {
+        return err.response.data;
+    })
+}
+
+export const getDataFileApi = (endpoint: string) => {
+    return api.get(endpoint, {
+        responseType: 'blob'
+    }).then((response) => {
         return response.data;
     }).catch(err => {
         return err.response.data;
