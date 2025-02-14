@@ -35,7 +35,6 @@ export const SparePart:FC<updateStore> = ({update, changeUpdate}) => {
         setLoading(true);
 
         await getDataApi('/sparepart/Approved').then((response: ISparePart[]) => {
-
             setMaintenances(response);
             setLoading(false);
 
@@ -107,7 +106,7 @@ export const SparePart:FC<updateStore> = ({update, changeUpdate}) => {
                             {!isNew && (
                                 <div className='w-80'>
                                     <FormComponent
-                                        title={'Nueva orden'}
+                                        title={formAction === 'addApi' ? 'Nueva orden' : 'Actualizar'}
                                         description={'Elige el'}
                                         descriptionColored={'repuesto'}
                                         dataForm={dataFormExist}
