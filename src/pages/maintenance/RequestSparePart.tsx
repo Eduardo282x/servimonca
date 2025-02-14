@@ -10,7 +10,7 @@ import { actionsValid, TableReturn } from '../../interfaces/table.interface';
 import { UpdateStatusSparePart, requestDefaultValues, existSparePartValidationSchema } from '../request/request.data';
 import { ISparePart } from '../Store/sparePart/sparePart.data';
 import { Loader } from '../../components/loaders/Loader';
-import { IMaintenanceSparePart, requestSparePartColumns, requestSparePartValidationSchema, requestSparePartValidationSchemaV2, requestSpartePartMaintenanceDataForm, requestSpartePartMaintenanceDataFormV2, spartePartMaintenanceDataForm } from './requestMaintenance.data';
+import { IMaintenanceSparePart, requestSparePartColumns, requestSparePartColumnsV2, requestSparePartValidationSchema, requestSparePartValidationSchemaV2, requestSpartePartMaintenanceDataForm, requestSpartePartMaintenanceDataFormV2, spartePartMaintenanceDataForm } from './requestMaintenance.data';
 import { useLocation } from 'react-router-dom';
 import { IDataForm } from '../../interfaces/form.interface';
 
@@ -90,7 +90,12 @@ export const RequestSparePart = () => {
             <div>
                 {/* <p className='text-4xl font-semibold mb-3'>Ordenes de compra</p> */}
 
-                {loading ? <Loader /> : <TableComponent addButton={btnAction} tableData={sparePartMaintenance} tableColumns={requestSparePartColumns} openDialog={openDialog} />}
+                {loading ? <Loader /> : <TableComponent 
+                addButton={btnAction} 
+                tableData={sparePartMaintenance} 
+                tableColumns={location.pathname !== '/mantenimiento' ?  requestSparePartColumns : requestSparePartColumnsV2} 
+                openDialog={openDialog} 
+                />}
 
                 <SnackbarComponent baseResponse={snackbar} open={openSnackbar} setOpen={setOpenSnackbar}></SnackbarComponent>
 
