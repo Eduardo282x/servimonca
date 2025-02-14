@@ -171,6 +171,15 @@ export const existSparePartDataForm: IDataForm[] = [
     },
 ];
 
+export const existSparePartAmountDataForm: IDataForm[] = [
+    {
+        label: 'Cantidad',
+        value: '',
+        type: 'number',
+        name: 'amount',
+    },
+];
+
 export const sparePartExistValidationSchema: object = z.object({
     id: z.coerce.number({ message: 'El campo es requerido' }),
     amount: z.coerce.number({ message: 'El campo es requerido' }),
