@@ -60,7 +60,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit(successfulLogin)} className="space-y-8 p-4" noValidate>
                 <div className="flex flex-col gap-2">
                     <label className="font-normal text-lg">Usuario</label>
-                    <input type="text" placeholder="correo@gmail.com"
+                    <input type="text" placeholder="Usuario"
                         className="w-full p-3 border-gray-300 border outline-none rounded-lg"
                         {...register("username")}
                     />
