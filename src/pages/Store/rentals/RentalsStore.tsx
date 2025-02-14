@@ -79,7 +79,7 @@ export const RentalsStore = () => {
               defaultValues={defaultValues}
               validationSchema={rentalFormSchema}
               action={formAction}
-              buttonText={'Solicitad'}
+              buttonText={'Actualizar'}
               onSubmitForm={openDialog}
             />
           }
