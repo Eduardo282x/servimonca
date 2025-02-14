@@ -113,7 +113,7 @@ export const SparePart:FC<updateStore> = ({update, changeUpdate}) => {
                                         defaultValues={defaultValues}
                                         validationSchema={sparePartExistValidationSchema}
                                         action={formAction}
-                                        buttonText={'Agregar orden'}
+                                        buttonText={formAction === 'addApi' ?  'Agregar orden' : 'Actualizar'}
                                         onSubmitForm={openDialog}
                                     />
                                 </div>
