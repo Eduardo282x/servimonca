@@ -16,6 +16,7 @@ export interface IMaintenance {
     status: string;
     description: string;
     maintenanceDate: Date;
+    maintenanceDateEnd: Date;
     createdAt: Date;
     equipment: IEquipment;
     client?: IClients;
@@ -43,7 +44,7 @@ export const maintenanceColumns: IColumns[] = [
         element: (data: IMaintenance) => data.status,
     },
     {
-        label: 'Fecha',
+        label: 'Fecha Inicial',
         column: 'maintenanceDate',
         element: (data: IMaintenance) => formatDate(data.maintenanceDate),
     },

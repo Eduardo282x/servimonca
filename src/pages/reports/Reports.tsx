@@ -2,7 +2,7 @@
 import TableComponent from "../../components/TableComponent";
 import { useState } from "react";
 import { getDataApi, getDataFileApi } from "../../API/AxiosActions";
-import { IEquipmentReport, ISparePartReport, mostRentedEquipmentsColumns, mostRequestedSparePartsColumns, optionReports, statusEquipment, statusMaintenance, statusRental, TypeReport } from "./reports.data";
+import { IEquipmentReport, ISparePartReport, lastColumnMaintenance, mostRentedEquipmentsColumns, mostRequestedSparePartsColumns, optionReports, statusEquipment, statusMaintenance, statusRental, TypeReport } from "./reports.data";
 import { IOptions } from "../../interfaces/form.interface";
 import { Loader } from "../../components/loaders/Loader";
 import { IColumns, TableReturn } from "../../interfaces/table.interface";
@@ -45,11 +45,13 @@ export const Reports = () => {
         }
         if (typeReport === 'request') {
             const columnsWithoutEdit = maintenanceColumns.filter(col => col.column !== 'edit');
-            setColumns(columnsWithoutEdit);
+            const column = [...columnsWithoutEdit,lastColumnMaintenance]
+            setColumns(column);
         }
         if (typeReport === 'requestClient') {
             const columnsWithoutEdit = maintenanceClientColumns.filter(col => col.column !== 'edit');
-            setColumns(columnsWithoutEdit);
+            const column = [...columnsWithoutEdit,lastColumnMaintenance]
+            setColumns(column);
         }
         setLoading(true);
 

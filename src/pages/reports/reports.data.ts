@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { IOptions } from "../../interfaces/form.interface";
 import { IColumns } from "../../interfaces/table.interface";
+import { IMaintenance } from "../maintenance/maintenance.data";
+import { formatDate } from "../../utils/formater";
 
 export interface IReportForm {
     startDate: Date | null,
@@ -93,6 +95,13 @@ export const mostRequestedSparePartsColumns: IColumns[] = [
         element: (data: ISparePartReport) => data.totalUsed.toString(),
     },
 ];
+
+export const lastColumnMaintenance: IColumns = {
+    label: 'Fecha Final',
+    column: 'maintenanceDateEnd',
+    element: (data: IMaintenance) => data.maintenanceDateEnd ? formatDate(data.maintenanceDateEnd) : '-',
+    canFilter: true,
+}
 
 export const statusEquipment: IOptions[] = [
     { label: 'Disponible', value: 'Disponible' },
