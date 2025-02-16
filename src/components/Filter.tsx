@@ -20,11 +20,26 @@ export default function Filter({ tableData, setTableData, tableColumns }: IFilte
         if (tableData && tableData.length > 0) {
             const filterColumn = tableColumns.filter((col: IColumns) => col.canFilter !== false);
             const filtersKey = filterColumn.map((col: IColumns) => col.column);
-            const filterSearch = filtersKey.map((col: string) => 
-                tableData.filter((fil) =>
-                    fil[col].toString().toLowerCase().includes(filter.toLowerCase().toString())
+
+            const filterSearch = filtersKey.map((col: string) => {
+                return (
+                    tableData.filter((fil) => {
+                        const splitWord = col.split('.');
+                        if (splitWord.length == 1) {
+                            return (fil[splitWord[0]].toString().toLowerCase().includes(filter.toLowerCase()))
+                        }
+                        if (splitWord.length == 2) {
+                            return (fil[splitWord[0]][splitWord[1]].toString().toLowerCase().includes(filter.toLowerCase()))
+                        }
+                        if (splitWord.length == 3) {
+                            return (fil[splitWord[0]][splitWord[1]][splitWord[2]].toString().toLowerCase().includes(filter.toLowerCase()))
+                        }
+                        return (fil[col].toString().toLowerCase().includes(filter.toLowerCase()))
+                    }
+                    )
                 )
-            ).flat();
+            }).flat();
+
             const reduceFilter = new Set(filterSearch);
             const result = [...reduceFilter];
             setTableData(result);

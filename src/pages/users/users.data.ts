@@ -12,7 +12,6 @@ export interface IUsers {
     identify: string;
     rolId: number;
     rol: Rol;
-    rolDescription: string;
 }
 
 export interface Rol {
@@ -44,8 +43,8 @@ export const userColumns: IColumns[] = [
     },
     {
         label: 'Rol',
-        column: 'rolDescription',
-        element: (data: IUsers) => data.rolDescription,
+        column: 'rol.rol',
+        element: (data: IUsers) => data.rol.rol,
     },
     {
         label: 'Contraseña',
@@ -159,7 +158,6 @@ export const usersPasswordValidationSchema: object = z.object({
 export const getDataApiV2 = async () : Promise<IUsers[]> => {
     return await getDataApi('/user').then((response: IUsers[]) => {
         response.map((user => {
-            user.rolDescription = user.rol.rol;
             return user;
         }))
         return response;
