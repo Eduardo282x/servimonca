@@ -91,7 +91,7 @@ export const mostRequestedSparePartsColumns: IColumns[] = [
     },
     {
         label: 'Cantidad Solicitada',
-        column: 'totalRequested',
+        column: 'totalUsed',
         element: (data: ISparePartReport) => data.totalUsed.toString(),
     },
 ];

@@ -7,12 +7,12 @@ import { formatDate, formatNumberWithDots } from "../../../utils/formater";
 export const rentalColumns: IColumns[] = [
     {
         label: 'Equipo',
-        column: 'model',
+        column: 'equipment.model',
         element: (data: IRental) => data.equipment.model,
     },
     {
         label: 'Cliente',
-        column: 'client',
+        column: 'name',
         element: (data: IRental) => `${data.client.name} ${data.client.lastname}`,
     },
     {
@@ -27,7 +27,7 @@ export const rentalColumns: IColumns[] = [
     },
     {
         label: 'Pago',
-        column: 'totalCost',
+        column: 'payment.bank',
         element: (data: IRental) => data.payment.bank,
     },
     {

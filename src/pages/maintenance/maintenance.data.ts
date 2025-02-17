@@ -30,8 +30,8 @@ export const maintenanceColumns: IColumns[] = [
     },
     {
         label: 'Equipo',
-        column: 'model',
-        element: (data: IMaintenance) => data.equipment ? data.equipment.model : data.equipmentClient,
+        column: 'equipment.model',
+        element: (data: IMaintenance) => data.equipment ? data.equipment.model.toString() : data.equipmentClient?.toString() || '',
     },
     {
         label: 'Descripción',
@@ -125,7 +125,7 @@ export const maintenanceValidationSchema: object = z.object({
 export const maintenanceClientColumns: IColumns[] = [
     {
         label: 'Cliente',
-        column: 'client',
+        column: 'name',
         element: (data: IMaintenance) => data.client ? `${data.client.name} ${data.client.lastname}` : '-',
     },
     ...maintenanceColumns.filter(col => col.column !== 'edit'),
@@ -205,8 +205,8 @@ export const maintenanceRequestColumns: IColumns[] = [
     },
     {
         label: 'Equipo',
-        column: 'model',
-        element: (data: IMaintenance) => data.equipment ? data.equipment.model : data.equipmentClient?.toString(),
+        column: 'equipment.model',
+        element: (data: IMaintenance) => data.equipment ? data.equipment.model : data.equipmentClient?.toString() || '',
     },
     {
         label: 'Descripción',

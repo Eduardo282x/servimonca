@@ -16,7 +16,7 @@ type SparePartStauts = 'Solicitado' | 'Denegado' | 'Aprobado';
 export const requestSparePartColumns: IColumns[] = [
     {
         label: 'Repuesto',
-        column: 'sparePart',
+        column: 'sparePart.sparePart',
         element: (data: IMaintenanceSparePart) => data.sparePart.sparePart,
     },
     {
@@ -41,7 +41,7 @@ export const requestSparePartColumns: IColumns[] = [
 export const requestSparePartColumnsV2: IColumns[] = [
     {
         label: 'Repuesto',
-        column: 'sparePart',
+        column: 'sparePart.sparePart',
         element: (data: IMaintenanceSparePart) => data.sparePart.sparePart,
     },
     {

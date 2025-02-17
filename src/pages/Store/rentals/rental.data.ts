@@ -7,7 +7,7 @@ import { formatDate } from "../../../utils/formater";
 export const rentalColumns: IColumns[] = [
     {
         label: 'Equipo',
-        column: 'model',
+        column: 'equipment.model',
         element: (data: IRental) => data.equipment.model,
     },
     {
