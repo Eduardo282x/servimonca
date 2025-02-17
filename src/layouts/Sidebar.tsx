@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { validateUserLoged } from '../utils/auth';
 import Logo from '../components/Logo';
 import { UserData } from '../interfaces/user.interface';
+import ManualUsuario from '../assets/file/MANUAL DE USUARIO.pdf';
 
 interface ISidebarProps {
     open: boolean;
@@ -49,9 +50,8 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
 
     return (
         <div
-            className={`h-full bg-gray-800 p-4 ${
-                open ? 'w-80' : 'w-20'
-            } transition-all flex flex-col items-start justify-between overflow-hidden`}
+            className={`h-full bg-gray-800 p-4 ${open ? 'w-80' : 'w-20'
+                } transition-all flex flex-col items-start justify-between overflow-hidden`}
             onClick={() => setOpen(true)}
         >
             <div className="flex flex-col gap-2">
@@ -66,11 +66,9 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
                     <div
                         key={index}
                         onClick={() => changeMenu(menu)}
-                        className={`flex items-center justify-between ${
-                            open ? 'gap-2 w-60' : 'gap-10 w-14'
-                        } px-4 py-2 rounded-md ${
-                            menu.active && '!text-white bg-blue-400'
-                        } text-gray-500 hover:text-white hover:bg-blue-400 transition-all cursor-pointer`}
+                        className={`flex items-center justify-between ${open ? 'gap-2 w-60' : 'gap-10 w-14'
+                            } px-4 py-2 rounded-md ${menu.active && '!text-white bg-blue-400'
+                            } text-gray-500 hover:text-white hover:bg-blue-400 transition-all cursor-pointer`}
                     >
                         <span className="material-icons">{menu.icon}</span>
                         {open && <span>{menu.label}</span>}
@@ -78,14 +76,24 @@ export const Sidebar: FC<ISidebarProps> = ({ open, setOpen }) => {
                 ))}
             </div>
 
-            <div
-                onClick={logout}
-                className={`flex items-center justify-between ${
-                    open ? 'gap-2 w-60' : 'gap-10 w-14'
-                } px-4 py-2 rounded-md text-gray-500 hover:text-white hover:bg-blue-400 transition-all cursor-pointer`}
-            >
-                <span className="material-icons-outlined">logout</span>
-                {open && <span>Cerrar Sesión</span>}
+            <div>
+                <a href={ManualUsuario}
+                    download='MANUAL DE USUARIO.pdf'
+                    className={`flex items-center justify-between ${open ? 'gap-2 w-60' : 'gap-10 w-14'
+                        } px-4 py-2 rounded-md text-gray-500 hover:text-white hover:bg-blue-400 transition-all cursor-pointer`}
+                >
+                    <span className="material-icons-outlined">help</span>
+                    {open && <span>Manual Usuario</span>}
+                </a>
+
+                <div
+                    onClick={logout}
+                    className={`flex items-center justify-between ${open ? 'gap-2 w-60' : 'gap-10 w-14'
+                        } px-4 py-2 rounded-md text-gray-500 hover:text-white hover:bg-blue-400 transition-all cursor-pointer`}
+                >
+                    <span className="material-icons-outlined">logout</span>
+                    {open && <span>Cerrar Sesión</span>}
+                </div>
             </div>
         </div>
     );
