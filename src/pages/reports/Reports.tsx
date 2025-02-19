@@ -73,7 +73,11 @@ export const Reports = () => {
         console.log(data);
         console.log(action);
 
-        const response = await getDataFileApi(`/report/download/${typeReport}`);
+        const urlApi = typeReport === 'equipment' || typeReport === 'sparePart'
+            ? `/report/download/${typeReport}`
+            : `/report/download/${typeReport}/${status}`
+
+        const response = await getDataFileApi(urlApi);
         const url = window.URL.createObjectURL(response);
         const link = document.createElement("a");
         link.href = url;
@@ -86,6 +90,10 @@ export const Reports = () => {
     const setNameFile = (): string => {
         if (typeReport === 'equipment') return 'Equipos Más Alquilados.pdf';
         if (typeReport === 'sparePart') return 'Repuestos mas solicitados.pdf';
+        if (typeReport === 'rentals') return 'Solicitudes de alquiler.pdf';
+        if (typeReport === 'equipmentAvailable') return 'Equipos.pdf';
+        if (typeReport === 'request') return 'Solicitudes de mantenimiento.pdf';
+        if (typeReport === 'requestClient') return 'Solicitudes de mantenimiento de clientes.pdf';
         return 'archivo.pdf';
     }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SnackbarComponent } from '../../../components/SnackbarComponent';
 import { Loader } from '../../../components/loaders/Loader';
 import TableComponent from '../../../components/TableComponent';
@@ -15,8 +15,9 @@ import { IEquipment } from '../../Store/equipment/equipment.data';
 import { IClients } from '../../clients/clients.data';
 import { IDataForm } from '../../../interfaces/form.interface';
 import { IPayments } from '../../../interfaces/payments.interface';
+import { ServicesProps } from '../../services/Services';
 
-export const Rentals = () => {
+export const Rentals : FC<ServicesProps>= ({onRequest,triggerEffect}) => {
   const [rentals, setRentals] = useState<IRental[]>([]);
   const [defaultValues, setDefaultValues] = useState<ISparePartForm>(sparePartDefaultValues);
   const [dataForm, setDataForm] = useState<IDataForm[]>(rentalDataForm);
@@ -33,7 +34,7 @@ export const Rentals = () => {
     getEquipments();
     getClients();
     getPayments();
-  }, []);
+  }, [triggerEffect]);
 
   const getEquipments = async () => {
     await getDataApi('/equipment/Disponible').then((response: IEquipment[]) => {
@@ -102,6 +103,7 @@ export const Rentals = () => {
       setSnackbar(responseBaseApi.snackbarMessage);
       getRentalsApi();
       setOpenSnackbar(true);
+      onRequest();
     };
   }
 

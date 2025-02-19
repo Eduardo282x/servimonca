@@ -1,6 +1,6 @@
 import TableComponent from '../../components/TableComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { IMaintenance, maintenanceDataForm, IMaintenanceForm, maintenanceClientColumns, maintenanceEditDataForm, maintenanceClientDataForm, maintenanceClientDefaultValues, maintenanceClientValidationSchema, maintenanceEditValidationSchema } from './maintenance.data';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
@@ -13,8 +13,9 @@ import { IDataForm } from '../../interfaces/form.interface';
 import { IEquipment } from '../Store/equipment/equipment.data';
 import { ISparePart } from '../Store/sparePart/sparePart.data';
 import { IClients } from '../clients/clients.data';
+import { ServicesProps } from '../services/Services';
 
-export const MaintenanceClient = () => {
+export const MaintenanceClient : FC<ServicesProps>= ({onRequest,triggerEffect}) => {
 
     // useStates
     const [maintenances, setMaintenances] = useState<IMaintenance[]>([]);
@@ -35,7 +36,7 @@ export const MaintenanceClient = () => {
         getVehicles();
         getSpareParts();
         getClients();
-    }, []);
+    }, [triggerEffect]);
 
     // Async functions
     async function getMaintenances() {
@@ -103,6 +104,7 @@ export const MaintenanceClient = () => {
             setSnackbar(responseBaseApi.snackbarMessage);
             getMaintenances();
             setOpenSnackbar(true);
+            onRequest();
         };
     }
 

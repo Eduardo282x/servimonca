@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const LoginSchema = z.object({
-    username: z.string().refine(text => text !== '',{message: 'El usuario es obligatoria'}),
+    username: z.string().refine(text => text !== '',{message: 'El usuario es obligatorio'}),
     password: z.string().refine(text => text !== '',{message: 'La contraseña es obligatoria'})
 });
 

@@ -1,6 +1,6 @@
 import { clientsDataForm, clientsDefaultValues, clientsValidationSchema, customerColumns, IClients, IClientsForm } from './clients.data';
 import TableComponent from '../../components/TableComponent';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import DialogComponent from '../../components/DialogComponent';
 import { FormComponent } from '../../components/FormComponent';
 import { actionsValid, TableReturn } from '../../interfaces/table.interface';
@@ -9,8 +9,9 @@ import { Loader } from '../../components/loaders/Loader';
 import { BaseResponse } from '../../interfaces/actions-api.interface';
 import { BaseApi, BaseApiReturn } from '../../API/BaseAPI';
 import { SnackbarComponent } from '../../components/SnackbarComponent';
+import { ServicesProps } from '../services/Services';
 
-export const Clients = () => {
+export const Clients : FC<ServicesProps>= ({onRequest,triggerEffect}) => {
 
     // useStates
     const [clients, setClients] = useState<IClients[]>([]);
@@ -24,7 +25,7 @@ export const Clients = () => {
     // useEffects
     useEffect(() => {
         getClients();
-    }, []);
+    }, [triggerEffect]);
 
     // Async functions
     async function getClients() {
@@ -47,6 +48,7 @@ export const Clients = () => {
             setSnackbar(responseBaseApi.snackbarMessage);
             getClients();
             setOpenSnackbar(true);
+            onRequest();
         };
     }
 

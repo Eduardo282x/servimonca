@@ -24,7 +24,7 @@ export const optionReports: IOptions[] = [
     { label: 'Equipos solicitados', value: 'equipment' },
     { label: 'Repuestos solicitados', value: 'sparePart' },
 
-    { label: 'Equipos disponibles', value: 'equipmentAvailable' },
+    { label: 'Estado de equipos', value: 'equipmentAvailable' },
     { label: 'Solicitudes de alquiler', value: 'rentals' },
     { label: 'Solicitudes de mantenimiento', value: 'request' },
     { label: 'Solicitudes de mantenimiento cliente', value: 'requestClient' },
